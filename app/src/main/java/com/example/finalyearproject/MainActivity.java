@@ -101,9 +101,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Failed sign in", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(MainActivity.this, "success sign in", Toast.LENGTH_LONG).show();
-                        leader = new Leader("Cormac", "White", 22, "084 823 1999", "test.email@gmail.com", true);
+                        leader = new Leader("Test", "Leader", 22, "096 823 4166", "leader.email@gmail.com", true);
                         myRef.setValue(leader);
-
 
                     }
 
