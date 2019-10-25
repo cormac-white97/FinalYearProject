@@ -13,6 +13,7 @@ public class ToolsViewModel extends ViewModel {
         mText.setValue("This is tools fragment");
     }
 
+
     public LiveData<String> getText() {
         return mText;
     }

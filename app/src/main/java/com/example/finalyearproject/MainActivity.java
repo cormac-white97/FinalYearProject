@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private String passwordValue;
     private Leader leader;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,10 +89,7 @@ public class MainActivity extends AppCompatActivity {
         emailValue = email.getText().toString();
         passwordValue = password.getText().toString();
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Leader");
-
-
-
+        //myRef = database.getReference("Leader");
 
         if (!emailValue.equals("") && !password.equals("")) {
             mAuth.signInWithEmailAndPassword(emailValue, passwordValue).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -100,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
                     if (!task.isSuccessful()) {
                         Toast.makeText(MainActivity.this, "Failed sign in", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(MainActivity.this, "success sign in", Toast.LENGTH_LONG).show();
-                        leader = new Leader("Test", "Leader", 22, "096 823 4166", "leader.email@gmail.com", true);
-                        myRef.setValue(leader);
+                        //Toast.makeText(MainActivity.this, "success sign in", Toast.LENGTH_LONG).show();
+                        Intent login = new Intent(MainActivity.this, Dashboard.class);
+                        startActivity(login);
 
                     }
 

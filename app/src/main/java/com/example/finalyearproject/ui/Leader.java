@@ -4,18 +4,18 @@ public class Leader {
     private int leaderId;
     private String leaderFirstName;
     private String leaderLastName;
-    private int leaderAge;
+    private String leaderDOB;
     private String leaderPhone;
     private String leaderEmail;
-    private boolean isVetted;
+    private String vettingDate;
 
-    public Leader(String leaderFirstName, String leaderLastName, int leaderAge, String leaderPhone, String leaderEmail, boolean isVetted) {
+    public Leader(String leaderFirstName, String leaderLastName, String leaderDOB, String leaderPhone, String leaderEmail, String vettingDate) {
         this.leaderFirstName = leaderFirstName;
         this.leaderLastName = leaderLastName;
-        this.leaderAge = leaderAge;
+        this.leaderDOB = leaderDOB;
         this.leaderPhone = leaderPhone;
         this.leaderEmail = leaderEmail;
-        this.isVetted = isVetted;
+        this.vettingDate = vettingDate;
     }
 
     public int getLeaderId() {
@@ -42,12 +42,12 @@ public class Leader {
         this.leaderLastName = leaderLastName;
     }
 
-    public int getLeaderAge() {
-        return leaderAge;
+    public String getLeaderAge() {
+        return leaderDOB;
     }
 
-    public void setLeaderAge(int leaderAge) {
-        this.leaderAge = leaderAge;
+    public void setLeaderAge(String leaderDOB) {
+        this.leaderDOB = leaderDOB;
     }
 
     public String getLeaderPhone() {
@@ -66,11 +66,11 @@ public class Leader {
         this.leaderEmail = leaderEmail;
     }
 
-    public boolean isVetted() {
-        return isVetted;
+    public String isVetted() {
+        return vettingDate;
     }
 
-    public void setVetted(boolean vetted) {
-        isVetted = vetted;
+    public void setVetted(String vettingDate) {
+        vettingDate = vettingDate;
     }
 }
