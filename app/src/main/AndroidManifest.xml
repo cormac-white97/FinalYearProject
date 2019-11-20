@@ -12,11 +12,11 @@
         <activity
             android:name=".Dashboard"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.actoin.DASHBOARD"/>
+                <action android:name="android.intent.actoin.DASHBOARD" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

@@ -1,4 +1,4 @@
-package com.example.finalyearproject.ui;
+package com.example.finalyearproject;
 
 public class Leader {
     private int leaderId;
@@ -9,12 +9,29 @@ public class Leader {
     private String leaderEmail;
     private String vettingDate;
 
-    public Leader(String leaderFirstName, String leaderLastName, String leaderDOB, String leaderPhone, String leaderEmail, String vettingDate) {
+    public Leader(int leaderId, String leaderFirstName, String leaderLastName, String leaderDOB, String leaderPhone, String leaderEmail, String vettingDate) {
+        this.leaderId = leaderId;
         this.leaderFirstName = leaderFirstName;
         this.leaderLastName = leaderLastName;
         this.leaderDOB = leaderDOB;
         this.leaderPhone = leaderPhone;
         this.leaderEmail = leaderEmail;
+        this.vettingDate = vettingDate;
+    }
+
+    public String getLeaderDOB() {
+        return leaderDOB;
+    }
+
+    public void setLeaderDOB(String leaderDOB) {
+        this.leaderDOB = leaderDOB;
+    }
+
+    public String getVettingDate() {
+        return vettingDate;
+    }
+
+    public void setVettingDate(String vettingDate) {
         this.vettingDate = vettingDate;
     }
 
@@ -42,14 +59,6 @@ public class Leader {
         this.leaderLastName = leaderLastName;
     }
 
-    public String getLeaderAge() {
-        return leaderDOB;
-    }
-
-    public void setLeaderAge(String leaderDOB) {
-        this.leaderDOB = leaderDOB;
-    }
-
     public String getLeaderPhone() {
         return leaderPhone;
     }
@@ -66,11 +75,5 @@ public class Leader {
         this.leaderEmail = leaderEmail;
     }
 
-    public String isVetted() {
-        return vettingDate;
-    }
 
-    public void setVetted(String vettingDate) {
-        vettingDate = vettingDate;
-    }
 }

@@ -3,13 +3,9 @@ package com.example.finalyearproject;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.finalyearproject.ui.Leader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -21,7 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,12 +28,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class Dashboard extends AppCompatActivity {
+    private DataSnapshot dataSnapshot = null;
     private FirebaseDatabase database;
-    private DatabaseReference reference;
+    private DatabaseReference myRef;
     private FirebaseAuth mAuth;
     private AppBarConfiguration mAppBarConfiguration;
     private EditText firstName;
@@ -61,9 +57,6 @@ public class Dashboard extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference("Leader");
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_group, R.id.nav_events,
                 R.id.nav_tools, R.id.nav_share, R.id.nav_send)
@@ -76,11 +69,12 @@ public class Dashboard extends AppCompatActivity {
         Intent leaderLogin = getIntent();
         String message = leaderLogin.getStringExtra(MainActivity.leaderKey);
 
-
     }
 
 
     public void createNewLeader(View v) {
+
+       // myRef.keepSynced(true);
         firstName = (EditText) findViewById(R.id.firstName);
         lastName = (EditText) findViewById(R.id.lastName);
         password = (EditText) findViewById(R.id.password);
@@ -99,8 +93,8 @@ public class Dashboard extends AppCompatActivity {
         final String emailValue = email.getText().toString();
         final String vettingValue = vetting.getText().toString();
 
-        if (passwordValue.equals(confirmPassValue)) {
-
+        if (passwordValue.equals(confirmPassValue) && mAuth != null) {
+            myRef = database.getInstance().getReference();
             mAuth.createUserWithEmailAndPassword(emailValue, passwordValue)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -108,19 +102,29 @@ public class Dashboard extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Toast.makeText(Dashboard.this, "Worked", Toast.LENGTH_LONG).show();
-                                leader = new Leader(firstNameValue, lastNameValue, DOBvalue, phoneNumValue, emailValue, vettingValue);
-                                reference.setValue(leader);
+                                leader = new Leader(2, firstNameValue, lastNameValue, DOBvalue, phoneNumValue, emailValue, vettingValue);
+                                myRef.child("Leader").child("Leader").setValue(leader);
                             } else {
                                 Toast.makeText(Dashboard.this, "Didn't Work", Toast.LENGTH_LONG).show();
                             }
-
-                            // ...
                         }
                     });
         } else {
             Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void readDatabaseName(View v){
+/*
+        final TextView mTextView = (TextView) findViewById(R.id.txtName);
+        String value = dataSnapshot.getValue(String.class);
+
+        mTextView.setText("Value is: " + value);
+*/
+
+    }
+
+
 
 
     @Override
