@@ -49,19 +49,120 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/eventDate"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:text="TextView"
-            android:layout_marginTop="20dp"/>
+            android:layout_height="409dp">
 
-        <TextView
-            android:id="@+id/monthEvents"
-            android:layout_width="match_parent"
-            android:layout_height="37dp"
-            android:text="TextView"
-            android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/lblNumAttending"
+                android:layout_width="106dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="20dp"
+                android:text="Number Attending:"
+                android:textAlignment="center"
+                android:textColor="#084897"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblStartDate" />
+
+            <TextView
+                android:id="@+id/lblLocation"
+                android:layout_width="106dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="30dp"
+                android:text="Location:"
+                android:textAlignment="center"
+                android:textColor="#084897"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblEventType" />
+
+            <TextView
+                android:id="@+id/lblEventType"
+                android:layout_width="106dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="44dp"
+                android:text="Event Type:"
+                android:textAlignment="center"
+                android:textColor="#084897"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/txtEventType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="36dp"
+                android:ems="10"
+                android:focusable="false"
+                android:inputType="textPersonName"
+                android:onClick="editTextWasClicked"
+                android:textColor="#084897"
+                app:layout_constraintStart_toEndOf="@+id/lblEventType"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/txtLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:focusable="false"
+                android:inputType="textPersonName"
+                android:onClick="editTextWasClicked"
+                android:textColor="#084897"
+                app:layout_constraintStart_toEndOf="@+id/lblLocation"
+                app:layout_constraintTop_toBottomOf="@+id/txtEventType" />
+
+            <TextView
+                android:id="@+id/lblStartDate"
+                android:layout_width="106dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="25dp"
+                android:text="Start Date:"
+                android:focusable="false"
+                android:textAlignment="center"
+                android:textColor="#084897"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblLocation" />
+
+            <EditText
+                android:id="@+id/txtStartDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:focusable="false"
+                android:inputType="textPersonName"
+                android:onClick="editTextWasClicked"
+                android:textColor="#084897"
+                app:layout_constraintStart_toEndOf="@+id/lblStartDate"
+                app:layout_constraintTop_toBottomOf="@+id/txtLocation" />
+
+            <EditText
+                android:id="@+id/txtNumAttending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:focusable="false"
+                android:inputType="textPersonName"
+                android:onClick="editTextWasClicked"
+                android:textColor="#084897"
+                app:layout_constraintStart_toEndOf="@+id/lblNumAttending"
+                app:layout_constraintTop_toBottomOf="@+id/txtStartDate" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

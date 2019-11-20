@@ -1,13 +1,11 @@
 package com.example.finalyearproject.ui.slideshow;
 
-
-import android.app.ActionBar;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,42 +18,51 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class SlideshowFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    //private SlideshowViewModel slideshowViewModel;
     CompactCalendarView compactCalendar;
     private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- YYYY", Locale.getDefault());
     private TextView monthVal;
+    EditText type;
+    EditText location;
+    EditText date;
+    EditText numAttending;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_slideshow, container, false);
+
+        //Initialize all textFields
         monthVal = view.findViewById(R.id.Month);
+        type  = view.findViewById(R.id.txtEventType);
+        location  =  view.findViewById(R.id.txtLocation);
+        date = view.findViewById(R.id.txtStartDate);
+        numAttending = view.findViewById(R.id.txtNumAttending);
 
-
-        compactCalendar = (CompactCalendarView) view.findViewById(R.id.compactcalendar_view);
+        compactCalendar = view.findViewById(R.id.compactcalendar_view);
         compactCalendar.setUseThreeLetterAbbreviation(true);
         monthVal.setText(dateFormatMonth.format(compactCalendar.getFirstDayOfCurrentMonth()));
 
+        //Hardcoded event for testing
         Event ev = new Event(Color.BLUE, 1574640000000L, "Camping");
         compactCalendar.addEvent(ev);
+
+        Event ev2 = new Event(Color.BLUE, 1572912000000L, "Hike");
+        compactCalendar.addEvent(ev2);
+
 
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
 
-                Context context = getActivity().getApplicationContext();
-                TextView date = (TextView) view.findViewById(R.id.eventDate);
-                TextView eventDate = (TextView) view.findViewById(R.id.monthEvents);
-                DateFormat simple = new SimpleDateFormat("dd MMM yyyy");
-                String formattedsimple = simple.format(dateClicked);
+                DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+                String formattedDate = dateFormat.format(dateClicked);
                 boolean hasEvent = false;
-                List<Event> eventsForMonth = compactCalendar.getEventsForMonth(1572566400000L);
-
+                List<Event> eventsForMonth = compactCalendar.getEventsForMonth(compactCalendar.getFirstDayOfCurrentMonth());
 
                 for(Event e : eventsForMonth){
 
@@ -63,22 +70,31 @@ public class SlideshowFragment extends Fragment {
                         hasEvent = true;
                         break;
                     }
-
                 }
 
+                //Hardcoded in value for
                 if(hasEvent){
-                    date.setText("Event on date");
+                    for(Event e : eventsForMonth) {
+                        if (e.getTimeInMillis() == dateClicked.getTime()) {
+                            type.setText(e.getData().toString());
+                            location.setText("Lough Dan");
+                            date.setText("" + formattedDate);
+                            numAttending.setText("14");
+                        }
+                    }
                 }
                 else{
-                    date.setText("No event on date");
+                    type.setText("");
+                    location.setText("");
+                    date.setText("");
+                    numAttending.setText("");
+                    Toast.makeText(getActivity(), "This will create a new event", Toast.LENGTH_LONG).show();
 
                 }
-                 eventDate.setText("" + dateClicked.getTime());
-
-
 
             }
 
+            //Update month value at the top of the calendar when scrolling
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 monthVal.setText(dateFormatMonth.format(firstDayOfNewMonth));

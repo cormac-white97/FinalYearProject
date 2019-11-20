@@ -3,6 +3,7 @@ package com.example.finalyearproject;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.finalyearproject.ui.slideshow.SlideshowFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -124,6 +125,9 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
+    public void editTextWasClicked(View v){
+        Toast.makeText(this, "EditText was clicked", Toast.LENGTH_SHORT).show();
+    }
 
 
 
