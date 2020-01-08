@@ -121,11 +121,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/navUsername"
+        app:layout_constraintTop_toBottomOf="@+id/navWelcomeMessage"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/navUsername"
+        android:id="@+id/navWelcomeMessage"
         android:layout_width="237dp"
         android:layout_height="56dp"
         android:layout_marginStart="21dp"

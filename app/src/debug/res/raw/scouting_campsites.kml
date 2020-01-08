@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Scouting Ireland Campsites Network</name>
+    <description><![CDATA[Scouting Ireland National Campsite Network.<br><br>An Interactive map of Scouting Ireland campsites in Ireland.]]></description>
+    <Style id="icon-503-DB4436-normal">
+      <IconStyle>
+        <color>ff3644db</color>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="16" xunits="pixels" y="32" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-503-DB4436-highlight">
+      <IconStyle>
+        <color>ff3644db</color>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="16" xunits="pixels" y="32" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1.1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-503-DB4436">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-503-DB4436-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-503-DB4436-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Folder>
+      <name>Campsites Network</name>
+      <Placemark>
+        <name>Larch Hill </name>
+        <description><![CDATA[Tibradden,<br> Dublin 16.<br><br>Website: www.larchhill.org <br>Email:  info@larchhill.org<br>Telephone: +353 1 4931410]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/LpNuOBABaw3pXgGMbmMhyX8uD6qdpj4smPQa0t1V-2888gUYQcCmbenbwRzpjaiyOTvIJIK1xMrIqtwFzpvNXOxzzQ https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI https://lh5.googleusercontent.com/proxy/GbSzQd2XOYbCa7QoNn0hsr7lnaZKWQHA-H7bacfHStyvbYkSuh89Rj4qJfTD-dgRHTpEKcKmfaaTp0db1MdHW8XjFDXBtZ4ZYg https://lh4.googleusercontent.com/proxy/udSwmoNpzoTSppMaP4r4t5qP991D9vhPptrgj0hNteBSqeliFt7cJ6HQXeP3WFKRwOF_iiAMDdUqnK_BTqhQyVw8_LPi https://lh3.googleusercontent.com/proxy/KiZwWEZWRjJXi6q-yUtxgVoKshg9y2l_-a37py9Wnx8Fy9keH-xM8Tx360PClCqRDetwdH9TU-n624YhHuXUtiP5-9T-u7U5</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -6.284279,53.256878,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Castle Saunderson</name>
+        <description><![CDATA[Belturbet,<br> Co.Cavan<br><br>Website: www.castlesaunderson.com/ <br> Email: castlesaunderson@scouts.ie<br>TEL: +353-86-0449354]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <Point>
+          <coordinates>
+            -7.35672,54.114515,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Lough Dan</name>
+        <description><![CDATA[Lough,Dan,  Roundwood, Co.Wicklow.<br><br>Website: www.loughdan.com<br>Email: bookings@loughdan.com<br>Phone: +353 1 2818205]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/LpNuOBABaw3pXgGMbmMhyX8uD6qdpj4smPQa0t1V-2888gUYQcCmbenbwRzpjaiyOTvIJIK1xMrIqtwFzpvNXOxzzQ</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -6.275066,53.057904,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>National Scout Centre Killaloe</name>
+        <description><![CDATA[Killaloe National Scout Centre,<br>Twomilegate, <br>Killaloe,<br>Co.Clare<br><br>Email: killaloe@scouts.ie]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <Point>
+          <coordinates>
+            -8.478699,52.835958,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Mount Melleray  National Scout Centre</name>
+        <description><![CDATA[Mount Melleray<br>Cappoquin,<br>Co. Waterford<br><br>Website: www.mtmelleray.com<br>Email: info@mountmelleray.com<br>Phone: +353 58 54322]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <Point>
+          <coordinates>
+            -7.847843,52.184037,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Arklow Sea Scout Centre</name>
+        <description><![CDATA[Tinahask Lower,<br> Arklow,<br> Co. Wicklow<br><br>Phone: +353 402-31565]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/LpNuOBABaw3pXgGMbmMhyX8uD6qdpj4smPQa0t1V-2888gUYQcCmbenbwRzpjaiyOTvIJIK1xMrIqtwFzpvNXOxzzQ https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/HMxk2-aR_g9W22eMwoDXW4CF0nYEeowMzTTht6OhQvLCQsRQkBWxiHwk5XnpGBZK3X7ik6cxREnvF6xSQGG9efa0aETA</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -6.146743,52.792389,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Ballyhornan</name>
+        <description><![CDATA[Ballyhornan Activity Centre<br>Rock Road,<br>Ballyhornan,<br>Co. Down.<br><br>Email: p.browne@qub.ac.uk<br>Phone: +44 28 90291935]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/LpNuOBABaw3pXgGMbmMhyX8uD6qdpj4smPQa0t1V-2888gUYQcCmbenbwRzpjaiyOTvIJIK1xMrIqtwFzpvNXOxzzQ https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/HMxk2-aR_g9W22eMwoDXW4CF0nYEeowMzTTht6OhQvLCQsRQkBWxiHwk5XnpGBZK3X7ik6cxREnvF6xSQGG9efa0aETA</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -5.5550052,54.3015668,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Brinny Campsite</name>
+        <description><![CDATA[Brinny, <br>Innishannon,<br> Co.Cork<br><br>Website: www.brinnycampsite.com<br>Email: brinnycampsite@gmail.com]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/zK1sWREBHUtWqQkftjlTdnBTWB__qF9V_wNbiOrStw5L-hbtgpDiFthLNNVv8YNHUTkzeOyX0ZY6zCzg8XALmA4jl9ei7u4 https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -8.69997,51.786852,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Carne Holiday Centre</name>
+        <description><![CDATA[Carna,<br>Carne,<br> Co. Wexford<br><br>Email: carneholidaycentre@yahoo.ie<br>Phone: 087 222 2418]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/LpNuOBABaw3pXgGMbmMhyX8uD6qdpj4smPQa0t1V-2888gUYQcCmbenbwRzpjaiyOTvIJIK1xMrIqtwFzpvNXOxzzQ https://lh3.googleusercontent.com/proxy/40CjC61eUYZZt8r8PKt1ddieSIEtsTyGs7P5OmWU9uhZC6X4qmBKLB6uduyY665mHKqifBiRjUjfhT878n_sXHcqI1V04VlKv_EY https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -6.3479535,52.195962,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Castleconnell</name>
+        <description><![CDATA[Castleconnell Scout Campsite <br>Lacca,<br>Castleconnell, <br> Co Limerick <br><br>Website: www.castleconnellcampsite.com <br> Email: castleconnellcamp@gmail.com<br>Phone: 087 2558284<br>Facebook: www.facebook.com/CastleconnellCampsite]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/zK1sWREBHUtWqQkftjlTdnBTWB__qF9V_wNbiOrStw5L-hbtgpDiFthLNNVv8YNHUTkzeOyX0ZY6zCzg8XALmA4jl9ei7u4 https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -8.501433,52.720029,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Clara Scout Den</name>
+        <description><![CDATA[Jim Kirwan Scout Hall,<br>Clara,<br>Co. Offaly<br><br>Website: www.clarascouts.com/?p=4<br>Email: clarascouts@gmail.com<br>Phone: +353 86 822762 or +353 86 3105417]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/LpNuOBABaw3pXgGMbmMhyX8uD6qdpj4smPQa0t1V-2888gUYQcCmbenbwRzpjaiyOTvIJIK1xMrIqtwFzpvNXOxzzQ https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -7.615499,53.342917,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Ruan Scout Centre</name>
+        <description><![CDATA[Noonan,<br> Ruan,<br>Co. Clare<br><br> Website: www.clarescouts.com<br>Email: noelkeaney@yahoo.co.uk<br>Phone: +353 86-3003009<br>Alt Phone: +353 61-369642]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/LpNuOBABaw3pXgGMbmMhyX8uD6qdpj4smPQa0t1V-2888gUYQcCmbenbwRzpjaiyOTvIJIK1xMrIqtwFzpvNXOxzzQ https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -8.994112,52.927222,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Collon</name>
+        <description><![CDATA[St.Oliver's Scout Group Campsite<br>Whiteriver, <br>Branagans Cross, <br>Collon, Co. Louth.<br><br>Phone: +353 (0)87 278 2480<br>Email: colloncampsite@gmail.com<br>Website: www.droghedascouts.com/campsite.html]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh4.googleusercontent.com/proxy/x866EH1IxW5ygsisTK355qQsIVRqXwA45I2ub0r6TFEZxYjPA_9MlAyqHdvZXUbYNfNBpNy_99TfCg</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -6.456442,53.78009,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Curraghchase</name>
+        <description><![CDATA[Curraghchase Scout Centre<br>Curraghchase Forrest Park<br>Askeaton<br>Co Limerick<br><br>Website: www.curraghchase.com<br>Phone: +353-87-6920599]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/zK1sWREBHUtWqQkftjlTdnBTWB__qF9V_wNbiOrStw5L-hbtgpDiFthLNNVv8YNHUTkzeOyX0ZY6zCzg8XALmA4jl9ei7u4 https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -8.876953,52.603048,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Dundrum</name>
+        <description><![CDATA[Dundrum International Scout Centre,<br>Dundrum,<br>Co Tipperary <br><br>Website: www.dundruminternationalscoutcampsite.org<br>Phone: +353 87 6360387]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/LpNuOBABaw3pXgGMbmMhyX8uD6qdpj4smPQa0t1V-2888gUYQcCmbenbwRzpjaiyOTvIJIK1xMrIqtwFzpvNXOxzzQ https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -8.041992,52.581357,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Fota</name>
+        <description><![CDATA[Fota Scout Centre,<br>Co. Campsite,<br>Fota Island,Carrigtwohill, <br> Co Cork<br> <br><br>Website: www.fotascoutcentre.org <br>Email: bookings@fotascoutcentre.org <br>Phone: +353 87 2749623 (after 7pm) ]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/LpNuOBABaw3pXgGMbmMhyX8uD6qdpj4smPQa0t1V-2888gUYQcCmbenbwRzpjaiyOTvIJIK1xMrIqtwFzpvNXOxzzQ https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI https://lh6.googleusercontent.com/proxy/aCP5HWwUX8hanL5gtcRqI0lDk61nJU3OrrunRhkbBZLXSwAikywUT4KX5-u2i5_ZZ1yWo38pOLyQV_JFIishwNKi0Px8uJ5VP__t8zrYpPYHamB7E9_Hfzv8xp35-CmKfQFzwfovmV74JJ3jhGj37gnS987zN4YM3Sk</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -8.317337,51.895457,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Glendale Lodge</name>
+        <description><![CDATA[17 Glenbeigh Road,<br> Co. Dublin <br><br> Website: www.aughrimstreetscouts.ie<br>Phone: +353 1 8388601 <br> Alt Phone: +353 86 8150942]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/LpNuOBABaw3pXgGMbmMhyX8uD6qdpj4smPQa0t1V-2888gUYQcCmbenbwRzpjaiyOTvIJIK1xMrIqtwFzpvNXOxzzQ https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -6.263924,53.190299,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Glenshelane</name>
+        <description><![CDATA[Cappoquinn,<br><br>Co.Waterford<br>Contact Person: Fintan Strain<br>16 Sexton Street,<br>Abbeyside,<br>Dungarvan,<br>Co Waterford]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -7.712402,52.200874,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Kilcully</name>
+        <description><![CDATA[Kilcully Scout Campsite<br>Scouting Ireland<br>Dean Street<br>Cork<br><br>Email: bookings@kilcully.com]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/zK1sWREBHUtWqQkftjlTdnBTWB__qF9V_wNbiOrStw5L-hbtgpDiFthLNNVv8YNHUTkzeOyX0ZY6zCzg8XALmA4jl9ei7u4 https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -8.472551,51.937624,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>5th/22nd Killaloe Scout Group Campsite</name>
+        <description><![CDATA[Clarisford Park,<br>Killaloe, <br>Co.Clare.<br><br> Website: www.killaloescoutcampsite.weebly.com]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <Point>
+          <coordinates>
+            -8.4398389,52.7978186,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Kinnitty</name>
+        <description><![CDATA[Kinnity Scout Log Cabin<br>Kinnity<br>Co Offaly <br><br>Contact Person: <br>Jack Ryan<br>Emmet Street<br>Birr,<br>Co Offaly<br>]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh3.googleusercontent.com/proxy/1BwNij3VFnqRUzUZVgzbtnfEHcDH902WtgXlYMRGPqhD4NfWv0zY8Jz9X9HWRwOwzFJdAs38fyEIRHz-82ETVvfjkwCJ9KI- https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/zK1sWREBHUtWqQkftjlTdnBTWB__qF9V_wNbiOrStw5L-hbtgpDiFthLNNVv8YNHUTkzeOyX0ZY6zCzg8XALmA4jl9ei7u4 https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -7.727423,53.098508,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>1st Kilkenny Scout Den</name>
+        <description><![CDATA[Email: 1stkilkennygl@gmail.com]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <Point>
+          <coordinates>
+            -7.237839,52.644212,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Lough Keel Scout Campsite</name>
+        <description><![CDATA[Lough Key Forest Park,<br> Boyle, <br> Co. Roscommon <br><br> Web: www.loughkeelcamp.com <br>Email: info@loughkeelcamp.com<br>Phone: +353-71-9620324<br>Alt Phone: +353-86-0809217]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/v0uvuo4o99RoVzmYZ5xdC7toHKa5akIGjWPmmJNSHMBc36TDA4SStYFQJXY9sqZGSmDnAmc06l8Og9H1HEaespdT https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/LpNuOBABaw3pXgGMbmMhyX8uD6qdpj4smPQa0t1V-2888gUYQcCmbenbwRzpjaiyOTvIJIK1xMrIqtwFzpvNXOxzzQ https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -8.223964,53.977474,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>3rd Monaghan</name>
+        <description><![CDATA[Mullantra,<br> Kingscourt,<br> Co. Cavan]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/-I_DPw__ovfmosyTJQjqEGSvFa8oMXxnzKThWfEXOwLLvMjGUUrY3vCzhBNe_ADUz8wXZkV0r2n5Xc5ToWNvPVf12v4 https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/zK1sWREBHUtWqQkftjlTdnBTWB__qF9V_wNbiOrStw5L-hbtgpDiFthLNNVv8YNHUTkzeOyX0ZY6zCzg8XALmA4jl9ei7u4 https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -6.7867617,53.906158,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Piercestown Scout Centre</name>
+        <description><![CDATA[Website: www.piercestowncamp.com<br>Phone: +353 87 6191349 <br> Alt Phone: (87) 6441013]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/LpNuOBABaw3pXgGMbmMhyX8uD6qdpj4smPQa0t1V-2888gUYQcCmbenbwRzpjaiyOTvIJIK1xMrIqtwFzpvNXOxzzQ https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -6.487861,52.286344,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Portlick</name>
+        <description><![CDATA[Portlick Scout Campsite<br>Glasson,<br>Athlone,<br>Co Westmeath.<br><br>Website: www.portlickscoutcampsite.com<br>Phone: +353-906-474515 <br>Alt Phone: +353-87-6885279]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/29HB77Ds7IRmM2oE9nR6TrYZcDKl1lDLP8AUDBvF7vK19CCIH-nZgTBU4jyktpb_VEKAfdXWCXADypCsfFPLCKBI5ro https://lh3.googleusercontent.com/proxy/mXQgpo06w3uw-efIv9iddK_fXgHbVeMWeYQM2yDco7JK_mffSq8LaImH5fMDPT_-TH3a3g49rhnxPa_EO-1RsQ https://lh4.googleusercontent.com/proxy/omd5sdOHwMpI_V8axEVHa29CIy_DMoIOeghzmfw-i1GjzV1wT7PTXtRwdPzlvMcFUd4qCKRwpapIriChXviymVJVhBIswQ https://lh3.googleusercontent.com/proxy/LpNuOBABaw3pXgGMbmMhyX8uD6qdpj4smPQa0t1V-2888gUYQcCmbenbwRzpjaiyOTvIJIK1xMrIqtwFzpvNXOxzzQ https://lh5.googleusercontent.com/proxy/HHJYybUQV_iGNMGCEIEpRaoj-275voMnsgt9hZzTCXdffIpkHX9ddTMrcuukWzEf7muOsmpyNsJb3YTSGozmY8pj3Zzkvdg https://lh3.googleusercontent.com/proxy/h3QqE-fWaNsFrjnuCm3QzlAGETqPk5edgeiFXVe2FZWsS_rVut3zSRlZvfrz3DCfnlkhoanZyPbh22CEvNiJIsI</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -7.917709,53.470066,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Srahan</name>
+        <description><![CDATA[Srahan Scout Centre<br>Srahan,<br>Camross,<br>Co. Laois.<br<br>Website: www.srahanscoutcentre.com><br>Email:srahanscoutcentre@gmail.com<br>Phone: +353 (0) 86-2211227 ]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <Point>
+          <coordinates>
+            -7.6132898,53.0270198,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Tralee Scout Den</name>
+        <description><![CDATA[Matt Talbot Road,<br>Tralee,<br>Co.Kerry.<br><br>Email: kerrycommish@eircom.net<br>Phone: +353 (0)66 7127744 <br>Alt Phone: +353 86 8733766]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <Point>
+          <coordinates>
+            -9.710755,52.269654,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Woodstock Guide & Scout Campsite]]></name>
+        <description><![CDATA[Inistioge,<br>Co.Kilkenny<br><br>Email: empathising@hotmail.com <br>Website: www.facebook.com/pages/Woodstock-Campsite/172729072838131]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <Point>
+          <coordinates>
+            -7.072792,52.4816511,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>15th/25th Waterford Sacred Heart Scout Group</name>
+        <description><![CDATA[<br><br>Email: bmad1@eircom.net <br> Phone: 0868833110]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <Point>
+          <coordinates>
+            -7.1380234,52.2532376,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Wild Atlantic Adventure Centre</name>
+        <description> <![CDATA[Tullagh Bay,<br> Clonmany,<br> Co. Donegal <br><br>Website: www.wildatlanticwayadventures.ie<br>Email: info@wildatlanticwayadventures.ie <br> Phone: +353 86 057 3002]]></description>
+        <styleUrl>#icon-503-DB4436</styleUrl>
+        <Point>
+          <coordinates>
+            -7.4551678,55.2826839,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Untitled layer</name>
+    </Folder>
+  </Document>
+</kml>

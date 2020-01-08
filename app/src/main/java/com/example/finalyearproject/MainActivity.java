@@ -4,6 +4,7 @@ package com.example.finalyearproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private Button signIn;
     private String emailValue;
     private String passwordValue;
-    private Leader leader;
+    private Person person;
 
 
     @Override
@@ -50,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
-        signIn = (Button) findViewById(R.id.signIn);
-        //myRef.setValue("second Hello World!");
-
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -87,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
         emailValue = email.getText().toString();
         passwordValue = password.getText().toString();
         database = FirebaseDatabase.getInstance();
-        //myRef = database.getReference("Leader");
+        final ProgressDialog mProgress = new ProgressDialog(this);
+        mProgress.setMessage("Please Wait");
+        mProgress.show();
 
         if (!emailValue.equals("") && !password.equals("")) {
             mAuth.signInWithEmailAndPassword(emailValue, passwordValue).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -95,9 +95,11 @@ public class MainActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
                         Toast.makeText(MainActivity.this, "Failed sign in", Toast.LENGTH_LONG).show();
+                        mProgress.dismiss();
                     } else {
-                        //Toast.makeText(MainActivity.this, "success sign in", Toast.LENGTH_LONG).show();
+                        mProgress.dismiss();
                         Intent login = new Intent(MainActivity.this, Dashboard.class);
+                        login.putExtra(leaderKey, emailValue);
                         startActivity(login);
 
                     }
