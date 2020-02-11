@@ -6,6 +6,16 @@
     <TextView
         android:id="@+id/myTextView"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:text="TextView" />
+        android:layout_height="30dp"
+        android:textColor="#084897"
+        android:textSize="15sp"
+        android:text="TextView"
+        />
+
+    <TextView
+        android:id="@+id/txtLocaitonView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:paddingBottom="5dp"/>
 </LinearLayout>

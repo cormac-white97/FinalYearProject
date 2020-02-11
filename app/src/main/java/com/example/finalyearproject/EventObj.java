@@ -1,21 +1,34 @@
 package com.example.finalyearproject;
 
 public class EventObj {
+    String id;
     String type;
     String location;
     String date;
+    String endDate;
     String group;
+    String createdBy;
 
-    public EventObj(String type, String location, String date, String group) {
+    public EventObj(String id, String type, String location, String date, String endDate,  String group, String createdBy) {
+        this.id = id;
         this.type = type;
         this.location = location;
         this.date = date;
+        this.endDate = endDate;
         this.group = group;
+        this.createdBy = createdBy;
     }
 
     public EventObj() {
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getType() {
         return type;
@@ -41,11 +54,27 @@ public class EventObj {
         this.date = date;
     }
 
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
     public String getGroup() {
         return group;
     }
 
     public void setGroup(String group) {
         this.group = group;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 }

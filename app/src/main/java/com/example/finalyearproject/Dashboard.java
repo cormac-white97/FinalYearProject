@@ -74,8 +74,7 @@ public class Dashboard extends AppCompatActivity {
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         final NavigationView navigationView = findViewById(R.id.nav_view);
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Person");
+
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_group, R.id.nav_events,
@@ -86,7 +85,8 @@ public class Dashboard extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("Person");
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
@@ -170,7 +170,6 @@ public class Dashboard extends AppCompatActivity {
     }
 
     public void delete(View v){
-        startDate = findViewById(R.id.viewStartDate);
         final String dateToDel = startDate.getText().toString();
 
         myRef.addValueEventListener(new ValueEventListener() {

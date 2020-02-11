@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -24,154 +25,47 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
-        <com.github.sundeepk.compactcalendarview.CompactCalendarView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/compactcalendar_view"
             android:layout_width="fill_parent"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
             android:layout_height="250dp"
-            app:compactCalendarTargetHeight="250dp"
-            app:compactCalendarTextSize="12sp"
-            app:compactCalendarTextColor="#000000"
-            app:compactCalendarCurrentSelectedDayBackgroundColor="#b3b3b3"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             app:compactCalendarCurrentDayBackgroundColor="#bfbfbf"
+            app:compactCalendarCurrentSelectedDayBackgroundColor="#b3b3b3"
             app:compactCalendarMultiEventIndicatorColor="#fff"
-            />
+            app:compactCalendarTargetHeight="250dp"
+            app:compactCalendarTextColor="#000000"
+            app:compactCalendarTextSize="12sp" />
 
         <TextView
-            android:id="@+id/textView3"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:text="Event Details:"
+            android:layout_height="wrap_content"
+            android:text="Events For Date:"
             android:textAlignment="center"
             android:textColor="#084897"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/my_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="409dp">
+            android:layout_height="match_parent" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_marginRight="6dp"
-                android:layout_marginBottom="80dp"
-                android:clickable="true"
-                app:backgroundTint="#084897"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@android:drawable/ic_menu_delete" />
-
-            <TextView
-                android:id="@+id/lblGroup"
-                android:layout_width="106dp"
-                android:layout_height="38dp"
-                android:layout_marginTop="24dp"
-                android:text="Group:"
-                android:textAlignment="center"
-                android:textColor="#084897"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblStartDate" />
-
-            <TextView
-                android:id="@+id/lblLocation"
-                android:layout_width="106dp"
-                android:layout_height="38dp"
-                android:layout_marginTop="30dp"
-                android:text="Location:"
-                android:textAlignment="center"
-                android:textColor="#084897"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblEventType" />
-
-            <TextView
-                android:id="@+id/lblEventType"
-                android:layout_width="106dp"
-                android:layout_height="38dp"
-                android:layout_marginTop="25dp"
-                android:text="Event Type:"
-                android:textAlignment="center"
-                android:textColor="#084897"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/txtEventType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="15dp"
-                android:ems="10"
-                android:focusable="false"
-                android:inputType="textPersonName"
-                android:textColor="#084897"
-                app:layout_constraintStart_toEndOf="@+id/lblEventType"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/txtLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="13dp"
-                android:layout_marginLeft="13dp"
-                android:layout_marginTop="20dp"
-                android:ems="10"
-                android:focusable="false"
-                android:inputType="textPersonName"
-                android:textColor="#084897"
-                app:layout_constraintStart_toEndOf="@+id/lblLocation"
-                app:layout_constraintTop_toBottomOf="@+id/txtEventType" />
-
-            <TextView
-                android:id="@+id/lblStartDate"
-                android:layout_width="106dp"
-                android:layout_height="38dp"
-                android:layout_marginTop="25dp"
-                android:text="Start Date:"
-                android:focusable="false"
-                android:textAlignment="center"
-                android:textColor="#084897"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblLocation" />
-
-            <EditText
-                android:id="@+id/viewStartDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="13dp"
-                android:layout_marginLeft="13dp"
-                android:layout_marginTop="20dp"
-                android:ems="10"
-                android:focusable="false"
-                android:inputType="textPersonName"
-                android:textColor="#084897"
-                app:layout_constraintStart_toEndOf="@+id/lblStartDate"
-                app:layout_constraintTop_toBottomOf="@+id/txtLocation" />
-
-            <EditText
-                android:id="@+id/txtNumAttending"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="13dp"
-                android:layout_marginLeft="13dp"
-                android:layout_marginTop="20dp"
-                android:ems="10"
-                android:focusable="false"
-                android:inputType="textPersonName"
-                android:textColor="#084897"
-                app:layout_constraintStart_toEndOf="@+id/lblGroup"
-                app:layout_constraintTop_toBottomOf="@+id/viewStartDate" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="40dp"
+        android:clickable="true"
+        app:backgroundTint="#223e92"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

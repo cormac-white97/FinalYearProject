@@ -6,18 +6,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalyearproject.EventObj;
+import com.example.finalyearproject.MyAdapter;
 import com.example.finalyearproject.R;
 import com.example.finalyearproject.viewLocations;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,11 +33,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static androidx.recyclerview.widget.LinearLayoutManager.*;
 
 public class EventFragment extends Fragment {
 
@@ -41,14 +51,28 @@ public class EventFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private TextView monthVal;
+    private FloatingActionButton add;
+    ArrayList<EventObj> allEventsInDB = new ArrayList<>();
     EditText editTextType;
     EditText editTextLocation;
     EditText editTextDate;
     EditText numAttending;
+    String id;
     String date;
+    String endDate;
     String group;
     String location;
     String type;
+    String createdBy;
+
+    String clickedId;
+    String clickedDate;
+    String clickedEndDate;
+    String clickedGroup;
+    String clickedLocation;
+    String clickedType;
+    String clickedCreatedBy;
+    private final Long dayValue = 86400000L;
     ArrayList<EventObj> eventObjs = new ArrayList<>();
     public static final String dateval = "com.example.eventmanager";
 
@@ -61,46 +85,84 @@ public class EventFragment extends Fragment {
 
         //Initialize all textFields
         monthVal = view.findViewById(R.id.Month);
-        editTextType = view.findViewById(R.id.txtEventType);
-        editTextLocation = view.findViewById(R.id.txtLocation);
-        editTextDate = view.findViewById(R.id.viewStartDate);
-        numAttending = view.findViewById(R.id.txtNumAttending);
         compactCalendar = view.findViewById(R.id.compactcalendar_view);
         compactCalendar.setUseThreeLetterAbbreviation(true);
         monthVal.setText(dateFormatMonth.format(compactCalendar.getFirstDayOfCurrentMonth()));
+        add = view.findViewById(R.id.btnAdd);
+        add.hide();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Event ev2 = null;
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    id = ds.getValue(EventObj.class).getId();
                     date = ds.getValue(EventObj.class).getDate();
+                    endDate = ds.getValue(EventObj.class).getEndDate();
                     group = ds.getValue(EventObj.class).getGroup();
                     location = ds.getValue(EventObj.class).getLocation();
                     type = ds.getValue(EventObj.class).getType();
+                    createdBy = ds.getValue(EventObj.class).getCreatedBy();
+                    boolean dateReached = false;
 
-                    EventObj e = new EventObj(type, location, date, group);
-                    eventObjs.add(e);
-                    e.toString();
-                    if(group.equals("Beavers")){
-                        ev2 = new Event(Color.BLUE, Long.parseLong(date), type);
-                    }
-                    else if(group.equals("Cubs")){
-                        ev2 = new Event(Color.RED, Long.parseLong(date), type);
 
-                    }
-                    else if(group.equals("Scouts")){
-                        ev2 = new Event(Color.GREEN, Long.parseLong(date), type);
+                    Long longDate = Long.parseLong(date);
+                    Long longEndDate = Long.parseLong(endDate);
 
-                    }
-                    else if(group.equals("Ventures")){
-                        ev2 = new Event(Color.MAGENTA, Long.parseLong(date), type);
 
-                    }
-                    else if(group.equals("Rovers")){
-                        ev2 = new Event(Color.BLACK, Long.parseLong(date), type);
 
-                    }
-                    compactCalendar.addEvent(ev2);
+                    do {
+                        if (longDate.equals(longEndDate)) {
+                            //Must be repeated one more time to add event to the last day
+                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy);
+                            eventObjs.add(e);
+                            e.toString();
+                            if (group.equals("Beavers")) {
+                                ev2 = new Event(Color.BLUE, longDate, type);
+                            } else if (group.equals("Cubs")) {
+                                ev2 = new Event(Color.RED, longDate, type);
+
+                            } else if (group.equals("Scouts")) {
+                                ev2 = new Event(Color.GREEN, longDate, type);
+
+                            } else if (group.equals("Ventures")) {
+                                ev2 = new Event(Color.MAGENTA, longDate, type);
+
+                            } else if (group.equals("Rovers")) {
+                                ev2 = new Event(Color.BLACK, longDate, type);
+
+                            }
+                            compactCalendar.addEvent(ev2);
+
+                            longDate = longDate + dayValue;
+                            dateReached = true;
+                        } else {
+
+                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy);
+                            eventObjs.add(e);
+                            e.toString();
+                            if (group.equals("Beavers")) {
+                                ev2 = new Event(Color.BLUE, longDate, type);
+                            } else if (group.equals("Cubs")) {
+                                ev2 = new Event(Color.RED, longDate, type);
+
+                            } else if (group.equals("Scouts")) {
+                                ev2 = new Event(Color.GREEN, longDate, type);
+
+                            } else if (group.equals("Ventures")) {
+                                ev2 = new Event(Color.MAGENTA, longDate, type);
+
+                            } else if (group.equals("Rovers")) {
+                                ev2 = new Event(Color.BLACK, longDate, type);
+
+                            }
+                            compactCalendar.addEvent(ev2);
+
+                            longDate = longDate + dayValue;
+                        }
+
+                    } while (dateReached != true);
+                    EventObj eObj = new EventObj(id, type, location, date, endDate, group, createdBy);
+                    allEventsInDB.add(eObj);
 
                 }
             }
@@ -114,47 +176,64 @@ public class EventFragment extends Fragment {
 
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
-            public void onDayClick(Date dateClicked) {
+            public void onDayClick(final Date dateClicked) {
+                RecyclerView myRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+
+                ArrayList<EventObj> eventForDay = new ArrayList<>();
+
+                long dateEpoch = dateClicked.getTime();
 
 
-                DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
-                String formattedDate = dateFormat.format(dateClicked);
-                boolean hasEvent = false;
-                List<Event> eventsForMonth = compactCalendar.getEventsForMonth(compactCalendar.getFirstDayOfCurrentMonth());
+                LinearLayoutManager myLayoutManager = new LinearLayoutManager(getActivity());
+                myRecyclerView.setLayoutManager(myLayoutManager);
 
-                for (Event e : eventsForMonth) {
+                ArrayList<EventObj> myDataset = new ArrayList<EventObj>();
 
-                    if (e.getTimeInMillis() == dateClicked.getTime()) {
-                        hasEvent = true;
-                        break;
-                    }
-                }
+                // Clear collection..
+                myDataset.clear();
 
-                //Hardcoded in value for event in calendar
-                if (hasEvent) {
-                    for (Event e : eventsForMonth) {
-                        if (e.getTimeInMillis() == dateClicked.getTime()) {
-                            editTextType.setText(e.getData().toString());
-                            editTextDate.setText("" + formattedDate);
-                            for (EventObj evo : eventObjs){
-
-                                if(evo.getDate().equals(dateClicked.getTime() + "")){
-                                    editTextLocation.setText(evo.getLocation());
-                                    numAttending.setText(evo.getGroup());
-                                }
-                            }
-
+                for (EventObj e : allEventsInDB) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    ArrayList <Long> eventDays = new ArrayList<>();
+                    long dateTime = Long.parseLong(e.getDate());
+                    boolean dateReached = false;
+                    long endDate = Long.parseLong(e.getEndDate());
+                    //create an arraylist to map dates between the start and end date to an event
+                    do{
+                        if(dateTime == endDate){
+                            eventDays.add(dateTime);
+                            dateTime = dateTime + dayValue;
+                            dateReached = true;
 
                         }
+                        else{
+                            eventDays.add(dateTime);
+                            dateTime = dateTime + dayValue;
+                        }
                     }
-                } else {
-                    String dateString = String.valueOf(dateClicked.getTime());
-                    Intent intent = new Intent(getActivity(), viewLocations.class);
-                    intent.putExtra(dateval, dateString);
-                    startActivity(intent);
+                    while (dateReached == false);
 
+                    if (eventDays.contains(dateEpoch)) {
+                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getDate(), e.getEndDate(),e.getGroup(), e.getCreatedBy());
+                        myDataset.add(eventObj);
+                    }
                 }
 
+                MyAdapter mAdapter = new MyAdapter(myDataset);
+                myRecyclerView.addItemDecoration(new
+
+                        DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+                myRecyclerView.setAdapter(mAdapter);
+                add.show();
+                add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        String dateString = String.valueOf(dateClicked.getTime());
+                        Intent intent = new Intent(getActivity(), viewLocations.class);
+                        intent.putExtra(dateval, dateString);
+                        startActivity(intent);
+                    }
+                });
             }
 
             //Update month value at the top of the calendar when scrolling
@@ -167,4 +246,24 @@ public class EventFragment extends Fragment {
         return view;
     }
 
+
+
+    public void onBindViewHolder(MyAdapter.MyViewHolder holder, final int position) {
+        // - get element from your dataset at this position
+        // - replace the contents of the view with that element
+
+        holder.txtHeader.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Toast.makeText(v.getContext(),"eventFragment Test", Toast.LENGTH_SHORT ).show();
+                //addItem(position);
+                // call activity to pass the item position
+                //Intent intent = new Intent(v.getContext(), UpdateActivity.class );
+                //intent.putExtra(MESSAGE_KEY1 ,name);
+                // intent.putExtra(MESSAGE_KEY2, position);
+                //v.getContext().startActivity(intent);
+
+            }
+        });
+    }
 }
