@@ -176,4 +176,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/returnarrow" />
 
+    <ProgressBar
+        android:id="@+id/loadNewEvent"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="158dp"
+        android:layout_height="151dp"
+        android:layout_marginBottom="324dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createNewToolbar"
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

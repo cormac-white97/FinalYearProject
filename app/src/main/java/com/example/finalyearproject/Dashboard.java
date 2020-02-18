@@ -156,7 +156,8 @@ public class Dashboard extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Toast.makeText(Dashboard.this, "Worked", Toast.LENGTH_LONG).show();
-                                String id = UUID.randomUUID().toString();
+//                                String id = UUID.randomUUID().toString();
+                                String id = mUser.getUid();
                                 person = new Person(id, "Leader", firstNameValue, lastNameValue, DOBvalue, phoneNumValue, emailValue, vettingValue);
                                 myRef.child("Person").child(id).setValue(person);
                             } else {

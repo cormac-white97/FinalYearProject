@@ -26,6 +26,7 @@ import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,13 +58,6 @@ public class EventFragment extends Fragment {
     EditText editTextLocation;
     EditText editTextDate;
     EditText numAttending;
-    String id;
-    String date;
-    String endDate;
-    String group;
-    String location;
-    String type;
-    String createdBy;
 
     String clickedId;
     String clickedDate;
@@ -95,13 +89,14 @@ public class EventFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Event ev2 = null;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    id = ds.getValue(EventObj.class).getId();
-                    date = ds.getValue(EventObj.class).getDate();
-                    endDate = ds.getValue(EventObj.class).getEndDate();
-                    group = ds.getValue(EventObj.class).getGroup();
-                    location = ds.getValue(EventObj.class).getLocation();
-                    type = ds.getValue(EventObj.class).getType();
-                    createdBy = ds.getValue(EventObj.class).getCreatedBy();
+                    String id = ds.getValue(EventObj.class).getId();
+                    String date = ds.getValue(EventObj.class).getDate();
+                    String endDate = ds.getValue(EventObj.class).getEndDate();
+                    String group = ds.getValue(EventObj.class).getGroup();
+                    String location = ds.getValue(EventObj.class).getLocation();
+                    String type = ds.getValue(EventObj.class).getType();
+                    String createdBy = ds.getValue(EventObj.class).getCreatedBy();
+                    int availableSpaces = ds.getValue(EventObj.class).getAvailableSpaces();
                     boolean dateReached = false;
 
 
@@ -113,9 +108,9 @@ public class EventFragment extends Fragment {
                     do {
                         if (longDate.equals(longEndDate)) {
                             //Must be repeated one more time to add event to the last day
-                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy);
+                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy, availableSpaces);
                             eventObjs.add(e);
-                            e.toString();
+
                             if (group.equals("Beavers")) {
                                 ev2 = new Event(Color.BLUE, longDate, type);
                             } else if (group.equals("Cubs")) {
@@ -137,9 +132,9 @@ public class EventFragment extends Fragment {
                             dateReached = true;
                         } else {
 
-                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy);
+                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy, availableSpaces);
                             eventObjs.add(e);
-                            e.toString();
+
                             if (group.equals("Beavers")) {
                                 ev2 = new Event(Color.BLUE, longDate, type);
                             } else if (group.equals("Cubs")) {
@@ -161,7 +156,7 @@ public class EventFragment extends Fragment {
                         }
 
                     } while (dateReached != true);
-                    EventObj eObj = new EventObj(id, type, location, date, endDate, group, createdBy);
+                    EventObj eObj = new EventObj(id, type, location, date, endDate, group, createdBy,availableSpaces);
                     allEventsInDB.add(eObj);
 
                 }
@@ -172,6 +167,7 @@ public class EventFragment extends Fragment {
 
             }
         });
+
 
 
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -214,7 +210,7 @@ public class EventFragment extends Fragment {
                     while (dateReached == false);
 
                     if (eventDays.contains(dateEpoch)) {
-                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getDate(), e.getEndDate(),e.getGroup(), e.getCreatedBy());
+                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getDate(), e.getEndDate(),e.getGroup(), e.getCreatedBy(), e.getAvailableSpaces());
                         myDataset.add(eventObj);
                     }
                 }
@@ -222,7 +218,7 @@ public class EventFragment extends Fragment {
                 MyAdapter mAdapter = new MyAdapter(myDataset);
                 myRecyclerView.addItemDecoration(new
 
-                        DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+                        DividerItemDecoration(getActivity(), VERTICAL));
                 myRecyclerView.setAdapter(mAdapter);
                 add.show();
                 add.setOnClickListener(new View.OnClickListener() {
