@@ -1,5 +1,7 @@
 package com.example.finalyearproject;
 
+import java.util.ArrayList;
+
 public class EventObj {
     String id;
     String type;
@@ -8,9 +10,10 @@ public class EventObj {
     String endDate;
     String group;
     String createdBy;
+    ArrayList<String> eventLeaders;
     int availableSpaces;
 
-    public EventObj(String id, String type, String location, String date, String endDate,  String group, String createdBy, int availableSpaces) {
+    public EventObj(String id, String type, String location, String date, String endDate,  String group, String createdBy, ArrayList<String> eventLeaders, int availableSpaces) {
         this.id = id;
         this.type = type;
         this.location = location;
@@ -18,6 +21,7 @@ public class EventObj {
         this.endDate = endDate;
         this.group = group;
         this.createdBy = createdBy;
+        this.eventLeaders = eventLeaders;
         this.availableSpaces = availableSpaces;
     }
 
@@ -78,6 +82,14 @@ public class EventObj {
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public ArrayList<String> getEventLeaders() {
+        return eventLeaders;
+    }
+
+    public void setEventLeaders(ArrayList<String> eventLeaders) {
+        this.eventLeaders = eventLeaders;
     }
 
     public int getAvailableSpaces() {

@@ -27,10 +27,13 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private List<EventObj> values;
     public static final String MESSAGE_KEY1 ="text";
-    public static final String MESSAGE_KEY2 ="position";
+    public static final String ID_KEY ="position";
     FirebaseDatabase database;
     DatabaseReference myRef;
     FirebaseAuth mAuth;
+    private DatabaseReference personRef;
+
+    EventFragment e = new EventFragment();
     private HashMap<String, String> dbIDs = new HashMap<>();
 
     // Provide a reference to the views for each data item
@@ -39,6 +42,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         public TextView txtHeader;
         public TextView txtLocaitonView;
         public TextView txtOrganizerView;
+
 
 
 
@@ -52,26 +56,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             database = FirebaseDatabase.getInstance();
             myRef = database.getReference("Person");
 
-            myRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        String dbID = ds.getValue(Person.class).getPersonID();
-                        String dbFirstname = ds.getValue(Person.class).getFirstName();
-                        String dbLastName = ds.getValue(Person.class).getLastName();
-                        String name = dbFirstname + dbLastName;
-
-                        dbIDs.put(dbID, name);
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
+            dbIDs = e.getLeaderNameAndId();
 
         }
 
@@ -82,11 +67,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     //TODO - finish this shit
     public String getNameByID(final String id){
         String nameValue = null;
-        for (String dbId : dbIDs.keySet()){
-            if(dbId.equals(id)){
-                nameValue = String.valueOf(dbIDs.values());
-            }
-        }
+        nameValue = dbIDs.get(id);
 
         return nameValue;
     }
@@ -117,6 +98,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         final String name = values.get(position).getGroup();
         final String location = values.get(position).getLocation();
         final String organizer = values.get(position).getCreatedBy();
+        final String id = values.get(position).getId();
 
         String organizerName = getNameByID(organizer);
 
@@ -130,13 +112,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.txtHeader.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Toast.makeText(v.getContext(),name, Toast.LENGTH_SHORT ).show();
+                //Toast.makeText(v.getContext(),name, Toast.LENGTH_SHORT ).show();
                 //addItem(position);
                 // call activity to pass the item position
-                //Intent intent = new Intent(v.getContext(), UpdateActivity.class );
-                //intent.putExtra(MESSAGE_KEY1 ,name);
-               // intent.putExtra(MESSAGE_KEY2, position);
-                //v.getContext().startActivity(intent);
+                Intent intent = new Intent(v.getContext(), ViewEvent.class );
+                intent.putExtra(ID_KEY, id);
+                v.getContext().startActivity(intent);
 
             }
 

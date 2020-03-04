@@ -30,22 +30,6 @@ import java.util.UUID;
 public class ToolsFragment extends Fragment {
 
     private ToolsViewModel toolsViewModel;
-    private DataSnapshot dataSnapshot = null;
-    private FirebaseDatabase database;
-    private DatabaseReference myRef;
-    private FirebaseAuth mAuth;
-    private AppBarConfiguration mAppBarConfiguration;
-    private EditText firstName;
-    private EditText lastName;
-    private EditText password;
-    private EditText confirmPassword;
-    private EditText dateOfBirth;
-    private EditText phone;
-    private EditText email;
-    private EditText vetting;
-    private Person person;
-    private int typeVal;
-    private Button btnCreateNew;
     View v;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -54,6 +38,18 @@ public class ToolsFragment extends Fragment {
                 ViewModelProviders.of(this).get(ToolsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_tools, container, false);
         v = inflater.inflate(R.layout.fragment_tools,container,false);
+
+        Spinner groupSpinner = v.findViewById(R.id.groupType);
+        final String groupTypeList[] = new String[]{"Please Select", "Beavers", "Cubs", "Scouts", "Ventures", "Rovers"};
+
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, groupTypeList);
+
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+// Apply the adapter to the spinner
+        groupSpinner.setAdapter(adapter);
 
         return root;
 

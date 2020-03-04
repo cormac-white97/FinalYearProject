@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalyearproject.EventObj;
 import com.example.finalyearproject.MyAdapter;
+import com.example.finalyearproject.Person;
 import com.example.finalyearproject.R;
 import com.example.finalyearproject.viewLocations;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -33,11 +34,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,10 +52,13 @@ public class EventFragment extends Fragment {
     private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- YYYY", Locale.getDefault());
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+    private DatabaseReference personRef;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private TextView monthVal;
     private FloatingActionButton add;
+    ArrayList<Person> leaders = new ArrayList<>();
+    static HashMap<String, String> idAndName = new HashMap<>();
     ArrayList<EventObj> allEventsInDB = new ArrayList<>();
     EditText editTextType;
     EditText editTextLocation;
@@ -75,6 +81,7 @@ public class EventFragment extends Fragment {
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Event");
+        personRef = database.getReference("Person");
 
 
         //Initialize all textFields
@@ -96,6 +103,7 @@ public class EventFragment extends Fragment {
                     String location = ds.getValue(EventObj.class).getLocation();
                     String type = ds.getValue(EventObj.class).getType();
                     String createdBy = ds.getValue(EventObj.class).getCreatedBy();
+                    ArrayList<String> eventLeaders = ds.getValue(EventObj.class).getEventLeaders();
                     int availableSpaces = ds.getValue(EventObj.class).getAvailableSpaces();
                     boolean dateReached = false;
 
@@ -108,7 +116,7 @@ public class EventFragment extends Fragment {
                     do {
                         if (longDate.equals(longEndDate)) {
                             //Must be repeated one more time to add event to the last day
-                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy, availableSpaces);
+                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy,eventLeaders, availableSpaces);
                             eventObjs.add(e);
 
                             if (group.equals("Beavers")) {
@@ -132,7 +140,7 @@ public class EventFragment extends Fragment {
                             dateReached = true;
                         } else {
 
-                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy, availableSpaces);
+                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy,eventLeaders, availableSpaces);
                             eventObjs.add(e);
 
                             if (group.equals("Beavers")) {
@@ -156,9 +164,38 @@ public class EventFragment extends Fragment {
                         }
 
                     } while (dateReached != true);
-                    EventObj eObj = new EventObj(id, type, location, date, endDate, group, createdBy,availableSpaces);
+                    EventObj eObj = new EventObj(id, type, location, date, endDate, group, createdBy, eventLeaders, availableSpaces);
                     allEventsInDB.add(eObj);
 
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        personRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String personID = ds.getValue(Person.class).getPersonID();
+                    String personType = ds.getValue(Person.class).getPersonType();
+                    String firstName = ds.getValue(Person.class).getFirstName();
+                    String lastName = ds.getValue(Person.class).getLastName();
+                    String DOB = ds.getValue(Person.class).getDOB();
+                    String group = ds.getValue(Person.class).getGroup();
+                    String phone = ds.getValue(Person.class).getPhone();
+
+                    String email = ds.getValue(Person.class).getEmail();
+                    String vettingDate = ds.getValue(Person.class).getVettingDate();
+                    String fcmToken = ds.getValue(Person.class).getFcmToken();
+
+                    Person p = new Person(personID, personType, firstName, lastName, DOB, group, phone, email, vettingDate, fcmToken);
+                    leaders.add(p);
+                    idAndName.put(personID, firstName + " " + lastName);
                 }
             }
 
@@ -210,7 +247,7 @@ public class EventFragment extends Fragment {
                     while (dateReached == false);
 
                     if (eventDays.contains(dateEpoch)) {
-                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getDate(), e.getEndDate(),e.getGroup(), e.getCreatedBy(), e.getAvailableSpaces());
+                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getDate(), e.getEndDate(),e.getGroup(), e.getCreatedBy(), e.getEventLeaders(), e.getAvailableSpaces());
                         myDataset.add(eventObj);
                     }
                 }
@@ -240,6 +277,10 @@ public class EventFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public HashMap<String, String> getLeaderNameAndId(){
+        return idAndName;
     }
 
 

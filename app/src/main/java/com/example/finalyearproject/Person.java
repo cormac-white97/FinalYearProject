@@ -21,23 +21,26 @@ public class Person {
     private String FirstName;
     private String LastName;
     private String DOB;
+    private String group;
     private String Phone;
     private String Email;
     private String vettingDate;
-
+    private String fcmToken;
 
     public Person() {
     }
 
-    public Person(String personID, String personType, String firstName, String lastName, String DOB, String phone, String email, String vettingDate) {
+    public Person(String personID, String personType, String firstName, String lastName, String DOB, String group, String phone, String email, String vettingDate, String fcmToken) {
         this.personID = personID;
         this.personType = personType;
-        FirstName = firstName;
-        LastName = lastName;
+        this.FirstName = firstName;
+        this.LastName = lastName;
         this.DOB = DOB;
-        Phone = phone;
-        Email = email;
+        this.group = group;
+        this.Phone = phone;
+        this.Email = email;
         this.vettingDate = vettingDate;
+        this.fcmToken = fcmToken;
     }
 
     public String getPersonID() {
@@ -80,6 +83,14 @@ public class Person {
         this.DOB = DOB;
     }
 
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
     public String getPhone() {
         return Phone;
     }
@@ -102,6 +113,14 @@ public class Person {
 
     public void setVettingDate(String vettingDate) {
         this.vettingDate = vettingDate;
+    }
+
+    public String getFcmToken() {
+        return fcmToken;
+    }
+
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
     }
 
     //TODO - valueEventListener not being hit

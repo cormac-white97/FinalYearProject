@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent login = new Intent(MainActivity.this, Dashboard.class);
                         login.putExtra(leaderKey, emailValue);
                         startActivity(login);
+                        finish();
 
                     }
 

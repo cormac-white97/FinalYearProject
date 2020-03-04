@@ -4,10 +4,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -16,9 +15,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.finalyearproject.ui.tools.ToolsFragment;
-import com.github.sundeepk.compactcalendarview.domain.Event;
-import com.google.android.gms.maps.model.Dash;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -37,16 +33,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.UUID;
 
 public class Dashboard extends AppCompatActivity {
     private FirebaseDatabase database;
@@ -58,11 +53,13 @@ public class Dashboard extends AppCompatActivity {
     private EditText lastName;
     private EditText password;
     private EditText confirmPassword;
+    private Spinner groupType;
     private EditText dateOfBirth;
     private EditText phone;
     private EditText email;
     private EditText vetting;
     private EditText startDate;
+    private Spinner group;
     private Person person;
 
 
@@ -89,6 +86,8 @@ public class Dashboard extends AppCompatActivity {
         myRef = database.getReference("Person");
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+//        View headerView = navigationView.getHeaderView(0);
+//
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -101,16 +100,22 @@ public class Dashboard extends AppCompatActivity {
 
                 TextView userName = headerView.findViewById(R.id.logedInUser);
                 TextView userType = headerView.findViewById(R.id.logedInType);
+                TextView userGroup = headerView.findViewById(R.id.logedInGroup);
+                TextView userEmail = headerView.findViewById(R.id.logedInEmail);
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     String email = ds.getValue(Person.class).getEmail();
                     String fName = ds.getValue(Person.class).getFirstName();
                     String lName = ds.getValue(Person.class).getLastName();
                     String type = ds.getValue(Person.class).getPersonType();
+                    String group = ds.getValue(Person.class).getGroup();
+
 
                     if(currentUserEmail.equals(email)){
                         String loggedName = fName + " "  + lName;
                         userName.setText(loggedName);
                         userType.setText(type);
+                        userGroup.setText(group);
+                        userEmail.setText(email);
                     }
                 }
             }
@@ -125,7 +130,9 @@ public class Dashboard extends AppCompatActivity {
 
 
     public void createNewLeader(View v) {
-
+        final ProgressDialog mProgress = new ProgressDialog(this);
+        mProgress.setMessage("Please Wait");
+        mProgress.show();
         firstName = (EditText) findViewById(R.id.firstName);
         lastName = (EditText) findViewById(R.id.lastName);
         password = (EditText) findViewById(R.id.password);
@@ -134,12 +141,14 @@ public class Dashboard extends AppCompatActivity {
         phone = (EditText) findViewById(R.id.phoneNum);
         email = (EditText) findViewById(R.id.email);
         vetting = (EditText) findViewById(R.id.vettingDate);
+        group = findViewById(R.id.groupType);
 
 
         final String firstNameValue = firstName.getText().toString();
         final String lastNameValue = lastName.getText().toString();
         final String passwordValue = password.getText().toString();
         final String confirmPassValue = confirmPassword.getText().toString();
+        //final String txtGroup = group.getSelectedItem().toString();
         final String DOBvalue = dateOfBirth.getText().toString();
         final String phoneNumValue = phone.getText().toString();
         final String emailValue = email.getText().toString();
@@ -158,10 +167,14 @@ public class Dashboard extends AppCompatActivity {
                                 Toast.makeText(Dashboard.this, "Worked", Toast.LENGTH_LONG).show();
 //                                String id = UUID.randomUUID().toString();
                                 String id = mUser.getUid();
-                                person = new Person(id, "Leader", firstNameValue, lastNameValue, DOBvalue, phoneNumValue, emailValue, vettingValue);
+                                person = new Person(id, "Leader", firstNameValue, lastNameValue, DOBvalue,"Ventures", phoneNumValue, emailValue, vettingValue, null);
                                 myRef.child("Person").child(id).setValue(person);
+                                mProgress.dismiss();
+
                             } else {
+                                mProgress.dismiss();
                                 Toast.makeText(Dashboard.this, "Didn't Work", Toast.LENGTH_LONG).show();
+
                             }
                         }
                     });
@@ -229,8 +242,11 @@ public class Dashboard extends AppCompatActivity {
 
 
 
-    public void editTextWasClicked(View v){
-        Toast.makeText(this, "EditText was clicked", Toast.LENGTH_SHORT).show();
+    public void editTextWasClicked(MenuItem item){
+        mAuth.signOut();
+        Intent logout = new Intent(Dashboard.this, MainActivity.class);
+        startActivity(logout);
+        finish();
     }
 
 
