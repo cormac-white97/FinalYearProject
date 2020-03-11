@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="#223596"
+    android:background="@drawable/drawer_background"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -14,20 +14,40 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="144dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/logedInEmail"
+            android:layout_width="227dp"
+            android:layout_height="31dp"
+            android:text="text"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logedInGroup"
+            tools:text="text" />
+
+        <TextView
+            android:id="@+id/logedInGroup"
+            android:layout_width="227dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="2dp"
+            android:text="text"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logedInType"
+            tools:text="text" />
 
         <TextView
             android:id="@+id/logedInType"
             android:layout_width="227dp"
             android:layout_height="31dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginTop="5dp"
             android:text="text"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logedInUser"
             tools:text="text" />
 
@@ -35,26 +55,30 @@
             android:id="@+id/logedInUser"
             android:layout_width="227dp"
             android:layout_height="31dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginTop="35dp"
-            android:textStyle="bold"
+            android:layout_marginTop="50dp"
             android:text="text"
             android:textColor="@android:color/white"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="text" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="143dp"
-            android:layout_height="128dp"
-            android:layout_marginTop="10dp"
+            android:layout_width="129dp"
+            android:layout_height="111dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="15dp"
             android:contentDescription="@string/nav_header_desc"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/person_icon" />
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/scout_white_icon" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

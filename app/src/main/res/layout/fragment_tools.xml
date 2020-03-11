@@ -83,6 +83,13 @@
                 android:hint="Confirm Password"
                 android:inputType="textPassword" />
 
+            <Spinner
+                android:id="@+id/groupType"
+                android:layout_width="290dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="37dp"
+                android:layout_marginTop="15dp"/>
+
             <EditText
                 android:id="@+id/DOB"
                 android:layout_width="290dp"
@@ -123,7 +130,7 @@
                 android:inputType="phone" />
 
             <Button
-                android:id="@+id/createAccount"
+                android:id="@+id/create_account"
                 android:layout_width="230dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="65dp"
