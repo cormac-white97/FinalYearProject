@@ -65,9 +65,13 @@ public class viewLocations extends FragmentActivity implements OnMapReadyCallbac
             mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                 @Override
                 public void onInfoWindowClick(Marker marker) {
+                    LatLng position = marker.getPosition();
+                    Bundle b = new Bundle();
+                    b.putParcelable("location", new LatLng(position.longitude, position.latitude));
                     Intent intent = new Intent(viewLocations.this, CreateNewEvent.class);
                     intent.putExtra(dateKey, date);
                     intent.putExtra(locationKey, marker.getTitle());
+                    intent.putExtras(b);
                     startActivity(intent);
                     finish();
                 }

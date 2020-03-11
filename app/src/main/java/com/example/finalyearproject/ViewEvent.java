@@ -6,9 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.finalyearproject.ui.event.EventFragment;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -16,10 +27,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.maps.android.data.kml.KmlLayer;
 
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
-public class ViewEvent extends AppCompatActivity {
+public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
     private FirebaseDatabase database;
     private DatabaseReference personRef;
@@ -30,11 +46,17 @@ public class ViewEvent extends AppCompatActivity {
     private EditText txtLocation;
     private EditText txtAttending;
     private EditText txtSpaces;
+    private Button btnGoing;
+    private Button btnNotGoing;
 
     private DatabaseReference eventRef;
 
     ArrayList<String> leaderNames = new ArrayList<>();
-    ArrayList<String> eventLeaders = new ArrayList<>();
+    LinkedHashMap<String, String> eventLeaders = new LinkedHashMap<>();
+    GoogleMap mMap;
+    double lng;
+    double lat;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +66,17 @@ public class ViewEvent extends AppCompatActivity {
         txtLocation = findViewById(R.id.txtViewLocation);
         txtAttending = findViewById(R.id.txtViewLeaders);
         txtSpaces = findViewById(R.id.txtViewSpaces);
+        btnGoing = findViewById(R.id.btnGoing);
+        btnNotGoing = findViewById(R.id.btnNo);
+        btnGoing.setVisibility(View.INVISIBLE);
+        btnNotGoing.setVisibility(View.INVISIBLE);
 
+        SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.viewMap);
+        mapFragment.getMapAsync(ViewEvent.this);
+    }
 
-
+    @Override
+    public void onMapReady(final GoogleMap googleMap) {
         database = FirebaseDatabase.getInstance();
         eventRef = database.getReference("Event");
 
@@ -58,8 +88,9 @@ public class ViewEvent extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUser = mAuth.getInstance().getCurrentUser();
-                Intent showMap = getIntent();
-                final String clickedID = showMap.getStringExtra(MyAdapter.ID_KEY);
+
+                Intent intent = getIntent();
+                final String clickedID = intent.getStringExtra(MyAdapter.ID_KEY);
 
                 final String currentUserEmail = mUser.getEmail();
 
@@ -75,13 +106,38 @@ public class ViewEvent extends AppCompatActivity {
                     String eventType = ds.getValue(EventObj.class).getType();
                     eventLeaders = ds.getValue(EventObj.class).getEventLeaders();
                     int availableSpaces = ds.getValue(EventObj.class).getAvailableSpaces();
-                    EventObj evObj = new EventObj(eventId, eventType, eventLocation, eventStartDate, eventEndDate, eventGroup, eventCreatedBy, eventLeaders, availableSpaces);
 
-                    if(eventId.equals(clickedID)){
+                    for (String id : eventLeaders.keySet()){
+                        if(id.equals(mUser.getUid())){
+                            btnGoing.setVisibility(View.VISIBLE);
+                            btnNotGoing.setVisibility(View.VISIBLE);
+                            break;
+                        }
+                    }
+
+
+                    if (eventId.equals(clickedID)) {
                         txtGroup.setText(eventGroup);
                         txtLocation.setText(eventLocation);
                         //txtAttending.setText(leaderNames.toString());
-                        txtSpaces.setText("test");
+                        txtSpaces.setText(String.valueOf(availableSpaces));
+                        lat = ds.getValue(EventObj.class).getLat();
+                        lng = ds.getValue(EventObj.class).getLng();
+
+
+                        MapsInitializer.initialize(getApplicationContext());
+                        mMap = googleMap;
+                        LatLng position = new LatLng(lng,lat);
+                        MarkerOptions markerOptions = new MarkerOptions();
+
+                        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15f));
+                        markerOptions.position(position);
+
+                        mMap.animateCamera(CameraUpdateFactory.newLatLng(position));
+
+                        // Placing a marker on the touched position
+                        mMap.addMarker(markerOptions);
                         break;
                     }
                 }
@@ -93,6 +149,10 @@ public class ViewEvent extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void approveLeader(String eventId, String leaderId){
 
     }
+
 }

@@ -1,6 +1,7 @@
 package com.example.finalyearproject;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class EventObj {
     String id;
@@ -10,10 +11,12 @@ public class EventObj {
     String endDate;
     String group;
     String createdBy;
-    ArrayList<String> eventLeaders;
+    LinkedHashMap<String, String> eventLeaders;
     int availableSpaces;
+    double lng;
+    double lat;
 
-    public EventObj(String id, String type, String location, String date, String endDate,  String group, String createdBy, ArrayList<String> eventLeaders, int availableSpaces) {
+    public EventObj(String id, String type, String location, String date, String endDate,  String group, String createdBy, LinkedHashMap<String, String> eventLeaders, int availableSpaces,double lng, double lat) {
         this.id = id;
         this.type = type;
         this.location = location;
@@ -23,6 +26,9 @@ public class EventObj {
         this.createdBy = createdBy;
         this.eventLeaders = eventLeaders;
         this.availableSpaces = availableSpaces;
+        this.lng = lng;
+        this.lat = lat;
+
     }
 
     public EventObj() {
@@ -84,11 +90,11 @@ public class EventObj {
         this.createdBy = createdBy;
     }
 
-    public ArrayList<String> getEventLeaders() {
+    public LinkedHashMap<String, String> getEventLeaders() {
         return eventLeaders;
     }
 
-    public void setEventLeaders(ArrayList<String> eventLeaders) {
+    public void setEventLeaders(LinkedHashMap<String, String> eventLeaders) {
         this.eventLeaders = eventLeaders;
     }
 
@@ -98,5 +104,21 @@ public class EventObj {
 
     public void setAvailableSpaces(int availableSpaces) {
         this.availableSpaces = availableSpaces;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 }

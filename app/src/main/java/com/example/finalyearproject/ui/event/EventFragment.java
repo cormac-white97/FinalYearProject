@@ -41,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -72,6 +73,8 @@ public class EventFragment extends Fragment {
     String clickedLocation;
     String clickedType;
     String clickedCreatedBy;
+    double lat;
+    double lng;
     private final Long dayValue = 86400000L;
     ArrayList<EventObj> eventObjs = new ArrayList<>();
     public static final String dateval = "com.example.eventmanager";
@@ -103,8 +106,11 @@ public class EventFragment extends Fragment {
                     String location = ds.getValue(EventObj.class).getLocation();
                     String type = ds.getValue(EventObj.class).getType();
                     String createdBy = ds.getValue(EventObj.class).getCreatedBy();
-                    ArrayList<String> eventLeaders = ds.getValue(EventObj.class).getEventLeaders();
+                    LinkedHashMap<String, String> eventLeaders = ds.getValue(EventObj.class).getEventLeaders();
                     int availableSpaces = ds.getValue(EventObj.class).getAvailableSpaces();
+                    lat = ds.getValue(EventObj.class).getLat();
+                    lng = ds.getValue(EventObj.class).getLng();
+
                     boolean dateReached = false;
 
 
@@ -116,7 +122,7 @@ public class EventFragment extends Fragment {
                     do {
                         if (longDate.equals(longEndDate)) {
                             //Must be repeated one more time to add event to the last day
-                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy,eventLeaders, availableSpaces);
+                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy,eventLeaders, availableSpaces, lng, lat);
                             eventObjs.add(e);
 
                             if (group.equals("Beavers")) {
@@ -140,7 +146,7 @@ public class EventFragment extends Fragment {
                             dateReached = true;
                         } else {
 
-                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy,eventLeaders, availableSpaces);
+                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy,eventLeaders, availableSpaces, lng, lat);
                             eventObjs.add(e);
 
                             if (group.equals("Beavers")) {
@@ -164,7 +170,7 @@ public class EventFragment extends Fragment {
                         }
 
                     } while (dateReached != true);
-                    EventObj eObj = new EventObj(id, type, location, date, endDate, group, createdBy, eventLeaders, availableSpaces);
+                    EventObj eObj = new EventObj(id, type, location, date, endDate, group, createdBy, eventLeaders, availableSpaces, lng, lat);
                     allEventsInDB.add(eObj);
 
                 }
@@ -247,7 +253,7 @@ public class EventFragment extends Fragment {
                     while (dateReached == false);
 
                     if (eventDays.contains(dateEpoch)) {
-                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getDate(), e.getEndDate(),e.getGroup(), e.getCreatedBy(), e.getEventLeaders(), e.getAvailableSpaces());
+                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getDate(), e.getEndDate(),e.getGroup(), e.getCreatedBy(), e.getEventLeaders(), e.getAvailableSpaces(), e.getLat(), e.getLng());
                         myDataset.add(eventObj);
                     }
                 }
@@ -283,24 +289,4 @@ public class EventFragment extends Fragment {
         return idAndName;
     }
 
-
-
-    public void onBindViewHolder(MyAdapter.MyViewHolder holder, final int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-
-        holder.txtHeader.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Toast.makeText(v.getContext(),"eventFragment Test", Toast.LENGTH_SHORT ).show();
-                //addItem(position);
-                // call activity to pass the item position
-                //Intent intent = new Intent(v.getContext(), UpdateActivity.class );
-                //intent.putExtra(MESSAGE_KEY1 ,name);
-                // intent.putExtra(MESSAGE_KEY2, position);
-                //v.getContext().startActivity(intent);
-
-            }
-        });
-    }
 }

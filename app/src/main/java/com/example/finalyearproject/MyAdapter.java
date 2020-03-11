@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalyearproject.ui.event.EventFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +33,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     DatabaseReference myRef;
     FirebaseAuth mAuth;
     private DatabaseReference personRef;
+    double lat;
+    double lng;
 
     EventFragment e = new EventFragment();
     private HashMap<String, String> dbIDs = new HashMap<>();
@@ -99,6 +102,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         final String location = values.get(position).getLocation();
         final String organizer = values.get(position).getCreatedBy();
         final String id = values.get(position).getId();
+        lat = values.get(position).getLat();
+        lng = values.get(position).getLng();
 
         String organizerName = getNameByID(organizer);
 
@@ -115,8 +120,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 //Toast.makeText(v.getContext(),name, Toast.LENGTH_SHORT ).show();
                 //addItem(position);
                 // call activity to pass the item position
+                Bundle b = new Bundle();
+                b.putString("Long",String.valueOf(lng));
+                b.putString("Lat", String.valueOf(lat));
                 Intent intent = new Intent(v.getContext(), ViewEvent.class );
                 intent.putExtra(ID_KEY, id);
+                intent.putExtras(b);
                 v.getContext().startActivity(intent);
 
             }

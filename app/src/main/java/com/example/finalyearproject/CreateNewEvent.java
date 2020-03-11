@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.finalyearproject.ui.event.EventFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -77,13 +78,15 @@ public class CreateNewEvent extends AppCompatActivity {
     String createdBy;
     String loggedType;
     String item;
+    double lng;
+    double lat;
     long epochEndDate;
     boolean leaderAvailable = true;
     boolean selectedAvailable = true;
     ArrayList<EventObj> existingEvents = new ArrayList<>();
     ArrayList<Person> leaders = new ArrayList<>();
     LinkedHashMap<String, String> allListItems = new LinkedHashMap<>();
-    ArrayList<String> eventLeaders = new ArrayList<>();
+    LinkedHashMap<String, String> eventLeaders = new LinkedHashMap<>();
     boolean[] checkedItems;
     ArrayList<Integer> mUserItems = new ArrayList<>();
     String[] list;
@@ -100,6 +103,9 @@ public class CreateNewEvent extends AppCompatActivity {
         Intent newEvent = getIntent();
         final String location = newEvent.getStringExtra(viewLocations.locationKey);
         Startdate = newEvent.getStringExtra(viewLocations.dateKey);
+        LatLng latLng = newEvent.getParcelableExtra("location");
+        lng = latLng.longitude;
+        lat = latLng.latitude;
         txtEndDate = findViewById(R.id.txtEndDate);
         mProgress = new ProgressDialog(getApplicationContext());
         eventSpinner = (Spinner) findViewById(R.id.txtEvent);
@@ -177,9 +183,11 @@ public class CreateNewEvent extends AppCompatActivity {
                     String eventId = ds.getValue(EventObj.class).getId();
                     String eventLocation = ds.getValue(EventObj.class).getLocation();
                     String eventType = ds.getValue(EventObj.class).getType();
-                    ArrayList<String> eventLeaders = ds.getValue(EventObj.class).getEventLeaders();
+                    LinkedHashMap<String, String> eventLeaders = ds.getValue(EventObj.class).getEventLeaders();
                     int availableSpaces = ds.getValue(EventObj.class).getAvailableSpaces();
-                    EventObj evObj = new EventObj(eventId, eventType, eventLocation, eventStartDate, eventEndDate, eventGroup, eventCreatedBy, eventLeaders, availableSpaces);
+                    double lat = ds.getValue(EventObj.class).getLat();
+                    double lng = ds.getValue(EventObj.class).getLat();
+                    EventObj evObj = new EventObj(eventId, eventType, eventLocation, eventStartDate, eventEndDate, eventGroup, eventCreatedBy, eventLeaders, availableSpaces, lng, lat);
                     existingEvents.add(evObj);
                 }
 
@@ -285,21 +293,22 @@ public class CreateNewEvent extends AppCompatActivity {
             long dbStartDate = Long.parseLong(e.getDate());
             long dbEndDate = Long.parseLong(e.getEndDate());
             String dbID = e.getCreatedBy();
-            ArrayList<String> eventLeaders = e.getEventLeaders();
+            LinkedHashMap<String, String> eventLeaders = e.getEventLeaders();
 
             boolean dateReached = false;
 
 
             String uID = e.getCreatedBy();
+            ArrayList<String>leaderIdKeyset = new ArrayList<String>(eventLeaders.keySet());
 
             do {
                 //add all the days in each existing event in the database to an arraylist
                     if (dbStartDate == dbEndDate) {
-                        dbEventDays.put(dbStartDate, eventLeaders);
+                        dbEventDays.put(dbStartDate, leaderIdKeyset);
                         dbStartDate = dbStartDate + 86400000L;
                         dateReached = true;
                     } else {
-                        dbEventDays.put(dbStartDate, eventLeaders);
+                        dbEventDays.put(dbStartDate, leaderIdKeyset);
                         dbStartDate = dbStartDate + 86400000L;
                     }
 
@@ -388,7 +397,7 @@ public class CreateNewEvent extends AppCompatActivity {
                 for (Person p1 : leaders) {
                     String name = p1.getFirstName() + " " + p1.getLastName();
                     if (item.contains(name)) {
-                        eventLeaders.add(p1.getPersonID());
+                        eventLeaders.put(p1.getPersonID(), "not approved");
                     }
 
                 }
@@ -434,11 +443,12 @@ public class CreateNewEvent extends AppCompatActivity {
 
             //if a leader is creating an event they should
             //automatically be assigned to the event
-            eventLeaders.add(createdBy);
+            eventLeaders.put(createdBy, "approved");
 
             leaderAvailable = isLeaderAvailable(dateVal, endDateValue, createdBy);
 
-            for (String leaderID : eventLeaders) {
+            for(int i = 0; i < eventLeaders.size(); i++) {
+                String leaderID = eventLeaders.keySet().toArray()[i].toString();
                 selectedAvailable = isLeaderAvailable(dateVal, endDateValue, leaderID);
                 if(selectedAvailable == false){
                     break;
@@ -465,9 +475,7 @@ public class CreateNewEvent extends AppCompatActivity {
                 }
 
                 //start uploading....
-
-
-                EventObj e = new EventObj(id, eventType, loc, dateVal, endDateValue, groupType, createdBy, eventLeaders, availableSpaces);
+                EventObj e = new EventObj(id, eventType, loc, dateVal, endDateValue, groupType, createdBy, eventLeaders, availableSpaces, lng, lat);
                 myRef.child(id).setValue(e);
                 mProgress.dismiss();
                 Intent intent = new Intent(getApplicationContext(), EventFragment.class);
