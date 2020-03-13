@@ -4,11 +4,14 @@ package com.example.finalyearproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.finalyearproject.ui.event.EventFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,6 +36,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
@@ -52,7 +56,8 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     private DatabaseReference eventRef;
 
     ArrayList<String> leaderNames = new ArrayList<>();
-    LinkedHashMap<String, String> eventLeaders = new LinkedHashMap<>();
+    private String eventId;
+    HashMap<String, String> eventLeaders = new LinkedHashMap<>();
     GoogleMap mMap;
     double lng;
     double lat;
@@ -71,7 +76,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         btnGoing.setVisibility(View.INVISIBLE);
         btnNotGoing.setVisibility(View.INVISIBLE);
 
-        SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.viewMap);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.viewMap);
         mapFragment.getMapAsync(ViewEvent.this);
     }
 
@@ -79,10 +84,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     public void onMapReady(final GoogleMap googleMap) {
         database = FirebaseDatabase.getInstance();
         eventRef = database.getReference("Event");
-
-        personRef = database.getReference("Person");
-
-
+        personRef = database.getReference("Leader");
 
         eventRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -100,15 +102,19 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                     String eventStartDate = ds.getValue(EventObj.class).getDate();
                     String eventEndDate = ds.getValue(EventObj.class).getEndDate();
                     String eventGroup = ds.getValue(EventObj.class).getGroup();
-                    String eventId = ds.getValue(EventObj.class).getId();
+                   eventId = ds.getValue(EventObj.class).getId();
                     int eventSpaces = ds.getValue(EventObj.class).getAvailableSpaces();
                     String eventLocation = ds.getValue(EventObj.class).getLocation();
                     String eventType = ds.getValue(EventObj.class).getType();
                     eventLeaders = ds.getValue(EventObj.class).getEventLeaders();
                     int availableSpaces = ds.getValue(EventObj.class).getAvailableSpaces();
 
-                    for (String id : eventLeaders.keySet()){
-                        if(id.equals(mUser.getUid())){
+                    LinkedHashMap<String, String> leadersAttending =new LinkedHashMap<>(eventLeaders);
+
+                    for(int i = 0; i < leadersAttending.size(); i++){
+                        String id = leadersAttending.keySet().toArray()[i].toString();
+                        String approval = leadersAttending.values().toArray()[i].toString();
+                        if (id.equals(mUser.getUid()) && approval.equals("pending")) {
                             btnGoing.setVisibility(View.VISIBLE);
                             btnNotGoing.setVisibility(View.VISIBLE);
                             break;
@@ -127,7 +133,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
                         MapsInitializer.initialize(getApplicationContext());
                         mMap = googleMap;
-                        LatLng position = new LatLng(lng,lat);
+                        LatLng position = new LatLng(lng, lat);
                         MarkerOptions markerOptions = new MarkerOptions();
 
                         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -149,10 +155,35 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
             }
         });
+
+        btnGoing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eventRef.child(eventId).child("eventLeaders").child(mUser.getUid()).setValue("Approved");
+                btnGoing.setVisibility(View.INVISIBLE);
+                btnNotGoing.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        btnNotGoing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(ViewEvent.this)
+                        .setTitle("Warning!")
+                        .setMessage("You are about to indicate you are not going on this event?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                eventRef.child(eventId).child("eventLeaders").child(mUser.getUid()).removeValue();
+                                btnGoing.setVisibility(View.INVISIBLE);
+                                btnNotGoing.setVisibility(View.INVISIBLE);
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
+
+            }
+        });
     }
 
-    public void approveLeader(String eventId, String leaderId){
-
-    }
 
 }

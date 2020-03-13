@@ -47,8 +47,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         public TextView txtOrganizerView;
 
 
-
-
         public MyViewHolder(View itemView) {
             super(itemView);
 
@@ -57,7 +55,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             txtOrganizerView = (TextView) itemView.findViewById(R.id.txtOrganizerView);
 
             database = FirebaseDatabase.getInstance();
-            myRef = database.getReference("Person");
+            myRef = database.getReference("Leader");
 
             dbIDs = e.getLeaderNameAndId();
 
@@ -67,7 +65,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     }
 
-    //TODO - finish this shit
     public String getNameByID(final String id){
         String nameValue = null;
         nameValue = dbIDs.get(id);

@@ -84,7 +84,7 @@ public class CreateNewEvent extends AppCompatActivity {
     boolean leaderAvailable = true;
     boolean selectedAvailable = true;
     ArrayList<EventObj> existingEvents = new ArrayList<>();
-    ArrayList<Person> leaders = new ArrayList<>();
+    ArrayList<Leader> leaders = new ArrayList<>();
     LinkedHashMap<String, String> allListItems = new LinkedHashMap<>();
     LinkedHashMap<String, String> eventLeaders = new LinkedHashMap<>();
     boolean[] checkedItems;
@@ -118,7 +118,7 @@ public class CreateNewEvent extends AppCompatActivity {
         mItemSelected.setVisibility(View.GONE);
 
         database = FirebaseDatabase.getInstance();
-        personRef = database.getReference("Person");
+        personRef = database.getReference("Leader");
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         myCalendar = Calendar.getInstance();
@@ -133,19 +133,19 @@ public class CreateNewEvent extends AppCompatActivity {
 
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String personID = ds.getValue(Person.class).getPersonID();
-                    String personType = ds.getValue(Person.class).getPersonType();
-                    String firstName = ds.getValue(Person.class).getFirstName();
-                    String lastName = ds.getValue(Person.class).getLastName();
-                    String DOB = ds.getValue(Person.class).getDOB();
-                    String group = ds.getValue(Person.class).getGroup();
-                    String phone = ds.getValue(Person.class).getPhone();
+                    String personID = ds.getValue(Leader.class).getPersonID();
+                    String personType = ds.getValue(Leader.class).getPersonType();
+                    String name = ds.getValue(Leader.class).getName();
+                    String lastName = ds.getValue(Leader.class).getLastName();
+                    String DOB = ds.getValue(Leader.class).getDOB();
+                    String group = ds.getValue(Leader.class).getGroup();
+                    String phone = ds.getValue(Leader.class).getPhone();
 
-                    String email = ds.getValue(Person.class).getEmail();
-                    String vettingDate = ds.getValue(Person.class).getVettingDate();
-                    String fcmToken = ds.getValue(Person.class).getFcmToken();
+                    String email = ds.getValue(Leader.class).getEmail();
+                    String vettingDate = ds.getValue(Leader.class).getVettingDate();
+                    String fcmToken = ds.getValue(Leader.class).getFcmToken();
 
-                    Person p = new Person(personID, personType, firstName, lastName, DOB, group, phone, email, vettingDate, fcmToken);
+                    Leader p = new Leader(personID, personType, name, DOB, group, phone, email, vettingDate, fcmToken);
                     leaders.add(p);
 
                     if (currentUserEmail.equals(email)) {
@@ -183,7 +183,7 @@ public class CreateNewEvent extends AppCompatActivity {
                     String eventId = ds.getValue(EventObj.class).getId();
                     String eventLocation = ds.getValue(EventObj.class).getLocation();
                     String eventType = ds.getValue(EventObj.class).getType();
-                    LinkedHashMap<String, String> eventLeaders = ds.getValue(EventObj.class).getEventLeaders();
+                    HashMap<String, String> eventLeaders = ds.getValue(EventObj.class).getEventLeaders();
                     int availableSpaces = ds.getValue(EventObj.class).getAvailableSpaces();
                     double lat = ds.getValue(EventObj.class).getLat();
                     double lng = ds.getValue(EventObj.class).getLat();
@@ -248,9 +248,9 @@ public class CreateNewEvent extends AppCompatActivity {
                 if (!groupSelected.equals("Please Select")) {
                     list = null;
 
-                    for (Person p : leaders) {
+                    for (Leader p : leaders) {
                         String leaderGroup = p.getGroup();
-                        String name = p.getFirstName() + " " + p.getLastName();
+                        String name = p.getName() + " " + p.getLastName();
                         allListItems.put(name, leaderGroup);
                     }
                     //Toast.makeText(parent.getContext(), groupSelected, Toast.LENGTH_SHORT).show();
@@ -293,7 +293,7 @@ public class CreateNewEvent extends AppCompatActivity {
             long dbStartDate = Long.parseLong(e.getDate());
             long dbEndDate = Long.parseLong(e.getEndDate());
             String dbID = e.getCreatedBy();
-            LinkedHashMap<String, String> eventLeaders = e.getEventLeaders();
+            HashMap<String, String> eventLeaders = e.getEventLeaders();
 
             boolean dateReached = false;
 
@@ -394,10 +394,10 @@ public class CreateNewEvent extends AppCompatActivity {
 
                 }
 
-                for (Person p1 : leaders) {
-                    String name = p1.getFirstName() + " " + p1.getLastName();
+                for (Leader p1 : leaders) {
+                    String name = p1.getName();
                     if (item.contains(name)) {
-                        eventLeaders.put(p1.getPersonID(), "not approved");
+                        eventLeaders.put(p1.getPersonID(), "pending");
                     }
 
                 }
@@ -443,7 +443,7 @@ public class CreateNewEvent extends AppCompatActivity {
 
             //if a leader is creating an event they should
             //automatically be assigned to the event
-            eventLeaders.put(createdBy, "approved");
+            eventLeaders.put(createdBy, "Approved");
 
             leaderAvailable = isLeaderAvailable(dateVal, endDateValue, createdBy);
 

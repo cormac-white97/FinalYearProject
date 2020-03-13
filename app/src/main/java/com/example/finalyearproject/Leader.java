@@ -15,10 +15,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.UUID;
 
 //TODO - change to Leader Object and add leader group variable
-public class Person {
+public class Leader {
     private String personID;
     private String personType;
-    private String FirstName;
+    private String name;
     private String LastName;
     private String DOB;
     private String group;
@@ -27,14 +27,13 @@ public class Person {
     private String vettingDate;
     private String fcmToken;
 
-    public Person() {
+    public Leader() {
     }
 
-    public Person(String personID, String personType, String firstName, String lastName, String DOB, String group, String phone, String email, String vettingDate, String fcmToken) {
+    public Leader(String personID, String personType, String name,  String DOB, String group, String phone, String email, String vettingDate, String fcmToken) {
         this.personID = personID;
         this.personType = personType;
-        this.FirstName = firstName;
-        this.LastName = lastName;
+        this.name = name;
         this.DOB = DOB;
         this.group = group;
         this.Phone = phone;
@@ -59,12 +58,12 @@ public class Person {
         this.personType = personType;
     }
 
-    public String getFirstName() {
-        return FirstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        FirstName = firstName;
+    public void setName(String firstName) {
+        name = firstName;
     }
 
     public String getLastName() {

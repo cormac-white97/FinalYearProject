@@ -26,7 +26,6 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class MainActivity extends AppCompatActivity {
-    public static final String leaderKey = "com.FYP.loginLeader";
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private FirebaseAuth mAuth;
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Button signIn;
     private String emailValue;
     private String passwordValue;
-    private Person person;
+    private Leader leader;
 
 
     @Override
@@ -99,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         mProgress.dismiss();
                         Intent login = new Intent(MainActivity.this, Dashboard.class);
-                        login.putExtra(leaderKey, emailValue);
                         startActivity(login);
                         finish();
 

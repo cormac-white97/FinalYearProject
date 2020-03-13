@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight">
+
+        <TextView
+            android:id="@+id/accountType"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="TextView"
+            android:textColor="#084897"
+            android:textSize="15sp"
+            android:layout_marginLeft="25dp"/>
+
+</LinearLayout>

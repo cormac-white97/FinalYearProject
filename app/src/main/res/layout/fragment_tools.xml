@@ -5,144 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please select the type of account you want to create."
+        android:textAlignment="center"
+        android:textColor="#084897"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/accountView"
+        android:layout_width="407dp"
+        android:layout_height="677dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/firstName"
-                android:layout_width="290dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="35dp"
-                android:layout_marginRight="35dp"
-                android:ems="10"
-                android:hint="First Name"
-                android:inputType="textCapWords"/>
-
-            <EditText
-                android:id="@+id/lastName"
-                android:layout_width="290dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="35dp"
-                android:layout_marginRight="35dp"
-                android:ems="10"
-                android:hint="Last Name"
-                android:inputType="textCapWords" />
-
-            <EditText
-                android:id="@+id/email"
-                android:layout_width="290dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="35dp"
-                android:layout_marginRight="35dp"
-                android:ems="10"
-                android:hint="E-mail"
-                android:inputType="textEmailAddress" />
-
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="290dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="35dp"
-                android:layout_marginRight="35dp"
-                android:ems="10"
-                android:hint="Password"
-                android:inputType="textPassword" />
-
-            <EditText
-                android:id="@+id/confirmPassword"
-                android:layout_width="290dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="35dp"
-                android:layout_marginRight="35dp"
-                android:ems="10"
-                android:hint="Confirm Password"
-                android:inputType="textPassword" />
-
-            <Spinner
-                android:id="@+id/groupType"
-                android:layout_width="290dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="37dp"
-                android:layout_marginTop="15dp"/>
-
-            <EditText
-                android:id="@+id/DOB"
-                android:layout_width="290dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="35dp"
-                android:layout_marginRight="35dp"
-                android:ems="10"
-                android:hint="Date of Birth"
-                android:inputType="date" />
-
-            <EditText
-                android:id="@+id/vettingDate"
-                android:layout_width="290dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="35dp"
-                android:layout_marginRight="35dp"
-                android:ems="10"
-                android:hint="Vetting Date"
-                android:inputType="date" />
-
-            <EditText
-                android:id="@+id/phoneNum"
-                android:layout_width="290dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="35dp"
-                android:layout_marginRight="35dp"
-                android:ems="10"
-                android:hint="Phone Number"
-                android:inputType="phone" />
-
-            <Button
-                android:id="@+id/create_account"
-                android:layout_width="230dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="65dp"
-                android:layout_marginLeft="65dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="65dp"
-                android:layout_marginRight="65dp"
-                android:background="@drawable/btn_rounded"
-                android:onClick="createNewLeader"
-                android:text="Create New Account"
-                android:textColor="#FFFFFF" />
-        </LinearLayout>
-    </ScrollView>
-
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

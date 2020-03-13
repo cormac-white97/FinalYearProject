@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalyearproject.EventObj;
 import com.example.finalyearproject.MyAdapter;
-import com.example.finalyearproject.Person;
+import com.example.finalyearproject.Leader;
 import com.example.finalyearproject.R;
 import com.example.finalyearproject.viewLocations;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -58,7 +58,7 @@ public class EventFragment extends Fragment {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private TextView monthVal;
     private FloatingActionButton add;
-    ArrayList<Person> leaders = new ArrayList<>();
+    ArrayList<Leader> leaders = new ArrayList<>();
     static HashMap<String, String> idAndName = new HashMap<>();
     ArrayList<EventObj> allEventsInDB = new ArrayList<>();
     EditText editTextType;
@@ -84,7 +84,7 @@ public class EventFragment extends Fragment {
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Event");
-        personRef = database.getReference("Person");
+        personRef = database.getReference("Leader");
 
 
         //Initialize all textFields
@@ -106,11 +106,10 @@ public class EventFragment extends Fragment {
                     String location = ds.getValue(EventObj.class).getLocation();
                     String type = ds.getValue(EventObj.class).getType();
                     String createdBy = ds.getValue(EventObj.class).getCreatedBy();
-                    LinkedHashMap<String, String> eventLeaders = ds.getValue(EventObj.class).getEventLeaders();
+                    HashMap<String, String> eventLeaders = ds.getValue(EventObj.class).getEventLeaders();
                     int availableSpaces = ds.getValue(EventObj.class).getAvailableSpaces();
                     lat = ds.getValue(EventObj.class).getLat();
                     lng = ds.getValue(EventObj.class).getLng();
-
                     boolean dateReached = false;
 
 
@@ -172,7 +171,6 @@ public class EventFragment extends Fragment {
                     } while (dateReached != true);
                     EventObj eObj = new EventObj(id, type, location, date, endDate, group, createdBy, eventLeaders, availableSpaces, lng, lat);
                     allEventsInDB.add(eObj);
-
                 }
             }
 
@@ -187,21 +185,21 @@ public class EventFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String personID = ds.getValue(Person.class).getPersonID();
-                    String personType = ds.getValue(Person.class).getPersonType();
-                    String firstName = ds.getValue(Person.class).getFirstName();
-                    String lastName = ds.getValue(Person.class).getLastName();
-                    String DOB = ds.getValue(Person.class).getDOB();
-                    String group = ds.getValue(Person.class).getGroup();
-                    String phone = ds.getValue(Person.class).getPhone();
+                    String personID = ds.getValue(Leader.class).getPersonID();
+                    String personType = ds.getValue(Leader.class).getPersonType();
+                    String name = ds.getValue(Leader.class).getName();
+                    String lastName = ds.getValue(Leader.class).getLastName();
+                    String DOB = ds.getValue(Leader.class).getDOB();
+                    String group = ds.getValue(Leader.class).getGroup();
+                    String phone = ds.getValue(Leader.class).getPhone();
 
-                    String email = ds.getValue(Person.class).getEmail();
-                    String vettingDate = ds.getValue(Person.class).getVettingDate();
-                    String fcmToken = ds.getValue(Person.class).getFcmToken();
+                    String email = ds.getValue(Leader.class).getEmail();
+                    String vettingDate = ds.getValue(Leader.class).getVettingDate();
+                    String fcmToken = ds.getValue(Leader.class).getFcmToken();
 
-                    Person p = new Person(personID, personType, firstName, lastName, DOB, group, phone, email, vettingDate, fcmToken);
+                    Leader p = new Leader(personID, personType, name, DOB, group, phone, email, vettingDate, fcmToken);
                     leaders.add(p);
-                    idAndName.put(personID, firstName + " " + lastName);
+                    idAndName.put(personID, name);
                 }
             }
 

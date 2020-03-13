@@ -14,9 +14,15 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.ui.AppBarConfiguration;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.finalyearproject.Person;
+import com.example.finalyearproject.AccountAdapter;
+import com.example.finalyearproject.Leader;
+import com.example.finalyearproject.MyAdapter;
 import com.example.finalyearproject.R;
+import com.example.finalyearproject.AccountAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,33 +31,42 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+
+import static androidx.recyclerview.widget.LinearLayoutManager.VERTICAL;
 
 public class ToolsFragment extends Fragment {
 
     private ToolsViewModel toolsViewModel;
     View v;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        toolsViewModel =
-                ViewModelProviders.of(this).get(ToolsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_tools, container, false);
-        v = inflater.inflate(R.layout.fragment_tools,container,false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_tools, container, false);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.accountView);
 
-        Spinner groupSpinner = v.findViewById(R.id.groupType);
-        final String groupTypeList[] = new String[]{"Please Select", "Beavers", "Cubs", "Scouts", "Ventures", "Rovers"};
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(llm);
+        recyclerView.setHasFixedSize(true);
 
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, groupTypeList);
+       ArrayList<String> myDataset=new ArrayList<>();
+       myDataset.add("Leader");
+       myDataset.add("Parent");
+       myDataset.add("Member");
 
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        LinearLayoutManager myLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(myLayoutManager);
+        AccountAdapter mAdapter = new AccountAdapter(myDataset);
+        recyclerView.addItemDecoration(new
 
-// Apply the adapter to the spinner
-        groupSpinner.setAdapter(adapter);
+                DividerItemDecoration(getActivity(), VERTICAL));
+        recyclerView.setAdapter(mAdapter);
 
-        return root;
+        return rootView;
 
     }
 

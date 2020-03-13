@@ -1,7 +1,7 @@
 package com.example.finalyearproject;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 
 public class EventObj {
     String id;
@@ -11,12 +11,12 @@ public class EventObj {
     String endDate;
     String group;
     String createdBy;
-    LinkedHashMap<String, String> eventLeaders;
+    HashMap<String, String> eventLeaders;
     int availableSpaces;
     double lng;
     double lat;
 
-    public EventObj(String id, String type, String location, String date, String endDate,  String group, String createdBy, LinkedHashMap<String, String> eventLeaders, int availableSpaces,double lng, double lat) {
+    public EventObj(String id, String type, String location, String date, String endDate,  String group, String createdBy, HashMap<String, String> eventLeaders, int availableSpaces,double lng, double lat) {
         this.id = id;
         this.type = type;
         this.location = location;
@@ -90,11 +90,11 @@ public class EventObj {
         this.createdBy = createdBy;
     }
 
-    public LinkedHashMap<String, String> getEventLeaders() {
+    public HashMap<String, String> getEventLeaders() {
         return eventLeaders;
     }
 
-    public void setEventLeaders(LinkedHashMap<String, String> eventLeaders) {
+    public void setEventLeaders(HashMap<String, String> eventLeaders) {
         this.eventLeaders = eventLeaders;
     }
 
