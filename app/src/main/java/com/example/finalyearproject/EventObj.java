@@ -1,5 +1,6 @@
 package com.example.finalyearproject;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,25 +11,30 @@ public class EventObj {
     String date;
     String endDate;
     String group;
+    double price;
     String createdBy;
     HashMap<String, String> eventLeaders;
+    ArrayList<String> paymentList;
     int availableSpaces;
     double lng;
     double lat;
+    String approved;
 
-    public EventObj(String id, String type, String location, String date, String endDate,  String group, String createdBy, HashMap<String, String> eventLeaders, int availableSpaces,double lng, double lat) {
+    public EventObj(String id, String type, String location, String date, String endDate,  String group, double price, String createdBy, HashMap<String, String> eventLeaders, ArrayList<String> paymentList, int availableSpaces,double lng, double lat, String approved) {
         this.id = id;
         this.type = type;
         this.location = location;
         this.date = date;
         this.endDate = endDate;
         this.group = group;
+        this.price = price;
         this.createdBy = createdBy;
         this.eventLeaders = eventLeaders;
+        this.paymentList = paymentList;
         this.availableSpaces = availableSpaces;
         this.lng = lng;
         this.lat = lat;
-
+        this.approved = approved;
     }
 
     public EventObj() {
@@ -82,6 +88,14 @@ public class EventObj {
         this.group = group;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public String getCreatedBy() {
         return createdBy;
     }
@@ -96,6 +110,14 @@ public class EventObj {
 
     public void setEventLeaders(HashMap<String, String> eventLeaders) {
         this.eventLeaders = eventLeaders;
+    }
+
+    public ArrayList<String> getPaymentList() {
+        return paymentList;
+    }
+
+    public void setPaymentList(ArrayList<String> paymentList) {
+        this.paymentList = paymentList;
     }
 
     public int getAvailableSpaces() {
@@ -120,5 +142,13 @@ public class EventObj {
 
     public void setLat(double lat) {
         this.lat = lat;
+    }
+
+    public String getApproved() {
+        return approved;
+    }
+
+    public void setApproved(String approved) {
+        this.approved = approved;
     }
 }

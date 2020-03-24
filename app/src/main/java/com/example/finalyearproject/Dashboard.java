@@ -3,6 +3,7 @@ package com.example.finalyearproject;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -12,6 +13,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -27,7 +31,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +44,9 @@ public class Dashboard extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private AppBarConfiguration mAppBarConfiguration;
+    private static final String TAG = "MainActivity";
+    private String topic = "no_topic";
+    private String accountType = "null";
 
 
     @Override
@@ -61,6 +70,23 @@ public class Dashboard extends AppCompatActivity {
                 break;
             }
         }
+//        if(!accountType.equals("Leader")){
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_tools).setVisible(false);
+        //}
+
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "SUCCESS SUBSCRIPTION";
+                        if (!task.isSuccessful()) {
+                            msg = "Subscription failed";
+                        }
+                        Log.d(TAG, msg);
+                        Toast.makeText(Dashboard.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -107,7 +133,7 @@ public class Dashboard extends AppCompatActivity {
                         email[0] = ds.getValue(Parent.class).getEmail();
                         name[0] = ds.getValue(Parent.class).getName();
                         personType[0] = type;
-                        group[0] = "Test Parent";
+                        group[0] = ds.getValue(Parent.class).getGroup();
                     }
                     else if(type.equals("Member")){
                         email[0] = ds.getValue(Member.class).getEmail();
@@ -125,6 +151,8 @@ public class Dashboard extends AppCompatActivity {
                         userGroup.setText(group[0]);
                         userEmail.setText(email[0]);
                         found[0] = true;
+                        topic = group[0] + "_" + type;
+                        accountType = type;
                         break;
                     }
                 }

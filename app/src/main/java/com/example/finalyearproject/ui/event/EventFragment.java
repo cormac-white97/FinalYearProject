@@ -80,7 +80,7 @@ public class EventFragment extends Fragment {
     public static final String dateval = "com.example.eventmanager";
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_event, container, false);
+        final View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Event");
@@ -105,11 +105,14 @@ public class EventFragment extends Fragment {
                     String group = ds.getValue(EventObj.class).getGroup();
                     String location = ds.getValue(EventObj.class).getLocation();
                     String type = ds.getValue(EventObj.class).getType();
+                    double price = ds.getValue(EventObj.class).getPrice();
                     String createdBy = ds.getValue(EventObj.class).getCreatedBy();
                     HashMap<String, String> eventLeaders = ds.getValue(EventObj.class).getEventLeaders();
+                    ArrayList<String> paymentList = ds.getValue(EventObj.class).getPaymentList();
                     int availableSpaces = ds.getValue(EventObj.class).getAvailableSpaces();
                     lat = ds.getValue(EventObj.class).getLat();
                     lng = ds.getValue(EventObj.class).getLng();
+                    String approved = ds.getValue(EventObj.class).getApproved();
                     boolean dateReached = false;
 
 
@@ -121,7 +124,7 @@ public class EventFragment extends Fragment {
                     do {
                         if (longDate.equals(longEndDate)) {
                             //Must be repeated one more time to add event to the last day
-                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy,eventLeaders, availableSpaces, lng, lat);
+                            EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy,eventLeaders, paymentList, availableSpaces, lng, lat,approved);
                             eventObjs.add(e);
 
                             if (group.equals("Beavers")) {
@@ -145,7 +148,7 @@ public class EventFragment extends Fragment {
                             dateReached = true;
                         } else {
 
-                            EventObj e = new EventObj(id, type, location, date, endDate, group, createdBy,eventLeaders, availableSpaces, lng, lat);
+                            EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy,eventLeaders,paymentList, availableSpaces, lng, lat, approved);
                             eventObjs.add(e);
 
                             if (group.equals("Beavers")) {
@@ -169,7 +172,7 @@ public class EventFragment extends Fragment {
                         }
 
                     } while (dateReached != true);
-                    EventObj eObj = new EventObj(id, type, location, date, endDate, group, createdBy, eventLeaders, availableSpaces, lng, lat);
+                    EventObj eObj = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, paymentList,  availableSpaces, lng, lat, approved);
                     allEventsInDB.add(eObj);
                 }
             }
@@ -208,6 +211,8 @@ public class EventFragment extends Fragment {
 
             }
         });
+
+
 
 
 
@@ -251,7 +256,7 @@ public class EventFragment extends Fragment {
                     while (dateReached == false);
 
                     if (eventDays.contains(dateEpoch)) {
-                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getDate(), e.getEndDate(),e.getGroup(), e.getCreatedBy(), e.getEventLeaders(), e.getAvailableSpaces(), e.getLat(), e.getLng());
+                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getDate(), e.getEndDate(),e.getGroup(), e.getPrice(), e.getCreatedBy(), e.getEventLeaders(), e.getPaymentList(), e.getAvailableSpaces(), e.getLat(), e.getLng(), e.getApproved());
                         myDataset.add(eventObj);
                     }
                 }

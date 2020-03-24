@@ -109,10 +109,25 @@
                 android:focusable="false"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Price"
+            android:textColorHint="#00175b">
+
+            <EditText
+                android:id="@+id/txtViewPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:focusable="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="374dp"
             android:layout_height="66dp"
-            android:layout_marginTop="50dp">
+            android:layout_marginTop="30dp">
 
             <Button
                 android:id="@+id/btnGoing"
@@ -145,6 +160,39 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
+
+            <Button
+                android:id="@+id/btnMakePayment"
+                android:layout_width="230dp"
+                android:layout_height="54dp"
+                android:layout_marginStart="45dp"
+                android:layout_marginLeft="45dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="82dp"
+                android:layout_marginRight="82dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/btn_rounded"
+                android:onClick="makePayment"
+                android:text="Make Payment for Event"
+                android:textColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/approvalMessage"
+                android:layout_width="251dp"
+                android:layout_height="49dp"
+                android:layout_marginTop="15dp"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.29"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

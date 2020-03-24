@@ -8,31 +8,16 @@
 
 
     <EditText
-        android:id="@+id/txtStartDate"
-        android:layout_width="217dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:id="@+id/txtPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="56dp"
         android:ems="10"
-        android:focusable="false"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtLocation" />
-
-    <TextView
-        android:id="@+id/lblStartDate4"
-        android:layout_width="122dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="76dp"
-        android:text="Start Date:"
-        android:textColor="#084897"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblLocation" />
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toEndOf="@+id/lblPrice"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
     <TextView
         android:id="@+id/lblEventType"
@@ -50,21 +35,19 @@
 
     <Spinner
         android:id="@+id/txtEvent"
-        android:layout_width="204dp"
-        android:layout_height="36dp"
+        android:layout_width="217dp"
+        android:layout_height="43dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lblEventType"
         app:layout_constraintTop_toBottomOf="@+id/createNewToolbar" />
 
     <EditText
         android:id="@+id/txtLocation"
         android:layout_width="217dp"
         android:layout_height="43dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:ems="10"
         android:focusable="false"
         android:inputType="textPersonName"
@@ -78,7 +61,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="50dp"
         android:text="Location:"
         android:textColor="#084897"
         android:textSize="20sp"
@@ -86,56 +69,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblEventType" />
 
-    <EditText
-        android:id="@+id/txtEndDate"
-        android:layout_width="217dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:ems="10"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtStartDate" />
-
     <Spinner
         android:id="@+id/txtGroup"
-        android:layout_width="204dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtEndDate" />
+        android:layout_width="217dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="61dp"
+        app:layout_constraintStart_toEndOf="@+id/lblGroup"
+        app:layout_constraintTop_toBottomOf="@+id/txtPrice" />
 
     <TextView
         android:id="@+id/lblGroup"
-        android:layout_width="122dp"
+        android:layout_width="wrap_content"
         android:layout_height="33dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="62dp"
+        android:layout_marginTop="66dp"
         android:text="Group:"
         android:textAlignment="center"
         android:textColor="#084897"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblStartDate" />
+        app:layout_constraintTop_toBottomOf="@+id/lblPrice" />
 
     <TextView
-        android:id="@+id/lblStartDate"
-        android:layout_width="122dp"
+        android:id="@+id/lblPrice"
+        android:layout_width="wrap_content"
         android:layout_height="33dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="76dp"
-        android:text="End Date:"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="68dp"
+        android:text="Price:"
+        android:textAlignment="center"
         android:textColor="#084897"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblStartDate4" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
     <Button
         android:id="@+id/button"
@@ -193,5 +165,66 @@
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="300dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="69dp"
+        android:layout_marginLeft="69dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtLocation">
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_txtEndDate"
+            android:layout_width="140dp"
+            android:layout_height="66dp"
+
+            android:hint="Start Date"
+            android:textColorHint="#00175b">
+
+            <EditText
+                android:id="@+id/txtStartDate"
+                android:layout_width="140dp"
+                android:layout_height="66dp"
+                android:inputType="date" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=":"
+            android:textColor="#084897"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="25dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_txtStartDate"
+            android:layout_width="140dp"
+            android:layout_height="66dp"
+            android:hint="End Date"
+            android:textColorHint="#00175b">
+
+            <EditText
+                android:id="@+id/txtEndDate"
+                android:layout_width="140dp"
+                android:layout_height="66dp"
+                android:layout_marginRight="20dp"
+                android:ems="10"
+                android:inputType="date" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

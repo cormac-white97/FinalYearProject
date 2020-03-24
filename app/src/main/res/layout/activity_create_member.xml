@@ -24,14 +24,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Name"
+                android:layout_marginTop="70dp"
                 android:textColorHint="#00175b">
 
                 <EditText
                     android:id="@+id/txtMemName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:inputType="textCapWords"/>
+                    android:inputType="textCapWords"
+                    android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
 

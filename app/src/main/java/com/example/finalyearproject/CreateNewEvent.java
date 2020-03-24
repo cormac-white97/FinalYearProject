@@ -58,6 +58,7 @@ public class CreateNewEvent extends AppCompatActivity {
     EditText txtLocation;
     EditText txtStartDate;
     EditText txtEndDate;
+    EditText price;
     ImageView btnReturn;
     TextView leaderName;
     DatePickerDialog picker;
@@ -76,6 +77,7 @@ public class CreateNewEvent extends AppCompatActivity {
     String Startdate;
     Date endDate;
     String createdBy;
+    double txtPrice;
     String loggedType;
     String item;
     double lng;
@@ -114,11 +116,12 @@ public class CreateNewEvent extends AppCompatActivity {
         txtStartDate = findViewById(R.id.txtStartDate);
         btnReturn = findViewById(R.id.returnArrow);
         mItemSelected = findViewById(R.id.leaderSelected);
+        price = findViewById(R.id.txtPrice);
 
         mItemSelected.setVisibility(View.GONE);
 
         database = FirebaseDatabase.getInstance();
-        personRef = database.getReference("Leader");
+        personRef = database.getReference("Person").child("Leader");
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         myCalendar = Calendar.getInstance();
@@ -182,12 +185,15 @@ public class CreateNewEvent extends AppCompatActivity {
                     String eventGroup = ds.getValue(EventObj.class).getGroup();
                     String eventId = ds.getValue(EventObj.class).getId();
                     String eventLocation = ds.getValue(EventObj.class).getLocation();
+                    double price = ds.getValue(EventObj.class).getPrice();
                     String eventType = ds.getValue(EventObj.class).getType();
                     HashMap<String, String> eventLeaders = ds.getValue(EventObj.class).getEventLeaders();
+                    ArrayList<String> paymentList =  ds.getValue(EventObj.class).getPaymentList();
                     int availableSpaces = ds.getValue(EventObj.class).getAvailableSpaces();
                     double lat = ds.getValue(EventObj.class).getLat();
                     double lng = ds.getValue(EventObj.class).getLat();
-                    EventObj evObj = new EventObj(eventId, eventType, eventLocation, eventStartDate, eventEndDate, eventGroup, eventCreatedBy, eventLeaders, availableSpaces, lng, lat);
+                    String approved = ds.getValue(EventObj.class).getApproved();
+                    EventObj evObj = new EventObj(eventId, eventType, eventLocation, eventStartDate, eventEndDate, eventGroup, price, eventCreatedBy, eventLeaders, paymentList, availableSpaces, lng, lat, approved);
                     existingEvents.add(evObj);
                 }
 
@@ -439,6 +445,7 @@ public class CreateNewEvent extends AppCompatActivity {
             String endDateValue = Long.toString(epochEndDate);
             String groupType = group;
             String id = UUID.randomUUID().toString();
+            txtPrice = Double.parseDouble(price.getText().toString());
             int availableSpaces;
 
             //if a leader is creating an event they should
@@ -473,9 +480,10 @@ public class CreateNewEvent extends AppCompatActivity {
                 else{
                     availableSpaces = 3 * eventLeaders.size();
                 }
-
+                ArrayList<String> paymentList = new ArrayList<>();
+                paymentList.add("Empty");
                 //start uploading....
-                EventObj e = new EventObj(id, eventType, loc, dateVal, endDateValue, groupType, createdBy, eventLeaders, availableSpaces, lng, lat);
+                EventObj e = new EventObj(id, eventType, loc, dateVal, endDateValue, groupType, txtPrice, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, "pending");
                 myRef.child(id).setValue(e);
                 mProgress.dismiss();
                 Intent intent = new Intent(getApplicationContext(), EventFragment.class);

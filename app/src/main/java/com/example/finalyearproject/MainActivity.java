@@ -46,22 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Write a message to the database
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("message");
         mAuth = FirebaseAuth.getInstance();
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //String value = dataSnapshot.getValue(String.class);
-                // Toast.makeText(MainActivity.this, value, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
