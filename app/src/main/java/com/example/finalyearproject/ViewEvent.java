@@ -1,6 +1,7 @@
 
 package com.example.finalyearproject;
-import com.stripe.android.*;
+
+import com.paypal.android.sdk.payments.PayPalConfiguration;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,18 +37,25 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.stripe.android.Stripe;
-import com.stripe.android.model.PaymentIntent;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalPaymentDetails;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import Objects.PaymentHistory;
 
 
 public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
@@ -66,8 +74,6 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     private Button btnPay;
     private TextView txtMsg;
 
-    private DatabaseReference eventRef;
-
     ArrayList<String> leaderNames = new ArrayList<>();
     ArrayList<String> paymentList = new ArrayList<>();
     private String eventId;
@@ -77,6 +83,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     GoogleMap mMap;
     double lng;
     double lat;
+    String eventLocation;
     FirebaseDatabase mDatabase;
     DatabaseReference mRef;
     String userType = null;
@@ -85,17 +92,18 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     int txtAvailableSpaces;
     boolean onLeaderList = false;
     private boolean approved = false;
-    private boolean readyToPay = false;
+    String personId;
     private PaymentsClient paymentsClient;
+    private static final int paypal_request_code = 7171;
+    public static final String paypalClientID = "AWxCqTIpH--tM8IgOK9bBxAcM_eaG-3stEMSKBUrE0wVgycoGkbjPBFKupgfIZPXeZtlgF5AmmjEgdPZ";
+    private static PayPalConfiguration config = new PayPalConfiguration()
+            .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+            .clientId(paypalClientID);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PaymentConfiguration.init(
-                getApplicationContext(),
-                "pk_test_ndVZEMdsU8TM3gtq8gWU700f007KQIKJDm"
-        );
 
         setContentView(R.layout.activity_view_event);
         txtGroup = findViewById(R.id.txtViewGroup);
@@ -133,9 +141,8 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         final String[] personType = new String[1];
         final String[] group = new String[1];
 
-        eventRef = mDatabase.getReference("Event");
-
-        eventRef.addValueEventListener(new ValueEventListener() {
+        mRef = mDatabase.getReference("Event");
+        mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUser = mAuth.getInstance().getCurrentUser();
@@ -153,7 +160,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                     eventGroup = ds.getValue(EventObj.class).getGroup();
                     eventId = ds.getValue(EventObj.class).getId();
                     txtAvailableSpaces = ds.getValue(EventObj.class).getAvailableSpaces();
-                    String eventLocation = ds.getValue(EventObj.class).getLocation();
+                    eventLocation = ds.getValue(EventObj.class).getLocation();
                     String eventType = ds.getValue(EventObj.class).getType();
                     eventLeaders = ds.getValue(EventObj.class).getEventLeaders();
                     paymentList = ds.getValue(EventObj.class).getPaymentList();
@@ -273,7 +280,6 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                 }
                             } else if (tempType.equals("Parent")) {
                                 if (eventGroup.equals(group[0])/* && readyToPay*/) {
-                                    Toast.makeText(ViewEvent.this, "Parent", Toast.LENGTH_LONG).show();
 
                                     btnPay.setVisibility(View.VISIBLE);
                                 }
@@ -304,7 +310,8 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         btnGoing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                eventRef.child(eventId).child("eventLeaders").child(mUser.getUid()).setValue("Approved");
+                mRef = mDatabase.getReference("Event");
+                mRef.child(eventId).child("eventLeaders").child(mUser.getUid()).setValue("Approved");
                 btnGoing.setVisibility(View.INVISIBLE);
                 btnNotGoing.setVisibility(View.INVISIBLE);
                 txtMsg.setText("You have indicated that you are going on this event");
@@ -322,7 +329,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                eventRef.child(eventId).child("eventLeaders").child(mUser.getUid()).removeValue();
+                                mRef.child(eventId).child("eventLeaders").child(mUser.getUid()).removeValue();
                                 btnGoing.setVisibility(View.INVISIBLE);
                                 btnNotGoing.setVisibility(View.INVISIBLE);
                             }
@@ -333,44 +340,57 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         });
     }
 
-    public void makePayment(View v) throws JSONException {
-        /*String parentEmail = mUser.getEmail();
-        String childId;
-        for(int i = 0; i < parentChildIds.keySet().size(); i++){
-            String key = parentChildIds.keySet().toArray()[i].toString();
-            childId = parentChildIds.values().toArray()[i].toString();
-            if(key.equals(parentEmail)) {
-                for(String value : paymentList){
-                    if(value.equals("Empty")){
-                        //Overwrite default value if first payment
-                        paymentList.set(0, childId);
-                    }
-                    else{
-                        paymentList.add(childId);
+    public void makePayment(View v) {
+        String amount = txtPrice.getText().toString();
+        amount = amount.replace("€", "");
+
+        PayPalPayment payment = new PayPalPayment(BigDecimal.valueOf(priceVal), "EUR", "Test Payment", PayPalPayment.PAYMENT_INTENT_SALE);
+        Intent intent = new Intent(this, PaymentActivity.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+
+        startActivityForResult(intent, paypal_request_code);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == paypal_request_code) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this, "Your Payment was successful", Toast.LENGTH_LONG).show();
+                String parentEmail = mUser.getEmail();
+                String childId = null;
+                for (int i = 0; i < parentChildIds.keySet().size(); i++) {
+                    String key = parentChildIds.keySet().toArray()[i].toString();
+                    childId = parentChildIds.values().toArray()[i].toString();
+                    if (key.equals(parentEmail)) {
+                        for (String value : paymentList) {
+                            if (value.equals("Empty")) {
+                                //Overwrite default value if first payment
+                                paymentList.set(0, childId);
+                            } else {
+                                paymentList.add(childId);
+                            }
+                        }
+
                     }
                 }
 
+                txtAvailableSpaces = txtAvailableSpaces - 1;
+                mRef = mDatabase.getReference("Event");
+                mRef.child(eventId).child("availableSpaces").setValue(txtAvailableSpaces);
+                mRef.child(eventId).child("paymentList").setValue(paymentList);
+
+                String paymentID = UUID.randomUUID().toString();
+                PaymentHistory ph = new PaymentHistory(paymentID, priceVal, eventId, mUser.getUid(), childId, eventGroup, eventLocation);
+                mRef = mDatabase.getReference("Payment History");
+                mRef.child(paymentID).setValue(ph);
+
+            } else {
+                Toast.makeText(this, "Your Payment was not successful", Toast.LENGTH_LONG).show();
+
             }
         }
-        //ToDo - make the payment code occur before this using Stripe
-        txtAvailableSpaces = txtAvailableSpaces - 1;
-        eventRef.child(eventId).child("availableSpaces").setValue(txtAvailableSpaces);
-        eventRef.child(eventId).child("paymentList").setValue(paymentList);*/
-
-        // Set your secret key. Remember to switch to your live secret key in production!
-        // See your keys here: https://dashboard.stripe.com/account/apikeys
-        Stripe stripe = new Stripe(getApplicationContext(), "sk_test_lvS8nNrrrWUVaHyTQFrYk4YT00szcFHYB5");
-
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("amount", 1000);
-        params.put("currency", "eur");
-        ArrayList paymentMethodTypes = new ArrayList();
-        paymentMethodTypes.add("card");
-        params.put("payment_method_types", paymentMethodTypes);
-        params.put("receipt_email", "jenny.rosen@example.com");
-
-        PaymentIntent paymentIntent = PaymentIntent.create(params);
-
     }
 }
 

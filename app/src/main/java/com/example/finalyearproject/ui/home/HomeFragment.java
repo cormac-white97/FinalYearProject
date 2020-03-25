@@ -30,6 +30,7 @@ import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,6 +43,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -76,6 +78,7 @@ public class HomeFragment extends Fragment {
     String clickedLocation;
     String clickedType;
     String clickedCreatedBy;
+    String loggedInType = "no type";
     double lat;
     double lng;
     private final Long dayValue = 86400000L;
@@ -83,6 +86,8 @@ public class HomeFragment extends Fragment {
     public static final String dateval = "com.example.eventmanager";
 
     private HomeViewModel homeViewModel;
+
+    FirebaseUser mUser = mAuth.getInstance().getCurrentUser();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -96,8 +101,9 @@ public class HomeFragment extends Fragment {
         });
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Event");
-        personRef = database.getReference("Leader");
 
+        List<String> typeList = Arrays.asList("Leader", "Parent", "Member");
+        final boolean[] foundUser = {false};
 
         //Initialize all textFields
         monthVal = view.findViewById(R.id.Month);
@@ -107,34 +113,53 @@ public class HomeFragment extends Fragment {
         add = view.findViewById(R.id.btnAdd);
         add.hide();
 
-        personRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        for(final String type : typeList){
+            personRef = database.getReference("Person").child(type);
+            personRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String personID = ds.getValue(Leader.class).getPersonID();
-                    String personType = ds.getValue(Leader.class).getPersonType();
-                    String name = ds.getValue(Leader.class).getName();
-                    String lastName = ds.getValue(Leader.class).getLastName();
-                    String DOB = ds.getValue(Leader.class).getDOB();
-                    String group = ds.getValue(Leader.class).getGroup();
-                    String phone = ds.getValue(Leader.class).getPhone();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                    String email = ds.getValue(Leader.class).getEmail();
-                    String vettingDate = ds.getValue(Leader.class).getVettingDate();
-                    String fcmToken = ds.getValue(Leader.class).getFcmToken();
+                        if(type.equals("Leader")){
+                            String personID = ds.getValue(Leader.class).getPersonID();
+                            String personType = ds.getValue(Leader.class).getPersonType();
+                            String name = ds.getValue(Leader.class).getName();
+                            String lastName = ds.getValue(Leader.class).getLastName();
+                            String DOB = ds.getValue(Leader.class).getDOB();
+                            String group = ds.getValue(Leader.class).getGroup();
+                            String phone = ds.getValue(Leader.class).getPhone();
+                            String email = ds.getValue(Leader.class).getEmail();
+                            String vettingDate = ds.getValue(Leader.class).getVettingDate();
+                            String fcmToken = ds.getValue(Leader.class).getFcmToken();
 
-                    Leader p = new Leader(personID, personType, name, DOB, group, phone, email, vettingDate, fcmToken);
-                    leaders.add(p);
-                    idAndName.put(personID, name);
+                            Leader p = new Leader(personID, personType, name, DOB, group, phone, email, vettingDate, fcmToken);
+                            leaders.add(p);
+                            idAndName.put(personID, name);
+
+                            if(mUser.getEmail().equals(email)){
+                                loggedInType = personType;
+                            }
+                        }
+
+
+
+
+
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                }
+            });
+
+            if(foundUser[0]){
+                break;
             }
-        });
+        }
+
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -279,7 +304,11 @@ public class HomeFragment extends Fragment {
 
                         DividerItemDecoration(getActivity(), VERTICAL));
                 myRecyclerView.setAdapter(mAdapter);
-                add.show();
+
+                if(loggedInType.equals("Leader")){
+                    add.show();
+                }
+
                 add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {

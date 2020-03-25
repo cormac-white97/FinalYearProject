@@ -71,8 +71,8 @@ public class Dashboard extends AppCompatActivity {
             }
         }
 //        if(!accountType.equals("Leader")){
-            Menu nav_Menu = navigationView.getMenu();
-            nav_Menu.findItem(R.id.nav_tools).setVisible(false);
+            //Menu nav_Menu = navigationView.getMenu();
+            //nav_Menu.findItem(R.id.nav_tools).setVisible(false);
         //}
 
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
