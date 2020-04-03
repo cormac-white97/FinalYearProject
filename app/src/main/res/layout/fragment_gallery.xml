@@ -7,10 +7,11 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/memberTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please select the type of group type you want to view."
+        android:layout_marginEnd="120dp"
+        android:text="Members of your goup"
         android:textAlignment="center"
         android:textColor="#084897"
         android:textSize="20sp"
@@ -27,5 +28,5 @@
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/memberTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

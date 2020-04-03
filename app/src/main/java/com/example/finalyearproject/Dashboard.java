@@ -31,7 +31,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,7 +74,7 @@ public class Dashboard extends AppCompatActivity {
             //nav_Menu.findItem(R.id.nav_tools).setVisible(false);
         //}
 
-        FirebaseMessaging.getInstance().subscribeToTopic(topic)
+        FirebaseMessaging.getInstance().subscribeToTopic("Weather")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -91,7 +90,7 @@ public class Dashboard extends AppCompatActivity {
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_group, R.id.nav_events,
-                R.id.nav_tools, R.id.nav_share, R.id.nav_send)
+                R.id.nav_tools, R.id.nav_event_report, R.id.nav_send)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

@@ -329,6 +329,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                mRef = mDatabase.getReference("Event");
                                 mRef.child(eventId).child("eventLeaders").child(mUser.getUid()).removeValue();
                                 btnGoing.setVisibility(View.INVISIBLE);
                                 btnNotGoing.setVisibility(View.INVISIBLE);

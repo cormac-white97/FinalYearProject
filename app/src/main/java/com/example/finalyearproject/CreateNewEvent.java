@@ -3,13 +3,18 @@ package com.example.finalyearproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.EventLog;
 import android.util.Log;
 import android.view.View;
@@ -94,6 +99,7 @@ public class CreateNewEvent extends AppCompatActivity {
     String[] list;
     TextView mItemSelected;
     Calendar myCalendar;
+    private final int MY_PERMISSION_REQUEST_SEND_SMS = 0;
 
 
     @Override
@@ -469,6 +475,24 @@ public class CreateNewEvent extends AppCompatActivity {
                 DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Event");
                 myRef.keepSynced(true);
 
+                //check if the permission is not granted
+                if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.SEND_SMS)!= PackageManager.PERMISSION_GRANTED){
+                    //Check if the user has not denied the request
+                    if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)){
+                        SmsManager smsManager = SmsManager.getDefault();
+                        smsManager.sendTextMessage("0858402059", null, "sms message", null, null);
+                    }
+                    else{
+                        //Ask the user for permission
+                        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.SEND_SMS}, MY_PERMISSION_REQUEST_SEND_SMS);
+                    }
+                    try{
+
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
 
                 //post to database
                 mProgress.setMessage("Adding to Events");
@@ -495,6 +519,24 @@ public class CreateNewEvent extends AppCompatActivity {
 
 
             }
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int [] grantResults ){
+        switch(requestCode){
+            case MY_PERMISSION_REQUEST_SEND_SMS:{
+                //check whether the length of grantResults is greater than 0 and is equal to PERMISSIONS_GRANTED
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    SmsManager smsManager = SmsManager.getDefault();
+                    smsManager.sendTextMessage("0852393910", null, "sms message", null, null);
+                }
+                else{
+                    Toast.makeText(this, "Please allow the app to send SMS text messages", Toast.LENGTH_LONG).show();
+                }
+            }
+
         }
     }
 }

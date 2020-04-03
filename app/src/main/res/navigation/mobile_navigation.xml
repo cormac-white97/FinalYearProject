@@ -30,10 +30,10 @@
         tools:layout="@layout/fragment_createNew" />
 
     <fragment
-        android:id="@+id/nav_share"
-        android:name="com.example.finalyearproject.ui.share.ShareFragment"
+        android:id="@+id/nav_event_report"
+        android:name="com.example.finalyearproject.ui.eventReport.EventReportFragment"
         android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
+        tools:layout="@layout/fragment_event_report" />
 
     <fragment
         android:id="@+id/nav_send"
