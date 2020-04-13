@@ -41,11 +41,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Events For Date:"
+            android:text="Events For Date asdf:"
             android:textAlignment="center"
             android:textColor="#084897"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="TextView"
+            tools:text="Tap on a date with a coloured marker to view events" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/my_recycler_view"

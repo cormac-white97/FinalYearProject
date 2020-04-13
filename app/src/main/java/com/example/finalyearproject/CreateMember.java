@@ -60,8 +60,10 @@ public class CreateMember extends AppCompatActivity {
         memberSpinner.setAdapter(adapter);
 
         Intent updateIntent = getIntent();
+        memberProfileId = updateIntent.getStringExtra("memberId");
         type = updateIntent.getStringExtra("type");
         if (type.equals("update")) {
+            Toast.makeText(this, memberProfileId, Toast.LENGTH_SHORT).show();
             memberRef = database.getInstance().getReference("Person").child("Member");
             memberRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -78,18 +80,32 @@ public class CreateMember extends AppCompatActivity {
                         Spinner memGroup = findViewById(R.id.memberGroup);
                         EditText newDob = findViewById(R.id.txtDOB);
                         EditText newDom = findViewById(R.id.txtmemberDate);
+                        Spinner groupSpinner = findViewById(R.id.memberGroup);
                         EditText newNotes = findViewById(R.id.notes);
 
                         if (id.equals(memberProfileId)) {
+                            int i = 0;
+
+                            for (String value : groupTypeList) {
+                                if (value.equals(group)) {
+                                    groupSpinner.setSelection(i);
+                                    break;
+                                }
+                                i++;
+                            }
+
+
                             Date dt = null;
                             newfName.setText(name);
+
+
                             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
                             Date dobDate = new Date(Long.parseLong(DOB));
-                            newDob.setText(String.valueOf(dobDate));
+                            newDob.setText(dateFormat.format(dobDate));
 
-                            Date domDate = new Date(Long.parseLong(DOM));
-                            newDom.setText(String.valueOf(domDate));
+                            Date dateDom = new Date(Long.parseLong(DOM));
+                            newDom.setText(dateFormat.format(dateDom));
 
                             newNotes.setText(notes);
 
@@ -110,8 +126,7 @@ public class CreateMember extends AppCompatActivity {
 
                 }
             });
-        }
-        else{
+        } else {
             Button btnUpdate = findViewById(R.id.btnUpdate);
             btnUpdate.setVisibility(View.INVISIBLE);
         }
@@ -192,11 +207,14 @@ public class CreateMember extends AppCompatActivity {
         final String txtNotes = notes.getText().toString();
 
 
-        String id = mUser.getUid();
-        member = new Member(id, txtName, txtMemGroup, txtDobDate, txtDomDate, txtNotes);
-        memberRef.child("Person").child("Member").child(memberProfileId).setValue(member);
-        mProgress.dismiss();
-        activity.finish();
+        if (txtMemGroup.equals("Please Select")) {
+            Toast.makeText(this, "Please Select a Group", Toast.LENGTH_SHORT).show();
+        } else {
+            member = new Member(memberProfileId, txtName, txtMemGroup, txtDobDate, txtDomDate, txtNotes);
+            memberRef.child("Person").child("Member").child(memberProfileId).setValue(member);
+            mProgress.dismiss();
+            activity.finish();
+        }
 
     }
 }

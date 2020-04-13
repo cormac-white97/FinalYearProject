@@ -7,7 +7,7 @@
 
 
     <TextView
-        android:id="@+id/memberTextView"
+        android:id="@+id/selectTypeMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Please select the type of account you want to create."
@@ -27,5 +27,5 @@
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/memberTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/selectTypeMessage" />
 </androidx.constraintlayout.widget.ConstraintLayout>

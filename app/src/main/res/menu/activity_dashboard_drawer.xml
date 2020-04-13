@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/home_icon"
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_group"
@@ -14,8 +14,8 @@
             android:title="Group" />
         <item
             android:id="@+id/nav_events"
-            android:icon="@drawable/mountain_icon"
-            android:title="Events" />
+            android:icon="@drawable/baseline_person_black_18dp"
+            android:title="My Profile" />
         <item
             android:id="@+id/nav_tools"
             android:icon="@drawable/ic_menu_manage"
@@ -26,7 +26,7 @@
         <menu>
             <item
                 android:id="@+id/nav_event_report"
-                android:icon="@drawable/bar_chart"
+                android:icon="@drawable/baseline_pie_chart_black_18dp"
                 android:title="Events Report" />
             <item
                 android:id="@+id/nav_send"

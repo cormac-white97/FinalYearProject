@@ -122,6 +122,4 @@ public class Leader {
         this.fcmToken = fcmToken;
     }
 
-    //TODO - valueEventListener not being hit
-
 }

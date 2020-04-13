@@ -9,7 +9,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.finalyearproject.ui.event.EventFragment;
+import com.example.finalyearproject.ui.home.HomeFragment;
+import com.example.finalyearproject.ui.profile.ProfileFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,7 +31,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     double lat;
     double lng;
 
-    EventFragment e = new EventFragment();
+    HomeFragment h = new HomeFragment();
     private HashMap<String, String> dbIDs = new HashMap<>();
 
     // Provide a reference to the views for each data item
@@ -51,7 +52,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             database = FirebaseDatabase.getInstance();
             myRef = database.getReference("Leader");
 
-            dbIDs = e.getLeaderNameAndId();
+            dbIDs = h.getLeaderNameAndId();
 
         }
 

@@ -24,7 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.finalyearproject.ui.event.EventFragment;
+import com.example.finalyearproject.ui.profile.ProfileFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -499,7 +499,7 @@ public class CreateNewEvent extends AppCompatActivity {
                 EventObj e = new EventObj(id, eventType, loc, dateVal, endDateValue, groupType, txtPrice, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, "pending");
                 myRef.child(id).setValue(e);
                 mProgress.dismiss();
-                Intent intent = new Intent(getApplicationContext(), EventFragment.class);
+                Intent intent = new Intent(getApplicationContext(), ProfileFragment.class);
                 startActivity(intent);
                 finish();
             } else if (leaderAvailable == false) {

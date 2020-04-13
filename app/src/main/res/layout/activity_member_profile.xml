@@ -124,21 +124,22 @@
         android:hint="Notes"
         android:textColorHint="#00175b">
 
-        <EditText
-            android:id="@+id/viewNotes"
-            android:layout_width="match_parent"
-            android:layout_height="82dp"
-            android:layout_marginBottom="2dp"
-            android:gravity="top|left"
-            android:inputType="textMultiLine"
-            android:lines="6"
-            android:overScrollMode="always"
-            android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical"
-            android:scrollHorizontally="false"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            <EditText
+                android:id="@+id/viewNotes"
+                android:layout_width="match_parent"
+                android:layout_height="82dp"
+                android:layout_marginBottom="2dp"
+                android:gravity="top|left"
+                android:inputType="textMultiLine"
+                android:focusable="false"
+                android:lines="6"
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout

@@ -151,7 +151,7 @@
                     android:layout_marginEnd="100dp"
                     android:background="@drawable/btn_rounded"
                     android:gravity="center"
-                    android:onClick="createMember"
+                    android:onClick="updateMember"
                     android:text="Update Member Details"
                     android:textColor="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"

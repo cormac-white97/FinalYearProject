@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.finalyearproject.ui.event.EventFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -84,9 +83,9 @@ public class MemberProfile extends AppCompatActivity {
 
                         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-                        Date date1 = new Date(Long.parseLong(DOM));
+                        Date dateDom = new Date(Long.parseLong(DOM));
 
-                        txtDom.setText(dateFormat.format(date1));
+                        txtDom.setText(dateFormat.format(dateDom));
 
                         txtNotes.setText(notes);
 

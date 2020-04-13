@@ -3,12 +3,11 @@ package com.example.finalyearproject;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 
-import com.example.finalyearproject.ui.event.EventFragment;
+import com.example.finalyearproject.ui.home.HomeFragment;
+import com.example.finalyearproject.ui.profile.ProfileFragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -47,7 +46,7 @@ public class viewLocations extends FragmentActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         Intent showMap = getIntent();
-        final String date = showMap.getStringExtra(EventFragment.dateval);
+        final String date = showMap.getStringExtra(HomeFragment.dateval);
 
         try {
             KmlLayer layer = new KmlLayer(mMap, R.raw.scouting_campsites, getApplicationContext());

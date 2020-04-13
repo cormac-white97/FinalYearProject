@@ -74,6 +74,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.MyViewHo
                 }
                 else if(type.equals("Member")){
                     Intent intent = new Intent(v.getContext(), CreateMember.class);
+                    intent.putExtra("type", "new");
                     v.getContext().startActivity(intent);
                 }
 
