@@ -1,38 +1,31 @@
 package com.example.finalyearproject.ui.eventReport;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.finalyearproject.EventObj;
+import Objects.EventObj;
 import com.example.finalyearproject.MyAdapter;
 import com.example.finalyearproject.R;
-import com.example.finalyearproject.viewLocations;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.ChartTouchListener;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,7 +33,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -134,7 +126,14 @@ public class EventReportFragment extends Fragment implements OnChartValueSelecte
                     pieEntries.add(new PieEntry(eventCount.get(i), groupList.get(i)));
                 }
 
-                PieDataSet dataSet = new PieDataSet(pieEntries, "Events By Group");
+                PieDataSet dataSet = new PieDataSet(pieEntries, "");
+                dataSet.setValueFormatter(new ValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                        return String.valueOf((int) value);
+                    }
+                });
+
                 dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
                 PieData data = new PieData(dataSet);
 
@@ -146,6 +145,7 @@ public class EventReportFragment extends Fragment implements OnChartValueSelecte
                 chart.setOnChartValueSelectedListener(EventReportFragment.this);
                 chart.setCenterText("Events" );
                 chart.setCenterTextSize(25F);
+                chart.getDescription().setEnabled(false);
                 chart.setCenterTextColor(Color.parseColor("#084897"));
 
             }

@@ -7,14 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.finalyearproject.ui.tools.ToolsFragment;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
+import Objects.Member;
 
 public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.MyViewHolder> {
     private ArrayList<Member> values;
@@ -63,6 +60,9 @@ public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.MyVi
                 Toast.makeText(v.getContext() ,type.getId(), Toast.LENGTH_SHORT ).show();
                 //addItem(position);
                 // call activity to pass the item position
+                Intent intent = new Intent(v.getContext(), MemberProfile.class);
+                intent.putExtra("id", type.getId());
+                v.getContext().startActivity(intent);
 
             }
 

@@ -25,6 +25,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import Objects.Member;
+import Objects.Parent;
+
 public class CreateParent extends AppCompatActivity {
 
     private FirebaseDatabase mDatabase;
@@ -82,17 +85,15 @@ public class CreateParent extends AppCompatActivity {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     id = ds.getValue(Member.class).getId();
                     name = ds.getValue(Member.class).getName();
-                    email = ds.getValue(Member.class).getEmail();
                     group = ds.getValue(Member.class).getGroup();
                     memDob = ds.getValue(Member.class).getMemDob();
                     memDom = ds.getValue(Member.class).getMemDom();
                     notes = ds.getValue(Member.class).getNotes();
-                    fcmToken = ds.getValue(Member.class).getFcmToken();
 
 
                     String childName = name;
 
-                    Member m = new Member(id, name, email, group, memDob, memDom, notes, fcmToken);
+                    Member m = new Member(id, name, group, memDob, memDom, notes);
                     allMember.add(m);
                     childList.add(childName);
                 }

@@ -1,4 +1,4 @@
-package com.example.finalyearproject;
+package Objects;
 
 public class Parent {
     String parentId;

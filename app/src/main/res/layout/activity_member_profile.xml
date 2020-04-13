@@ -28,65 +28,42 @@
                 android:textColorHint="#00175b">
 
                 <EditText
-                    android:id="@+id/txtMemName"
+                    android:id="@+id/viewMemName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
                     android:inputType="textCapWords"
                     android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_memberEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Email"
-                android:textColorHint="#00175b"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_memberPass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:textColorHint="#00175b"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_memberConfirm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Confirm Password"
-                android:inputType="textPassword"
-                android:textColorHint="#00175b"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_groupSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
-                android:textColorHint="#00175b"
-                android:paddingTop="10dp"
-                android:outlineSpotShadowColor="@color/cardview_dark_background">
+                android:hint="Group"
+                android:textColorHint="#00175b">
 
-                <Spinner
-                    android:id="@+id/memberGroup"
+                <EditText
+                    android:id="@+id/viewMemGroup"
                     android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    />
-
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:singleLine="true"
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_DOB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Date Of Birth"
+                android:hint="Age"
                 android:textColorHint="#00175b">
 
                 <EditText
-                    android:id="@+id/txtDOB"
+                    android:id="@+id/viewMemDOB"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:focusable="false"
                     android:inputType="date"
                     android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -99,35 +76,77 @@
                 android:textColorHint="#00175b">
 
                 <EditText
-                    android:id="@+id/txtmemberDate"
+                    android:id="@+id/viewMemDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
                     android:inputType="date"
                     android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
 
+            </com.google.android.material.textfield.TextInputLayout><com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_parent_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Parent Name"
+                android:textColorHint="#00175b">
 
             <EditText
-                android:id="@+id/notes"
+                android:id="@+id/viewParentName"
                 android:layout_width="match_parent"
-                android:layout_height="82dp"
-                android:layout_marginBottom="2dp"
-                android:gravity="top|left"
-                android:hint="Notes: (Optional)"
-                android:inputType="textMultiLine"
-                android:lines="6"
-                android:overScrollMode="always"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"
-                android:scrollHorizontally="false"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:focusable="false"
+                android:singleLine="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_parent_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Parent Phone No."
+        android:textColorHint="#00175b">
+
+        <EditText
+            android:id="@+id/viewParentPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:inputType="phone"
+            android:singleLine="true" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Notes"
+        android:textColorHint="#00175b">
+
+        <EditText
+            android:id="@+id/viewNotes"
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+            android:layout_marginBottom="2dp"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:lines="6"
+            android:overScrollMode="always"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            android:scrollHorizontally="false"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <Button
-                    android:id="@+id/btnCreateNew"
+                    android:id="@+id/updateMember"
                     android:layout_width="230dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="100dp"
@@ -135,24 +154,8 @@
                     android:layout_marginEnd="100dp"
                     android:background="@drawable/btn_rounded"
                     android:gravity="center"
-                    android:onClick="createMember"
-                    android:text="Create New Member"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/btnUpdate"
-                    android:layout_width="230dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="100dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="100dp"
-                    android:background="@drawable/btn_rounded"
-                    android:gravity="center"
-                    android:onClick="createMember"
-                    android:text="Update Member Details"
+                    android:onClick="updateMember"
+                    android:text="Update Member"
                     android:textColor="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

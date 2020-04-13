@@ -37,6 +37,10 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.List;
 
+import Objects.Leader;
+import Objects.Member;
+import Objects.Parent;
+
 public class Dashboard extends AppCompatActivity {
     private FirebaseDatabase mDatabase;
     private DatabaseReference leaderRef;
@@ -135,7 +139,6 @@ public class Dashboard extends AppCompatActivity {
                         group[0] = ds.getValue(Parent.class).getGroup();
                     }
                     else if(type.equals("Member")){
-                        email[0] = ds.getValue(Member.class).getEmail();
                         name[0] = ds.getValue(Member.class).getName();
                         personType[0] = type;
                         group[0] = ds.getValue(Member.class).getGroup();

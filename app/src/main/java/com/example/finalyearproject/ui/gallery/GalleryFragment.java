@@ -5,24 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.finalyearproject.AccountAdapter;
 import com.example.finalyearproject.GroupViewAdapter;
-import com.example.finalyearproject.Leader;
-import com.example.finalyearproject.Member;
-import com.example.finalyearproject.Parent;
+import Objects.Leader;
+import Objects.Member;
+
 import com.example.finalyearproject.R;
-import com.example.finalyearproject.ViewEvent;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +36,9 @@ public class GalleryFragment extends Fragment {
 
     FirebaseDatabase mDatabase;
     DatabaseReference mRef;
+    FirebaseAuth mAuth;
+    FirebaseUser mUser;
+    TextView message;
 
     String email;
     String name;
@@ -48,6 +48,7 @@ public class GalleryFragment extends Fragment {
     String DOB;
     String notes;
     String token;
+    String loggedInGroup;
 
     ArrayList<Member> myDataset = new ArrayList<>();
     RecyclerView recyclerView;
@@ -62,27 +63,59 @@ public class GalleryFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(true);
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getInstance().getCurrentUser();
+
+        message = root.findViewById(R.id.memberTextView);
+
+
 
         mDatabase = FirebaseDatabase.getInstance();
+        mRef = mDatabase.getReference("Person").child("Leader");
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    email = ds.getValue(Leader.class).getEmail();
+                    group = ds.getValue(Leader.class).getGroup();
+
+                    if(email.equals(mUser.getEmail())){
+                        loggedInGroup = group;
+                    }
+                }
+
+                setAdapter();
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
         mRef = mDatabase.getReference("Person").child("Member");
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    //name = ds.getValue(Member.class).getName();
                     name = ds.getValue(Member.class).getName();
-                    email = ds.getValue(Member.class).getEmail();
                     group = ds.getValue(Member.class).getGroup();
                     id = ds.getValue(Member.class).getId();
                     DOM = ds.getValue(Member.class).getMemDom();
                     DOB = ds.getValue(Member.class).getMemDob();
                     notes = ds.getValue(Member.class).getNotes();
-                    token = ds.getValue(Member.class).getFcmToken();
 
-                    Member m = new Member(id, name, email,group,DOB, DOM, notes, token);
-                    myDataset.add(m);
+                    if(group.equals(loggedInGroup)){
+                        Member m = new Member(id, name, group,DOB, DOM, notes);
+                        myDataset.add(m);
+                    }
+
                 }
-
+                if(myDataset.isEmpty()){
+                    message.setText("There are no members in your group");
+                }
                 setAdapter();
             }
 
