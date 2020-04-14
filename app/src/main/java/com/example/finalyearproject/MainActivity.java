@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private String emailValue;
     private String passwordValue;
     private Leader leader;
-
+    private TextView forgotPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
+        forgotPass = findViewById(R.id.forgotPassword);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -97,6 +99,11 @@ public class MainActivity extends AppCompatActivity {
         else{
             Toast.makeText(MainActivity.this, "Fill all details.", Toast.LENGTH_LONG);
         }
+    }
+
+    public void forgotPassword(View v){
+        Intent forgotPass = new Intent(this, forgotPassword.class);
+        startActivity(forgotPass);
     }
 
     @Override

@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,14 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import Objects.EventObj;
+
 import com.example.finalyearproject.MyAdapter;
+
 import Objects.Leader;
+import Objects.Parent;
+
 import com.example.finalyearproject.R;
 import com.example.finalyearproject.viewLocations;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -71,6 +77,7 @@ public class HomeFragment extends Fragment {
     String clickedType;
     String clickedCreatedBy;
     String loggedInType = "no type";
+    String loggedInGroup = "no group";
     double lat;
     double lng;
     private final Long dayValue = 86400000L;
@@ -105,7 +112,7 @@ public class HomeFragment extends Fragment {
         add = view.findViewById(R.id.btnAdd);
         add.hide();
 
-        for(final String type : typeList){
+        for (final String type : typeList) {
             personRef = database.getReference("Person").child(type);
             personRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -113,7 +120,7 @@ public class HomeFragment extends Fragment {
 
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                        if(type.equals("Leader")){
+                        if (type.equals("Leader")) {
                             String personID = ds.getValue(Leader.class).getPersonID();
                             String personType = ds.getValue(Leader.class).getPersonType();
                             String name = ds.getValue(Leader.class).getName();
@@ -129,15 +136,19 @@ public class HomeFragment extends Fragment {
                             leaders.add(p);
                             idAndName.put(personID, name);
 
-                            if(mUser.getEmail().equals(email)){
-                                loggedInType = personType;
+                            if (mUser.getEmail().equals(email)) {
+                                loggedInType = "Leader";
+
+                            }
+                        } else if (type.equals("Parent")) {
+                            String parentId = ds.getValue(Parent.class).getParentId();
+                            String group = ds.getValue(Parent.class).getGroup();
+
+                            if (mUser.getUid().equals(parentId)) {
+                                loggedInType = "Parent";
+                                loggedInGroup = group;
                             }
                         }
-
-
-
-
-
                     }
                 }
 
@@ -147,7 +158,7 @@ public class HomeFragment extends Fragment {
                 }
             });
 
-            if(foundUser[0]){
+            if (foundUser[0]) {
                 break;
             }
         }
@@ -179,59 +190,29 @@ public class HomeFragment extends Fragment {
                     Long longEndDate = Long.parseLong(endDate);
 
 
-
                     do {
                         if (longDate.equals(longEndDate)) {
                             //Must be repeated one more time to add event to the last day
-                            EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy,eventLeaders, paymentList, availableSpaces, lng, lat, approved);
+                            EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, approved);
                             eventObjs.add(e);
 
-                            if (group.equals("Beavers")) {
-                                ev2 = new Event(Color.BLUE, longDate, type);
-                            } else if (group.equals("Cubs")) {
-                                ev2 = new Event(Color.RED, longDate, type);
-
-                            } else if (group.equals("Scouts")) {
-                                ev2 = new Event(Color.GREEN, longDate, type);
-
-                            } else if (group.equals("Ventures")) {
-                                ev2 = new Event(Color.MAGENTA, longDate, type);
-
-                            } else if (group.equals("Rovers")) {
-                                ev2 = new Event(Color.BLACK, longDate, type);
-
-                            }
-                            compactCalendar.addEvent(ev2);
+                            addEventMarker(group, longDate, type, ev2, compactCalendar);
 
                             longDate = longDate + dayValue;
                             dateReached = true;
                         } else {
 
-                            EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy,eventLeaders,paymentList, availableSpaces, lng, lat, approved);
+                            EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, approved);
                             eventObjs.add(e);
 
-                            if (group.equals("Beavers")) {
-                                ev2 = new Event(Color.BLUE, longDate, type);
-                            } else if (group.equals("Cubs")) {
-                                ev2 = new Event(Color.RED, longDate, type);
-
-                            } else if (group.equals("Scouts")) {
-                                ev2 = new Event(Color.GREEN, longDate, type);
-
-                            } else if (group.equals("Ventures")) {
-                                ev2 = new Event(Color.MAGENTA, longDate, type);
-
-                            } else if (group.equals("Rovers")) {
-                                ev2 = new Event(Color.BLACK, longDate, type);
-
-                            }
-                            compactCalendar.addEvent(ev2);
+                            addEventMarker(group, longDate, type, ev2, compactCalendar);
 
                             longDate = longDate + dayValue;
                         }
 
                     } while (dateReached != true);
-                    EventObj eObj = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, paymentList,  availableSpaces, lng, lat, approved);
+
+                    EventObj eObj = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, approved);
                     allEventsInDB.add(eObj);
                 }
             }
@@ -241,9 +222,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
-
-
 
 
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -266,19 +244,18 @@ public class HomeFragment extends Fragment {
 
                 for (EventObj e : allEventsInDB) {
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                    ArrayList <Long> eventDays = new ArrayList<>();
+                    ArrayList<Long> eventDays = new ArrayList<>();
                     long dateTime = Long.parseLong(e.getDate());
                     boolean dateReached = false;
                     long endDate = Long.parseLong(e.getEndDate());
                     //create an arraylist to map dates between the start and end date to an event
-                    do{
-                        if(dateTime == endDate){
+                    do {
+                        if (dateTime == endDate) {
                             eventDays.add(dateTime);
                             dateTime = dateTime + dayValue;
                             dateReached = true;
 
-                        }
-                        else{
+                        } else {
                             eventDays.add(dateTime);
                             dateTime = dateTime + dayValue;
                         }
@@ -286,7 +263,7 @@ public class HomeFragment extends Fragment {
                     while (dateReached == false);
 
                     if (eventDays.contains(dateEpoch)) {
-                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getDate(), e.getEndDate(),e.getGroup(), e.getPrice(), e.getCreatedBy(), e.getEventLeaders(), e.getPaymentList(), e.getAvailableSpaces(), e.getLat(), e.getLng(), e.getApproved());
+                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getDate(), e.getEndDate(), e.getGroup(), e.getPrice(), e.getCreatedBy(), e.getEventLeaders(), e.getPaymentList(), e.getAvailableSpaces(), e.getLat(), e.getLng(), e.getApproved());
                         myDataset.add(eventObj);
                     }
                 }
@@ -297,7 +274,7 @@ public class HomeFragment extends Fragment {
                         DividerItemDecoration(getActivity(), VERTICAL));
                 myRecyclerView.setAdapter(mAdapter);
 
-                if(loggedInType.equals("Leader")){
+                if (loggedInType.equals("Leader")) {
                     add.show();
                 }
 
@@ -322,7 +299,56 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    public HashMap<String, String> getLeaderNameAndId(){
+    public HashMap<String, String> getLeaderNameAndId() {
         return idAndName;
     }
+
+
+    public void addEventMarker(String group, Long longDate, String type, Event ev2,CompactCalendarView calendar ) {
+
+        if (loggedInType.equals("Parent")) {
+            if (group.equals("Beavers") && group.equals(loggedInGroup)) {
+                ev2 = new Event(Color.BLUE, longDate, type);
+            } else if (group.equals("Cubs") && group.equals(loggedInGroup)) {
+                ev2 = new Event(Color.RED, longDate, type);
+
+            } else if (group.equals("Scouts") && group.equals(loggedInGroup)) {
+                ev2 = new Event(Color.GREEN, longDate, type);
+
+            } else if (group.equals("Ventures") && group.equals(loggedInGroup)) {
+                ev2 = new Event(Color.MAGENTA, longDate, type);
+
+            } else if (group.equals("Rovers") && group.equals(loggedInGroup)) {
+                ev2 = new Event(Color.BLACK, longDate, type);
+
+            }
+            if(ev2 != null){
+                calendar.addEvent(ev2);
+            }
+        }
+        else if(loggedInType.equals("Leader")){
+            if (group.equals("Beavers")) {
+                ev2 = new Event(Color.BLUE, longDate, type);
+            } else if (group.equals("Cubs")) {
+                ev2 = new Event(Color.RED, longDate, type);
+
+            } else if (group.equals("Scouts")) {
+                ev2 = new Event(Color.GREEN, longDate, type);
+
+            } else if (group.equals("Ventures")) {
+                ev2 = new Event(Color.MAGENTA, longDate, type);
+
+            } else if (group.equals("Rovers")) {
+                ev2 = new Event(Color.BLACK, longDate, type);
+
+            }
+            calendar.addEvent(ev2);
+        }
+
+
+        if (loggedInType.equals("Parent")) {
+            Toast.makeText(getContext(), "parent", Toast.LENGTH_LONG).show();
+        }
+
     }
+}
