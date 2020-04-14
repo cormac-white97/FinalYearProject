@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.finalyearproject.ui.gallery.GalleryFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,10 +26,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 import Objects.Member;
+import Objects.Parent;
 
 public class CreateMember extends AppCompatActivity {
     private FirebaseDatabase database;
@@ -37,6 +40,11 @@ public class CreateMember extends AppCompatActivity {
     private FirebaseUser mUser;
     private Member member;
     private Activity activity = this;
+
+    ArrayList<Parent> allParents = new ArrayList<>();
+    ArrayList<String> parentList = new ArrayList<>();
+
+    Spinner parentSpinner;
 
     String type;
     String memberProfileId;
@@ -47,9 +55,12 @@ public class CreateMember extends AppCompatActivity {
         setContentView(R.layout.activity_create_member);
         mAuth = FirebaseAuth.getInstance();
 
+        parentSpinner = findViewById(R.id.parentChild);
+
         Spinner memberSpinner = findViewById(R.id.memberGroup);
         final String groupTypeList[] = new String[]{"Please Select", "Beavers", "Cubs", "Scouts", "Ventures", "Rovers"};
 
+        //Setting values for the group type spinner
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, groupTypeList);
 
@@ -58,6 +69,54 @@ public class CreateMember extends AppCompatActivity {
 
 // Apply the adapter to the spinner
         memberSpinner.setAdapter(adapter);
+
+        memberRef = database.getInstance().getReference("Person").child("Parent");
+        memberRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                parentList.add("Select the members parent");
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String parentId = ds.getValue(Parent.class).getParentId();
+                    String name = ds.getValue(Parent.class).getName();
+                    String phone = ds.getValue(Parent.class).getPhone();
+                    String email = ds.getValue(Parent.class).getEmail();
+                    String childId = ds.getValue(Parent.class).getChildId();
+                    String group = ds.getValue(Parent.class).getGroup();
+                    String fcmToken = ds.getValue(Parent.class).getFcmToken();
+
+
+                    String childName = name;
+
+                    Parent p = new Parent(parentId, name, phone, email, childId, group, fcmToken);
+                    allParents.add(p);
+                    parentList.add(childName);
+                }
+
+
+
+                // Create an ArrayAdapter using the string array and a default spinner layout
+                ArrayAdapter<String> parentAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, parentList);
+
+                // Specify the layout to use when the list of choices appears
+                parentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                // Apply the adapter to the spinner
+                parentSpinner.setAdapter(parentAdapter);
+
+                int parentPosition = parentAdapter.getPosition("John Smith");
+                parentSpinner.setSelection(parentPosition);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
 
         Intent updateIntent = getIntent();
         memberProfileId = updateIntent.getStringExtra("memberId");
@@ -127,7 +186,7 @@ public class CreateMember extends AppCompatActivity {
                 }
             });
         } else {
-            Button btnUpdate = findViewById(R.id.btnUpdate);
+            Button btnUpdate = findViewById(R.id.btnMemberUpdate);
             btnUpdate.setVisibility(View.INVISIBLE);
         }
 
@@ -149,11 +208,13 @@ public class CreateMember extends AppCompatActivity {
         EditText dob = findViewById(R.id.txtDOB);
         EditText dom = findViewById(R.id.txtmemberDate);
         EditText notes = findViewById(R.id.notes);
+        Spinner parent = findViewById(R.id.parentChild);
 
         final String txtName = fName.getText().toString();
         final String txtMemGroup = memGroup.getSelectedItem().toString();
         String txtDobDateVal = dob.getText().toString();
         String txtDomDateVal = dom.getText().toString();
+        String parentName = parent.getSelectedItem().toString();
         try {
             dobDate = dateFormat.parse(txtDobDateVal);
             domDate = dateFormat.parse(txtDomDateVal);
@@ -166,11 +227,21 @@ public class CreateMember extends AppCompatActivity {
         final String txtNotes = notes.getText().toString();
 
 
-        String id = mUser.getUid();
+        String id = UUID.randomUUID().toString();
         member = new Member(id, txtName, txtMemGroup, txtDobDate, txtDomDate, txtNotes);
         memberRef.child("Person").child("Member").child(id).setValue(member);
+
+        for(Parent p : allParents){
+            if(p.getName().equals(parentName)){
+                //When the child is assigned to a parent, the child's group is assigned to that parent
+                memberRef.child("Person").child("Parent").child(p.getParentId()).child("group").setValue(txtMemGroup);
+                memberRef.child("Person").child("Parent").child(p.getParentId()).child("childId").setValue(id);
+            }
+        }
         mProgress.dismiss();
         activity.finish();
+
+
 
     }
 
@@ -213,8 +284,15 @@ public class CreateMember extends AppCompatActivity {
             member = new Member(memberProfileId, txtName, txtMemGroup, txtDobDate, txtDomDate, txtNotes);
             memberRef.child("Person").child("Member").child(memberProfileId).setValue(member);
             mProgress.dismiss();
-            activity.finish();
+            Intent i = new Intent(getApplicationContext(), GalleryFragment.class);
+            startActivity(i);
         }
+
+    }
+
+    public void getAllParents() {
+
+
 
     }
 }

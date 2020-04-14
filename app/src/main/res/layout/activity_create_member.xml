@@ -107,6 +107,12 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
+            <Spinner
+                android:id="@+id/parentChild"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="1" />
+
             <EditText
                 android:id="@+id/notes"
                 android:layout_width="match_parent"
@@ -143,7 +149,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/btnUpdate"
+                    android:id="@+id/btnMemberUpdate"
                     android:layout_width="230dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="100dp"

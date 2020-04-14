@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -46,6 +48,15 @@ public class CreateParent extends AppCompatActivity {
     String fcmToken = null;
     String childId = null;
     String parentGroup = null;
+    String parentId;
+    String type;
+
+    String txtname;
+    String txtEmail;
+    String txtPass;
+    String txtConfirm;
+    String txtPhone;
+
     ArrayList<Member> allMember = new ArrayList<>();
     ArrayList<String> childList = new ArrayList<>();
     private Activity activity;
@@ -54,60 +65,134 @@ public class CreateParent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_parent);
 
-        childList.add("Select Paren's Child");
-
         mDatabase = FirebaseDatabase.getInstance();
         memberRef = mDatabase.getReference("Person").child("Member");
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getInstance().getCurrentUser();
 
-        getAllChildren();
+        Intent i = getIntent();
+        parentId = i.getStringExtra("id");
+        type = i.getStringExtra("type");
 
-        Spinner groupSpinner = findViewById(R.id.parentChild);
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, childList);
-
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Apply the adapter to the spinner
-        groupSpinner.setAdapter(adapter);
-    }
-
-    public void getAllChildren() {
-
-
-        memberRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    id = ds.getValue(Member.class).getId();
-                    name = ds.getValue(Member.class).getName();
-                    group = ds.getValue(Member.class).getGroup();
-                    memDob = ds.getValue(Member.class).getMemDob();
-                    memDom = ds.getValue(Member.class).getMemDom();
-                    notes = ds.getValue(Member.class).getNotes();
+        if (type.equals("update")) {
+            Toast.makeText(this, parentId, Toast.LENGTH_SHORT).show();
+            parentRef = mDatabase.getInstance().getReference("Person").child("Parent");
+            parentRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        String id = ds.getValue(Parent.class).getParentId();
+                        String txtName = ds.getValue(Parent.class).getName();
+                        String txtEmail = ds.getValue(Parent.class).getEmail();
+                        String txtPhone = ds.getValue(Parent.class).getPhone();
 
 
-                    String childName = name;
 
-                    Member m = new Member(id, name, group, memDob, memDom, notes);
-                    allMember.add(m);
-                    childList.add(childName);
+                        EditText name = findViewById(R.id.txtParentName);
+                        EditText email = findViewById(R.id.txtParentEmail);
+                        EditText password = findViewById(R.id.txtParentPass);
+                        EditText confirm = findViewById(R.id.txtParentConfirm);
+                        EditText phone = findViewById(R.id.txtParentPhone);
+                        final Spinner child = findViewById(R.id.parentChild);
+
+                        //The password can be updated from the log in page
+                        password.setVisibility(View.GONE);
+                        confirm.setVisibility(View.GONE);
+                        //The parent should not be able to update who their child is
+                        child.setVisibility(View.GONE);
+
+                        if (id.equals(parentId)) {
+
+                            name.setText(txtName);
+                            email.setText(txtEmail);
+                            phone.setText(txtPhone);
+
+                            Button btnCreate = findViewById(R.id.create_parent_account);
+                            btnCreate.setVisibility(View.INVISIBLE);
+
+                            break;
+
+
+                        }
+
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        } else {
+            Button btnUpdate = findViewById(R.id.btnMemberUpdate);
+            btnUpdate.setVisibility(View.INVISIBLE);
+        }
     }
+
+
 
 
     public void createNewParent(View v) {
+        final ProgressDialog mProgress = new ProgressDialog(this);
+        mProgress.setMessage("Please Wait");
+        mProgress.show();
+        EditText name = findViewById(R.id.txtParentName);
+        EditText email = findViewById(R.id.txtParentEmail);
+        EditText password = findViewById(R.id.txtParentPass);
+        EditText confirm = findViewById(R.id.txtParentConfirm);
+        EditText phone = findViewById(R.id.txtParentPhone);
+        final Spinner child = findViewById(R.id.parentChild);
+
+        final String txtname = name.getText().toString();
+        final String txtEmail = email.getText().toString();
+        final String txtPass = password.getText().toString();
+        final String txtConfirm = confirm.getText().toString();
+        final String txtPhone = phone.getText().toString();
+
+
+        int i = 0;
+        for (Member member : allMember) {
+
+            if (member.getName().equals(child.getSelectedItem().toString())) {
+                childId = member.getId();
+                //Assign the parent to the same group as their child
+                parentGroup = member.getGroup();
+                break;
+            }
+            i++;
+        }
+        if (txtPass.equals(txtConfirm) && mAuth != null) {
+            parentRef = mDatabase.getInstance().getReference();
+            mAuth.createUserWithEmailAndPassword(txtEmail, txtPass)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Toast.makeText(CreateParent.this, "Worked", Toast.LENGTH_LONG).show();
+                                String id = mUser.getUid();
+                                Parent parent = new Parent(id, txtname, txtPhone, txtEmail, childId, parentGroup, " ");
+
+                                parentRef.child("Person").child("Parent").child(id).setValue(parent);
+                                mProgress.dismiss();
+                                activity.finish();
+
+                            } else {
+                                mProgress.dismiss();
+                                Toast.makeText(CreateParent.this, "Didn't Work", Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                    });
+        } else {
+            Toast.makeText(CreateParent.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    public void updateParent(View v) {
         final ProgressDialog mProgress = new ProgressDialog(this);
         mProgress.setMessage("Please Wait");
         mProgress.show();

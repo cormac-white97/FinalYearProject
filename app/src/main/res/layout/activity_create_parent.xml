@@ -119,14 +119,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Child"
-            android:textColorHint="#00175b">
+            android:textColorHint="#00175b"/>
 
-            <Spinner
-                android:id="@+id/parentChild"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_weight="1" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -145,6 +139,22 @@
                 android:gravity="center"
                 android:onClick="createNewParent"
                 android:text="Create New Parent"
+                android:textColor="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnMemberUpdate"
+                android:layout_width="230dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="100dp"
+                android:background="@drawable/btn_rounded"
+                android:gravity="center"
+                android:onClick="updateMember"
+                android:text="Update Parent Details"
                 android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

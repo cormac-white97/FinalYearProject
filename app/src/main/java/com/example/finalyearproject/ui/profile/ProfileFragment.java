@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import Objects.EventObj;
 
+import com.example.finalyearproject.CreateParent;
+import com.example.finalyearproject.MemberProfile;
 import com.example.finalyearproject.MyAdapter;
 
 import Objects.Leader;
@@ -66,6 +69,7 @@ public class ProfileFragment extends Fragment {
     EditText txtVettingDate;
     EditText txtProfileGroup;
     EditText txtProfilePhoneNum;
+    FloatingActionButton btnEdit;
     final String accountTypes[] = new String[]{"Leader", "Parent"};
 
     String child = null;
@@ -83,6 +87,7 @@ public class ProfileFragment extends Fragment {
         txtVettingDate = view.findViewById(R.id.profileVettingDate);
         txtProfileGroup = view.findViewById(R.id.profileGroup);
         txtProfilePhoneNum = view.findViewById(R.id.profilePhoneNum);
+        btnEdit = view.findViewById(R.id.btnEdit);
 
 
         for (final String type : accountTypes) {
@@ -176,6 +181,25 @@ public class ProfileFragment extends Fragment {
 
                                     }
                                 });
+
+                                txtVettingDate.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent childDetails = new Intent(getContext(), MemberProfile.class);
+                                        childDetails.putExtra("id", child);
+                                        startActivity(childDetails);
+                                    }
+                                });
+
+                                btnEdit.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent updateParent = new Intent(getContext(), CreateParent.class);
+                                        updateParent.putExtra("id", userId);
+                                        updateParent.putExtra("type", "update");
+                                        startActivity(updateParent);
+                                    }
+                                });
                             }
 
                         }
@@ -190,6 +214,7 @@ public class ProfileFragment extends Fragment {
 
             }
         }
+
 
 
         return view;

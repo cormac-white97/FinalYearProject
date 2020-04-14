@@ -70,6 +70,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.MyViewHo
                 }
                 else if(type.equals("Parent")){
                     Intent intent = new Intent(v.getContext(), CreateParent.class);
+                    intent.putExtra("type", "new");
                     v.getContext().startActivity(intent);
                 }
                 else if(type.equals("Member")){

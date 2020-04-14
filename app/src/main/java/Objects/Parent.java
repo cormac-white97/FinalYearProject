@@ -2,7 +2,7 @@ package Objects;
 
 public class Parent {
     String parentId;
-    String firstName;
+    String name;
     String password;
     String phone;
     String email;
@@ -13,9 +13,9 @@ public class Parent {
     public Parent() {
     }
 
-    public Parent(String parentId, String firstName, String phone, String email, String childId, String group, String fcmToken) {
+    public Parent(String parentId, String name, String phone, String email, String childId, String group, String fcmToken) {
         this.parentId = parentId;
-        this.firstName = firstName;
+        this.name = name;
         this.phone = phone;
         this.email = email;
         this.childId = childId;
@@ -32,11 +32,11 @@ public class Parent {
     }
 
     public String getName() {
-        return firstName;
+        return name;
     }
 
-    public void setName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPhone() {
