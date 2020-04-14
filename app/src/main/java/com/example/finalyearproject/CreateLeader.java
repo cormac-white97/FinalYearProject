@@ -95,7 +95,7 @@ public class CreateLeader extends AppCompatActivity {
                                 Toast.makeText(CreateLeader.this, "Worked", Toast.LENGTH_LONG).show();
 
                                 String id = mUser.getUid();
-                                leader = new Leader(id, "Leader", nameValue, DOBvalue,"Ventures", phoneNumValue, emailValue, vettingValue, null);
+                                leader = new Leader(id, nameValue, DOBvalue,"Ventures", phoneNumValue, emailValue, vettingValue);
                                 myRef.child("Person").child("Leader").child(id).setValue(leader);
                                 mProgress.dismiss();
                                 activity.finish();

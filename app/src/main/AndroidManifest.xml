@@ -23,7 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".forgotPassword"></activity>
+        <activity android:name=".ViewLeaderDetails"></activity>
+        <activity android:name=".forgotPassword" />
         <activity android:name=".MemberProfile" />
         <activity android:name=".CreateMember" />
         <activity android:name=".CreateParent" />

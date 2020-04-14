@@ -12,27 +12,25 @@
             android:id="@+id/nav_group"
             android:icon="@drawable/group_icon"
             android:title="Group" />
+
+        <item
+        android:id="@+id/nav_leaders"
+        android:icon="@drawable/leader_icon"
+        android:title="@string/menu_send" />
         <item
             android:id="@+id/nav_events"
             android:icon="@drawable/baseline_person_black_18dp"
             android:title="My Profile" />
         <item
-            android:id="@+id/nav_tools"
+            android:id="@+id/nav_create_account"
             android:icon="@drawable/ic_menu_manage"
             android:title="Create account" />
-    </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_event_report"
-                android:icon="@drawable/baseline_pie_chart_black_18dp"
-                android:title="Events Report" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_send" />
-        </menu>
-    </item>
+        <item
+            android:id="@+id/nav_event_report"
+            android:icon="@drawable/baseline_pie_chart_black_18dp"
+            android:title="Events Report" />
+
+    </group>
 
 </menu>

@@ -5,13 +5,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.finalyearproject.ui.leaders.LeaderFragment;
+import com.example.finalyearproject.ui.profile.ProfileFragment;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.MyViewHolder> {
-    private ArrayList<String> values;
+import Objects.Leader;
+import Objects.Member;
+
+public class LeaderAdapter extends RecyclerView.Adapter<LeaderAdapter.MyViewHolder> {
+    private ArrayList<Leader> values;
     public static final String MESSAGE_KEY1 ="text";
     public static final String MESSAGE_KEY2 ="position";
     // Provide a reference to the views for each data item
@@ -28,14 +40,14 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.MyViewHo
     }
 
     // Provide the dataset to the Adapter
-    public AccountAdapter(ArrayList<String> myDataset) {
+    public LeaderAdapter(ArrayList<Leader> myDataset) {
         values = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                     int viewType) {
+                                           int viewType) {
         // create a new view
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v = inflater.inflate(R.layout.account_layout, parent, false);
@@ -48,35 +60,23 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final String type = values.get(position);
-        holder.txtHeader.setText(type);
+        final Leader type = values.get(position);
+        holder.txtHeader.setText(type.getName());
 
         holder.txtHeader.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //Toast.makeText(MainActivity.mycontext ,name, Toast.LENGTH_SHORT ).show();
+                Toast.makeText(v.getContext() ,type.getPersonID(), Toast.LENGTH_SHORT ).show();
                 //addItem(position);
                 // call activity to pass the item position
-                if(type.equals("Leader")){
-                    Intent intent = new Intent(v.getContext(), CreateLeader.class);
-                    v.getContext().startActivity(intent);
-
-                }
-                else if(type.equals("Parent")){
-                    Intent intent = new Intent(v.getContext(), CreateParent.class);
-                    intent.putExtra("type", "new");
-                    v.getContext().startActivity(intent);
-                }
-                else if(type.equals("Member")){
-                    Intent intent = new Intent(v.getContext(), CreateMember.class);
-                    intent.putExtra("type", "new");
-                    v.getContext().startActivity(intent);
-                }
-
+                Intent intent = new Intent(v.getContext(), ViewLeaderDetails.class);
+                intent.putExtra("id", type.getPersonID());
+                intent.putExtra("type", "viewLeader");
+                v.getContext().startActivity(intent);
 
             }
 
-            public void addItem(int position, String item){
+            public void addItem(int position, Leader item){
                 values.add(position, item); //values is the ArrayList
                 notifyItemInserted(position);
             }
@@ -86,7 +86,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.MyViewHo
                 notifyItemRemoved(position);
             }
 
-            public void update(String newItem, int position){
+            public void update(Leader newItem, int position){
                 values.set(position, newItem);
                 notifyItemChanged(position);
             }

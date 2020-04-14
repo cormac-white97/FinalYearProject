@@ -1,4 +1,4 @@
-package com.example.finalyearproject.ui.tools;
+package com.example.finalyearproject.ui.createAccount;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,14 +17,14 @@ import java.util.ArrayList;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.VERTICAL;
 
-public class ToolsFragment extends Fragment {
+public class CreateAccountFragment extends Fragment {
 
-    private ToolsViewModel toolsViewModel;
+    private CreateAccountViewModel createAccountViewModel;
     View v;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_tools, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_create_account, container, false);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.accountView);
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());

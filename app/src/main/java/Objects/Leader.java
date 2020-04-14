@@ -17,29 +17,24 @@ import java.util.UUID;
 //TODO - change to Leader Object and add leader group variable
 public class Leader {
     private String personID;
-    private String personType;
     private String name;
-    private String LastName;
     private String DOB;
     private String group;
     private String Phone;
     private String Email;
     private String vettingDate;
-    private String fcmToken;
 
     public Leader() {
     }
 
-    public Leader(String personID, String personType, String name,  String DOB, String group, String phone, String email, String vettingDate, String fcmToken) {
+    public Leader(String personID, String name, String DOB, String group, String phone, String email, String vettingDate) {
         this.personID = personID;
-        this.personType = personType;
         this.name = name;
         this.DOB = DOB;
         this.group = group;
-        this.Phone = phone;
-        this.Email = email;
+        Phone = phone;
+        Email = email;
         this.vettingDate = vettingDate;
-        this.fcmToken = fcmToken;
     }
 
     public String getPersonID() {
@@ -50,28 +45,12 @@ public class Leader {
         this.personID = personID;
     }
 
-    public String getPersonType() {
-        return personType;
-    }
-
-    public void setPersonType(String personType) {
-        this.personType = personType;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String firstName) {
-        name = firstName;
-    }
-
-    public String getLastName() {
-        return LastName;
-    }
-
-    public void setLastName(String lastName) {
-        LastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDOB() {
@@ -113,13 +92,4 @@ public class Leader {
     public void setVettingDate(String vettingDate) {
         this.vettingDate = vettingDate;
     }
-
-    public String getFcmToken() {
-        return fcmToken;
-    }
-
-    public void setFcmToken(String fcmToken) {
-        this.fcmToken = fcmToken;
-    }
-
 }

@@ -223,7 +223,6 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                             leaderID[0] = ds.getValue(Leader.class).getPersonID();
                             email[0] = ds.getValue(Leader.class).getEmail();
                             name = ds.getValue(Leader.class).getName();
-                            personType[0] = ds.getValue(Leader.class).getPersonType();
                             group[0] = ds.getValue(Leader.class).getGroup();
 
                             for (String id : eventLeaders.keySet()) {

@@ -132,18 +132,15 @@ public class CreateNewEvent extends AppCompatActivity {
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String personID = ds.getValue(Leader.class).getPersonID();
-                    String personType = ds.getValue(Leader.class).getPersonType();
                     String name = ds.getValue(Leader.class).getName();
-                    String lastName = ds.getValue(Leader.class).getLastName();
                     String DOB = ds.getValue(Leader.class).getDOB();
                     String group = ds.getValue(Leader.class).getGroup();
                     String phone = ds.getValue(Leader.class).getPhone();
 
                     String email = ds.getValue(Leader.class).getEmail();
                     String vettingDate = ds.getValue(Leader.class).getVettingDate();
-                    String fcmToken = ds.getValue(Leader.class).getFcmToken();
 
-                    Leader p = new Leader(personID, personType, name, DOB, group, phone, email, vettingDate, fcmToken);
+                    Leader p = new Leader(personID,  name, DOB, group, phone, email, vettingDate);
                     leaders.add(p);
 
                     if (currentUserEmail.equals(email)) {
@@ -251,7 +248,7 @@ public class CreateNewEvent extends AppCompatActivity {
 
                     for (Leader p : leaders) {
                         String leaderGroup = p.getGroup();
-                        String name = p.getName() + " " + p.getLastName();
+                        String name = p.getName();
                         allListItems.put(name, leaderGroup);
                     }
                     //Toast.makeText(parent.getContext(), groupSelected, Toast.LENGTH_SHORT).show();

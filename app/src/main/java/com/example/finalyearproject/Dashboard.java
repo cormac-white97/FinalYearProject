@@ -94,7 +94,7 @@ public class Dashboard extends AppCompatActivity {
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_group, R.id.nav_events,
-                R.id.nav_tools, R.id.nav_event_report, R.id.nav_send)
+                R.id.nav_create_account, R.id.nav_event_report, R.id.nav_leaders)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -129,7 +129,6 @@ public class Dashboard extends AppCompatActivity {
                     if(type.equals("Leader")){
                         email[0] = ds.getValue(Leader.class).getEmail();
                         name[0] = ds.getValue(Leader.class).getName();
-                        personType[0] = ds.getValue(Leader.class).getPersonType();
                         group[0] = ds.getValue(Leader.class).getGroup();
                     }
                     else if(type.equals("Parent")){
@@ -155,6 +154,13 @@ public class Dashboard extends AppCompatActivity {
                         found[0] = true;
                         topic = group[0] + "_" + type;
                         accountType = type;
+
+                        if (type.equals("Parent")){
+                            Menu nav_Menu = navigationView.getMenu();
+                            nav_Menu.findItem(R.id.nav_event_report).setVisible(false);
+                            nav_Menu.findItem(R.id.nav_group).setVisible(false);
+                            nav_Menu.findItem(R.id.nav_create_account).setVisible(false);
+                        }
                         break;
                     }
                 }

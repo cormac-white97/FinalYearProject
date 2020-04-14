@@ -1,4 +1,4 @@
-package com.example.finalyearproject.ui.gallery;
+package com.example.finalyearproject.ui.viewMembers;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,9 +30,9 @@ import java.util.ArrayList;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.VERTICAL;
 
-public class GalleryFragment extends Fragment {
+public class ViewMembersFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private ViewMembersViewModel viewMembersViewModel;
 
     FirebaseDatabase mDatabase;
     DatabaseReference mRef;
@@ -55,9 +55,9 @@ public class GalleryFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
+        viewMembersViewModel =
+                ViewModelProviders.of(this).get(ViewMembersViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_view_members, container, false);
         recyclerView = (RecyclerView) root.findViewById(R.id.groupView);
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());

@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.finalyearproject.ui.gallery.GalleryFragment;
+import com.example.finalyearproject.ui.viewMembers.ViewMembersFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -284,7 +284,7 @@ public class CreateMember extends AppCompatActivity {
             member = new Member(memberProfileId, txtName, txtMemGroup, txtDobDate, txtDomDate, txtNotes);
             memberRef.child("Person").child("Member").child(memberProfileId).setValue(member);
             mProgress.dismiss();
-            Intent i = new Intent(getApplicationContext(), GalleryFragment.class);
+            Intent i = new Intent(getApplicationContext(), ViewMembersFragment.class);
             startActivity(i);
         }
 

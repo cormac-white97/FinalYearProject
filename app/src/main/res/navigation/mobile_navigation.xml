@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/nav_group"
-        android:name="com.example.finalyearproject.ui.gallery.GalleryFragment"
+        android:name="com.example.finalyearproject.ui.viewMembers.ViewMembersFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_view_members" />
 
     <fragment
         android:id="@+id/nav_events"
@@ -24,10 +24,10 @@
         tools:layout="@layout/fragment_profile" />
 
     <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.example.finalyearproject.ui.tools.ToolsFragment"
+        android:id="@+id/nav_create_account"
+        android:name="com.example.finalyearproject.ui.createAccount.CreateAccountFragment"
         android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_createNew" />
+        tools:layout="@layout/fragment_leaders" />
 
     <fragment
         android:id="@+id/nav_event_report"
@@ -36,8 +36,8 @@
         tools:layout="@layout/fragment_event_report" />
 
     <fragment
-        android:id="@+id/nav_send"
-        android:name="com.example.finalyearproject.ui.send.SendFragment"
-        android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
+        android:id="@+id/nav_leaders"
+        android:name="com.example.finalyearproject.ui.leaders.LeaderFragment"
+        android:label="Group Leaders"
+        tools:layout="@layout/fragment_leaders" />
 </navigation>
