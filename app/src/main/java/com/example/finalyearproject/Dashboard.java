@@ -181,6 +181,15 @@ public class Dashboard extends AppCompatActivity {
     }
 
 
+    public void logOut(MenuItem item){
+        mAuth.signOut();
+        Intent logout = new Intent(Dashboard.this, MainActivity.class);
+        startActivity(logout);
+        finish();    }
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

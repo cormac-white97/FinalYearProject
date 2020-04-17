@@ -35,6 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -296,66 +297,71 @@ public class CreateNewEvent extends AppCompatActivity {
     }
 
     public boolean isLeaderAvailable(String startDate, String endDate, String leaderId) {
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        boolean idMatch = false;
-        LinkedHashMap<Long, ArrayList<String>> dbEventDays = new LinkedHashMap<>();
-        ArrayList<Long> newEventDays = new ArrayList<>();
-        long startDateLong = Long.parseLong(startDate);
-        long endDateLong = Long.parseLong(endDate);
+            Date dobDate = new Date(Long.parseLong(endDate));
 
-        for (EventObj e : existingEvents) {
-            long dbStartDate = Long.parseLong(e.getDate());
-            long dbEndDate = Long.parseLong(e.getEndDate());
-            String dbID = e.getCreatedBy();
-            HashMap<String, String> eventLeaders = e.getEventLeaders();
+            boolean idMatch = false;
+            LinkedHashMap<Long, ArrayList<String>> dbEventDays = new LinkedHashMap<>();
+            ArrayList<Long> newEventDays = new ArrayList<>();
+            long startDateLong = Long.parseLong(startDate);
+            long endDateLong = Long.parseLong(endDate);
 
-            boolean dateReached = false;
+            for (EventObj e : existingEvents) {
+                long dbStartDate = Long.parseLong(e.getDate());
+                long dbEndDate = Long.parseLong(e.getEndDate());
+                String dbID = e.getCreatedBy();
+                HashMap<String, String> eventLeaders = e.getEventLeaders();
+
+                boolean dateReached = false;
 
 
-            String uID = e.getCreatedBy();
-            ArrayList<String> leaderIdKeyset = new ArrayList<String>(eventLeaders.keySet());
+                String uID = e.getCreatedBy();
+                ArrayList<String> leaderIdKeyset = new ArrayList<String>(eventLeaders.keySet());
+
+                do {
+                    //add all the days in each existing event in the database to an arraylist
+                    if (dbStartDate == dbEndDate) {
+                        dbEventDays.put(dbStartDate, leaderIdKeyset);
+                        dbStartDate = dbStartDate + 86400000L;
+                        dateReached = true;
+                    } else {
+                        dbEventDays.put(dbStartDate, leaderIdKeyset);
+                        dbStartDate = dbStartDate + 86400000L;
+                    }
+
+                } while (dateReached == false);
+
+
+            }
+            boolean newDateReached = false;
 
             do {
-                //add all the days in each existing event in the database to an arraylist
-                if (dbStartDate == dbEndDate) {
-                    dbEventDays.put(dbStartDate, leaderIdKeyset);
-                    dbStartDate = dbStartDate + 86400000L;
-                    dateReached = true;
+                //add all the days in the new event to an arraylist
+                if (startDateLong == endDateLong) {
+                    newEventDays.add(startDateLong);
+                    startDateLong = startDateLong + 86400000L;
+                    newDateReached = true;
                 } else {
-                    dbEventDays.put(dbStartDate, leaderIdKeyset);
-                    dbStartDate = dbStartDate + 86400000L;
+                    newEventDays.add(startDateLong);
+                    startDateLong = startDateLong + 86400000L;
                 }
 
-            } while (dateReached == false);
+            } while (newDateReached == false);
 
-
-        }
-        boolean newDateReached = false;
-
-        do {
-            //add all the days in the new event to an arraylist
-            if (startDateLong == endDateLong) {
-                newEventDays.add(startDateLong);
-                startDateLong = startDateLong + 86400000L;
-                newDateReached = true;
-            } else {
-                newEventDays.add(startDateLong);
-                startDateLong = startDateLong + 86400000L;
+            //loop through the existing dates in the database and if they match break out of the loop
+            // and display a toast message explaining that the leader is not available on these dates
+            int i = -1;
+            for (Long day : dbEventDays.keySet()) {
+                i++;
+                String id = dbEventDays.get(day).toString();
+                if (newEventDays.contains(day) && id.contains(leaderId)) {
+                    leaderAvailable = false;
+                    break;
+                }
             }
 
-        } while (newDateReached == false);
 
-        //loop through the existing dates in the database and if they match break out of the loop
-        // and display a toast message explaining that the leader is not available on these dates
-        int i = -1;
-        for (Long day : dbEventDays.keySet()) {
-            i++;
-            String id = dbEventDays.get(day).toString();
-            if (newEventDays.contains(day) && id.contains(leaderId)) {
-                leaderAvailable = false;
-                break;
-            }
-        }
         return leaderAvailable;
     }
 
@@ -440,91 +446,100 @@ public class CreateNewEvent extends AppCompatActivity {
         try {
             Date endDateVal = sdf.parse(txtEndDate.getText().toString());
             epochEndDate = endDateVal.getTime();
+            if (eventType.equals("Please Select") || group.equals("Please Select") || txtEndDate.getText().toString().equals("")) {
+                mProgress.dismiss();
+                Toast.makeText(this, "Please Fill All Details", Toast.LENGTH_LONG).show();
+            } else {
+                String eventType = this.eventType;
+                String loc = txtLocation.getText().toString();
+                String dateVal = Startdate;
+                String endDateValue = Long.toString(epochEndDate);
+                String groupType = group;
+                String id = UUID.randomUUID().toString();
+                txtPrice = Double.parseDouble(price.getText().toString());
+                int availableSpaces = 0;
+
+                if(epochEndDate < Long.parseLong(dateVal)){
+                    mProgress.dismiss();
+                    Toast.makeText(this, "The end date cannot be before the start date", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    //if a leader is creating an event they should
+                    //automatically be assigned to the event
+                    eventLeaders.put(createdBy, "Approved");
+
+                    leaderAvailable = isLeaderAvailable(dateVal, endDateValue, createdBy);
+
+                    for (int i = 0; i < eventLeaders.size(); i++) {
+                        String leaderID = eventLeaders.keySet().toArray()[i].toString();
+                        selectedAvailable = isLeaderAvailable(dateVal, endDateValue, leaderID);
+                        if (selectedAvailable == false) {
+                            break;
+                        }
+                    }
+
+                    if (leaderAvailable == true) {
+                        // Write a message to the database
+
+                        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Event");
+                        myRef.keepSynced(true);
+
+                        //check if the permission is not granted
+                        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                            //Check if the user has not denied the request
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)) {
+                                SmsManager smsManager = SmsManager.getDefault();
+                                smsManager.sendTextMessage("0858402059", null, "sms message", null, null);
+                            } else {
+                                //Ask the user for permission
+                                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSION_REQUEST_SEND_SMS);
+                            }
+                            try {
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        //post to database
+                        mProgress.setMessage("Adding to Events");
+                        mProgress.show();
+
+                        if (groupType.equals("Scouts") || groupType.equals("Venutes")) {
+                            availableSpaces = 8 * eventLeaders.size();
+                        } else if (groupType.equals("Beavers") || groupType.equals("Cubs")) {
+                            availableSpaces = 5 * eventLeaders.size();
+                        } else if (groupType.equals("Rovers")) {
+                            //Maximum number of members in any group
+                            //As Rovers are adults there is no set ratio
+                            availableSpaces = 30;
+                        }
+
+                        ArrayList<String> paymentList = new ArrayList<>();
+                        paymentList.add("Empty");
+                        //start uploading....
+                        EventObj e = new EventObj(id, eventType, loc, dateVal, endDateValue, groupType, txtPrice, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, "pending");
+                        myRef.child(id).setValue(e);
+                        mProgress.dismiss();
+                        Intent intent = new Intent(getApplicationContext(), ProfileFragment.class);
+                        startActivity(intent);
+                        finish();
+                    } else if (leaderAvailable == false) {
+                        mProgress.dismiss();
+                        Toast.makeText(getApplicationContext(), "A leader you have selected is not available on the dates you have selected", Toast.LENGTH_LONG).show();
+
+
+                    }
+                }
+
+            }
         } catch (ParseException e) {
+            mProgress.dismiss();
             Toast.makeText(this, "Please enter a correctly formatted date", Toast.LENGTH_SHORT).show();
         }
 
 
-        if (eventType.equals("Please Select") || group.equals("Please Select") || txtEndDate.getText().toString().equals("")) {
-            mProgress.dismiss();
-            Toast.makeText(this, "Please Fill All Details", Toast.LENGTH_LONG).show();
-        } else {
-            String eventType = this.eventType;
-            String loc = txtLocation.getText().toString();
-            String dateVal = Startdate;
-            String endDateValue = Long.toString(epochEndDate);
-            String groupType = group;
-            String id = UUID.randomUUID().toString();
-            txtPrice = Double.parseDouble(price.getText().toString());
-            int availableSpaces = 0;
 
-            //if a leader is creating an event they should
-            //automatically be assigned to the event
-            eventLeaders.put(createdBy, "Approved");
-
-            leaderAvailable = isLeaderAvailable(dateVal, endDateValue, createdBy);
-
-            for (int i = 0; i < eventLeaders.size(); i++) {
-                String leaderID = eventLeaders.keySet().toArray()[i].toString();
-                selectedAvailable = isLeaderAvailable(dateVal, endDateValue, leaderID);
-                if (selectedAvailable == false) {
-                    break;
-                }
-            }
-
-            if (leaderAvailable == true) {
-                // Write a message to the database
-
-                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Event");
-                myRef.keepSynced(true);
-
-                //check if the permission is not granted
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                    //Check if the user has not denied the request
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)) {
-                        SmsManager smsManager = SmsManager.getDefault();
-                        smsManager.sendTextMessage("0858402059", null, "sms message", null, null);
-                    } else {
-                        //Ask the user for permission
-                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSION_REQUEST_SEND_SMS);
-                    }
-                    try {
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                //post to database
-                mProgress.setMessage("Adding to Events");
-                mProgress.show();
-
-                if (groupType.equals("Scouts") || groupType.equals("Venutes")) {
-                    availableSpaces = 8 * eventLeaders.size();
-                } else if (groupType.equals("Beavers") || groupType.equals("Cubs")) {
-                    availableSpaces = 5 * eventLeaders.size();
-                } else if (groupType.equals("Rovers")) {
-                    //Maximum number of members in any group
-                    //As Rovers are adults there is no set ratio
-                    availableSpaces = 30;
-                }
-
-                ArrayList<String> paymentList = new ArrayList<>();
-                paymentList.add("Empty");
-                //start uploading....
-                EventObj e = new EventObj(id, eventType, loc, dateVal, endDateValue, groupType, txtPrice, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, "pending");
-                myRef.child(id).setValue(e);
-                mProgress.dismiss();
-                Intent intent = new Intent(getApplicationContext(), ProfileFragment.class);
-                startActivity(intent);
-                finish();
-            } else if (leaderAvailable == false) {
-                mProgress.dismiss();
-                Toast.makeText(getApplicationContext(), "A leader you have selected is not available on the dates you have selected", Toast.LENGTH_LONG).show();
-
-
-            }
-        }
 
     }
 
