@@ -161,6 +161,11 @@ public class Dashboard extends AppCompatActivity {
                             nav_Menu.findItem(R.id.nav_group).setVisible(false);
                             nav_Menu.findItem(R.id.nav_create_account).setVisible(false);
                         }
+                        else{
+                            Menu nav_Menu = navigationView.getMenu();
+                            nav_Menu.findItem(R.id.nav_payment_history).setVisible(false);
+
+                        }
                         break;
                     }
                 }
@@ -173,73 +178,6 @@ public class Dashboard extends AppCompatActivity {
         });
 
         return found[0];
-    }
-
-
-   /* public void delete(View v){
-        final String dateToDel = startDate.getText().toString();
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final ProgressDialog mProgress = new ProgressDialog(Dashboard.this);
-                mProgress.setMessage("Removing Event");
-
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    final String key = ds.getValue(EventObj.class).getDate();
-                    long longKey = Long.parseLong(key);
-                    DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
-                    String formatted = dateFormat.format(longKey);
-
-                    if(dateToDel.equals(formatted)){
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
-                        builder.setTitle("Warning");
-                        builder.setMessage("Are you sure you want to delete this event?");
-                        builder.setIcon(android.R.drawable.ic_dialog_alert);
-                        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                mProgress.show();
-                                myRef.child(key).removeValue();
-                                Toast.makeText(Dashboard.this, "Event was successfully removed.", Toast.LENGTH_LONG).show();
-
-                            }});
-                        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                // Do nothing
-                                dialog.dismiss();
-                            }
-                        });
-                        AlertDialog alert = builder.create();
-                        alert.show();
-
-                        break;
-                    }
-
-                }
-
-                mProgress.dismiss();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }*/
-
-
-
-    public void editTextWasClicked(MenuItem item){
-        mAuth.signOut();
-        Intent logout = new Intent(Dashboard.this, MainActivity.class);
-        startActivity(logout);
-        finish();
     }
 
 

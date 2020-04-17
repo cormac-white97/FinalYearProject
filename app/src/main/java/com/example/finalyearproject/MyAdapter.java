@@ -125,7 +125,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 b.putString("Long",String.valueOf(lng));
                 b.putString("Lat", String.valueOf(lat));
                 Intent intent = new Intent(v.getContext(), ViewEvent.class );
-                intent.putExtra(ID_KEY, id);
+                intent.putExtra("ID_KEY", id);
                 intent.putExtras(b);
                 v.getContext().startActivity(intent);
 

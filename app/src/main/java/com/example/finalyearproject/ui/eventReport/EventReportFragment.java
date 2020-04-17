@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import Objects.EventObj;
+
 import com.example.finalyearproject.MyAdapter;
 import com.example.finalyearproject.R;
 import com.github.mikephil.charting.charts.PieChart;
@@ -87,26 +88,22 @@ public class EventReportFragment extends Fragment implements OnChartValueSelecte
                     String approved = ds.getValue(EventObj.class).getApproved();
                     boolean dateReached = false;
 
-                    EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, paymentList,  availableSpaces, lng, lat, approved);
+                    EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, approved);
                     eventDetails.add(e);
 
-                    if(!groupList.contains(group)){
+                    if (!groupList.contains(group)) {
                         groupList.add(group);
                     }
 
-                    if(group.equals("Beavers")){
+                    if (group.equals("Beavers")) {
                         beaverCounter++;
-                    }
-                    else if(group.equals("Cubs")){
+                    } else if (group.equals("Cubs")) {
                         cubCounter++;
-                    }
-                    else if(group.equals("Scouts")){
+                    } else if (group.equals("Scouts")) {
                         scoutCounter++;
-                    }
-                    else if(group.equals("Ventures")){
+                    } else if (group.equals("Ventures")) {
                         ventureCounter++;
-                    }
-                    else if(group.equals("Rovers")){
+                    } else if (group.equals("Rovers")) {
                         roverCounter++;
                     }
 
@@ -114,15 +111,24 @@ public class EventReportFragment extends Fragment implements OnChartValueSelecte
 
                 Collections.sort(groupList);
 
-                eventCount.add(beaverCounter);
-                eventCount.add(cubCounter);
-                eventCount.add(roverCounter);
-                eventCount.add(scoutCounter);
-                eventCount.add(ventureCounter);
+                if (beaverCounter > 0)
+                    eventCount.add(beaverCounter);
+
+                if (cubCounter > 0)
+                    eventCount.add(cubCounter);
+
+                if (roverCounter > 0)
+                    eventCount.add(roverCounter);
+
+                if (scoutCounter > 0)
+                    eventCount.add(scoutCounter);
+
+                if (ventureCounter > 0)
+                    eventCount.add(ventureCounter);
 
                 List<PieEntry> pieEntries = new ArrayList<>();
 
-                for (int i = 0; i < eventCount.size(); i++){
+                for (int i = 0; i < groupList.size(); i++) {
                     pieEntries.add(new PieEntry(eventCount.get(i), groupList.get(i)));
                 }
 
@@ -143,7 +149,7 @@ public class EventReportFragment extends Fragment implements OnChartValueSelecte
                 chart.invalidate();
                 chart.setClickable(true);
                 chart.setOnChartValueSelectedListener(EventReportFragment.this);
-                chart.setCenterText("Events" );
+                chart.setCenterText("Events");
                 chart.setCenterTextSize(25F);
                 chart.getDescription().setEnabled(false);
                 chart.setCenterTextColor(Color.parseColor("#084897"));
@@ -151,13 +157,11 @@ public class EventReportFragment extends Fragment implements OnChartValueSelecte
             }
 
 
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
 
 
         return root;
@@ -178,7 +182,7 @@ public class EventReportFragment extends Fragment implements OnChartValueSelecte
 
         for (EventObj ed : eventDetails) {
             if (ed.getGroup().equals(String.valueOf(pe.getLabel()))) {
-                EventObj eventObj = new EventObj(ed.getId(), ed.getType(), ed.getLocation(), ed.getDate(), ed.getEndDate(),ed.getGroup(), ed.getPrice(), ed.getCreatedBy(), ed.getEventLeaders(), ed.getPaymentList(), ed.getAvailableSpaces(), ed.getLat(), ed.getLng(), ed.getApproved());
+                EventObj eventObj = new EventObj(ed.getId(), ed.getType(), ed.getLocation(), ed.getDate(), ed.getEndDate(), ed.getGroup(), ed.getPrice(), ed.getCreatedBy(), ed.getEventLeaders(), ed.getPaymentList(), ed.getAvailableSpaces(), ed.getLat(), ed.getLng(), ed.getApproved());
                 myDataset.add(eventObj);
             }
         }

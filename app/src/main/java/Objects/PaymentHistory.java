@@ -9,6 +9,9 @@ public class PaymentHistory {
     String group;
     String location;
 
+    public PaymentHistory() {
+    }
+
     public PaymentHistory(String paymentId, double amount, String eventId, String parentId, String memberId, String group, String location) {
         this.paymentId = paymentId;
         this.amount = amount;

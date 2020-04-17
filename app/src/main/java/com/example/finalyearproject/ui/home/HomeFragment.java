@@ -342,10 +342,5 @@ public class HomeFragment extends Fragment {
             calendar.addEvent(ev2);
         }
 
-
-        if (loggedInType.equals("Parent")) {
-            Toast.makeText(getContext(), "parent", Toast.LENGTH_LONG).show();
-        }
-
     }
 }

@@ -18,6 +18,7 @@ import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -227,6 +228,8 @@ public class CreateNewEvent extends AppCompatActivity {
             txtStartDate.setText(dateVal);
             txtLocation.setText(location);
 
+            Button btnUpdate = findViewById(R.id.btnUpdateEvent);
+            btnUpdate.setVisibility(View.GONE);
 
         }
         else if(type.equals("Edit")){
@@ -420,9 +423,12 @@ public class CreateNewEvent extends AppCompatActivity {
 
                 for (Leader p1 : leaders) {
                     String name = p1.getName();
-                    if (item.contains(name)) {
-                        eventLeaders.put(p1.getPersonID(), "pending");
+                    if(!eventLeaders.isEmpty()){
+                        if (item.contains(name)) {
+                            eventLeaders.put(p1.getPersonID(), "pending");
+                        }
                     }
+
 
                 }
 

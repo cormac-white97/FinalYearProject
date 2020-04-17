@@ -147,7 +147,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                 mUser = mAuth.getInstance().getCurrentUser();
 
                 Intent intent = getIntent();
-                final String clickedID = intent.getStringExtra(MyAdapter.ID_KEY);
+                final String clickedID = intent.getStringExtra("ID_KEY");
 
                 final String currentUserEmail = mUser.getEmail();
 

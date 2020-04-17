@@ -40,4 +40,10 @@
         android:name="com.example.finalyearproject.ui.leaders.LeaderFragment"
         android:label="Group Leaders"
         tools:layout="@layout/fragment_leaders" />
+
+    <fragment
+        android:id="@+id/nav_payment_history"
+        android:name="com.example.finalyearproject.ui.paymentHistory.PaymentHistoryFragment"
+        android:label="Payment History"
+        tools:layout="@layout/fragment_leaders" />
 </navigation>

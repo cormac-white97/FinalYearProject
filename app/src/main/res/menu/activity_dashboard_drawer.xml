@@ -31,6 +31,11 @@
             android:icon="@drawable/baseline_pie_chart_black_18dp"
             android:title="Events Report" />
 
+        <item
+            android:id="@+id/nav_payment_history"
+            android:icon="@drawable/payment_icon"
+            android:title="My Payments" />
+
     </group>
 
 </menu>
