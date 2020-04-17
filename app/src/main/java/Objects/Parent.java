@@ -8,19 +8,17 @@ public class Parent {
     String email;
     String childId;
     String group;
-    String fcmToken;
 
     public Parent() {
     }
 
-    public Parent(String parentId, String name, String phone, String email, String childId, String group, String fcmToken) {
+    public Parent(String parentId, String name, String phone, String email, String childId, String group) {
         this.parentId = parentId;
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.childId = childId;
         this.group = group;
-        this.fcmToken = fcmToken;
     }
 
     public String getParentId() {
@@ -71,11 +69,4 @@ public class Parent {
         this.group = group;
     }
 
-    public String getFcmToken() {
-        return fcmToken;
-    }
-
-    public void setFcmToken(String fcmToken) {
-        this.fcmToken = fcmToken;
-    }
 }

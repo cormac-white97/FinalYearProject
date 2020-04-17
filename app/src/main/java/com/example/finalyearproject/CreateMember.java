@@ -83,12 +83,11 @@ public class CreateMember extends AppCompatActivity {
                     String email = ds.getValue(Parent.class).getEmail();
                     String childId = ds.getValue(Parent.class).getChildId();
                     String group = ds.getValue(Parent.class).getGroup();
-                    String fcmToken = ds.getValue(Parent.class).getFcmToken();
 
 
                     String childName = name;
 
-                    Parent p = new Parent(parentId, name, phone, email, childId, group, fcmToken);
+                    Parent p = new Parent(parentId, name, phone, email, childId, group);
                     allParents.add(p);
                     parentList.add(childName);
                 }

@@ -4,16 +4,18 @@ public class Review {
     String reviewId;
     String parentId;
     String eventId;
+    String createdBy;
     String title;
     String body;
 
     public Review() {
     }
 
-    public Review(String reviewId, String parentId, String eventId, String title, String body) {
+    public Review(String reviewId, String parentId, String eventId, String createdBy, String title, String body) {
         this.reviewId = reviewId;
         this.parentId = parentId;
         this.eventId = eventId;
+        this.createdBy = createdBy;
         this.title = title;
         this.body = body;
     }
@@ -40,6 +42,14 @@ public class Review {
 
     public void setEventId(String eventId) {
         this.eventId = eventId;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public String getTitle() {

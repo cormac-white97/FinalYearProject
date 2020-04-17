@@ -190,7 +190,8 @@ public class CreateNewEvent extends AppCompatActivity {
                     double lat = ds.getValue(EventObj.class).getLat();
                     double lng = ds.getValue(EventObj.class).getLat();
                     String approved = ds.getValue(EventObj.class).getApproved();
-                    EventObj evObj = new EventObj(eventId, eventType, eventLocation, eventStartDate, eventEndDate, eventGroup, price, eventCreatedBy, eventLeaders, paymentList, availableSpaces, lng, lat, approved);
+                    HashMap<String, String> parentReviews = ds.getValue(EventObj.class).getParentReviews();
+                    EventObj evObj = new EventObj(eventId, eventType, eventLocation, eventStartDate, eventEndDate, eventGroup, price, eventCreatedBy, eventLeaders, parentReviews, paymentList, availableSpaces, lng, lat, approved);
                     existingEvents.add(evObj);
                 }
 
@@ -297,69 +298,69 @@ public class CreateNewEvent extends AppCompatActivity {
     }
 
     public boolean isLeaderAvailable(String startDate, String endDate, String leaderId) {
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-            Date dobDate = new Date(Long.parseLong(endDate));
+        Date dobDate = new Date(Long.parseLong(endDate));
 
-            boolean idMatch = false;
-            LinkedHashMap<Long, ArrayList<String>> dbEventDays = new LinkedHashMap<>();
-            ArrayList<Long> newEventDays = new ArrayList<>();
-            long startDateLong = Long.parseLong(startDate);
-            long endDateLong = Long.parseLong(endDate);
+        boolean idMatch = false;
+        LinkedHashMap<Long, ArrayList<String>> dbEventDays = new LinkedHashMap<>();
+        ArrayList<Long> newEventDays = new ArrayList<>();
+        long startDateLong = Long.parseLong(startDate);
+        long endDateLong = Long.parseLong(endDate);
 
-            for (EventObj e : existingEvents) {
-                long dbStartDate = Long.parseLong(e.getDate());
-                long dbEndDate = Long.parseLong(e.getEndDate());
-                String dbID = e.getCreatedBy();
-                HashMap<String, String> eventLeaders = e.getEventLeaders();
+        for (EventObj e : existingEvents) {
+            long dbStartDate = Long.parseLong(e.getDate());
+            long dbEndDate = Long.parseLong(e.getEndDate());
+            String dbID = e.getCreatedBy();
+            HashMap<String, String> eventLeaders = e.getEventLeaders();
 
-                boolean dateReached = false;
-
-
-                String uID = e.getCreatedBy();
-                ArrayList<String> leaderIdKeyset = new ArrayList<String>(eventLeaders.keySet());
-
-                do {
-                    //add all the days in each existing event in the database to an arraylist
-                    if (dbStartDate == dbEndDate) {
-                        dbEventDays.put(dbStartDate, leaderIdKeyset);
-                        dbStartDate = dbStartDate + 86400000L;
-                        dateReached = true;
-                    } else {
-                        dbEventDays.put(dbStartDate, leaderIdKeyset);
-                        dbStartDate = dbStartDate + 86400000L;
-                    }
-
-                } while (dateReached == false);
+            boolean dateReached = false;
 
 
-            }
-            boolean newDateReached = false;
+            String uID = e.getCreatedBy();
+            ArrayList<String> leaderIdKeyset = new ArrayList<String>(eventLeaders.keySet());
 
             do {
-                //add all the days in the new event to an arraylist
-                if (startDateLong == endDateLong) {
-                    newEventDays.add(startDateLong);
-                    startDateLong = startDateLong + 86400000L;
-                    newDateReached = true;
+                //add all the days in each existing event in the database to an arraylist
+                if (dbStartDate == dbEndDate) {
+                    dbEventDays.put(dbStartDate, leaderIdKeyset);
+                    dbStartDate = dbStartDate + 86400000L;
+                    dateReached = true;
                 } else {
-                    newEventDays.add(startDateLong);
-                    startDateLong = startDateLong + 86400000L;
+                    dbEventDays.put(dbStartDate, leaderIdKeyset);
+                    dbStartDate = dbStartDate + 86400000L;
                 }
 
-            } while (newDateReached == false);
+            } while (dateReached == false);
 
-            //loop through the existing dates in the database and if they match break out of the loop
-            // and display a toast message explaining that the leader is not available on these dates
-            int i = -1;
-            for (Long day : dbEventDays.keySet()) {
-                i++;
-                String id = dbEventDays.get(day).toString();
-                if (newEventDays.contains(day) && id.contains(leaderId)) {
-                    leaderAvailable = false;
-                    break;
-                }
+
+        }
+        boolean newDateReached = false;
+
+        do {
+            //add all the days in the new event to an arraylist
+            if (startDateLong == endDateLong) {
+                newEventDays.add(startDateLong);
+                startDateLong = startDateLong + 86400000L;
+                newDateReached = true;
+            } else {
+                newEventDays.add(startDateLong);
+                startDateLong = startDateLong + 86400000L;
             }
+
+        } while (newDateReached == false);
+
+        //loop through the existing dates in the database and if they match break out of the loop
+        // and display a toast message explaining that the leader is not available on these dates
+        int i = -1;
+        for (Long day : dbEventDays.keySet()) {
+            i++;
+            String id = dbEventDays.get(day).toString();
+            if (newEventDays.contains(day) && id.contains(leaderId)) {
+                leaderAvailable = false;
+                break;
+            }
+        }
 
 
         return leaderAvailable;
@@ -448,7 +449,7 @@ public class CreateNewEvent extends AppCompatActivity {
         //automatically be assigned to the event
         eventLeaders.put(createdBy, "Approved");
 
-        if(eventLeaders.size() >= 2){
+        if (eventLeaders.size() >= 2) {
             try {
                 Date endDateVal = sdf.parse(txtEndDate.getText().toString());
                 epochEndDate = endDateVal.getTime();
@@ -465,11 +466,10 @@ public class CreateNewEvent extends AppCompatActivity {
                     txtPrice = Double.parseDouble(price.getText().toString());
                     int availableSpaces = 0;
 
-                    if(epochEndDate < Long.parseLong(dateVal)){
+                    if (epochEndDate < Long.parseLong(dateVal)) {
                         mProgress.dismiss();
                         Toast.makeText(this, "The end date cannot be before the start date", Toast.LENGTH_LONG).show();
-                    }
-                    else{
+                    } else {
 
 
                         leaderAvailable = isLeaderAvailable(dateVal, endDateValue, createdBy);
@@ -520,9 +520,11 @@ public class CreateNewEvent extends AppCompatActivity {
                             }
 
                             ArrayList<String> paymentList = new ArrayList<>();
+                           HashMap<String, String> parentReviews = new HashMap<>();
+                            parentReviews.put("Empty", "Empty");
                             paymentList.add("Empty");
                             //start uploading....
-                            EventObj e = new EventObj(id, eventType, loc, dateVal, endDateValue, groupType, txtPrice, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, "pending");
+                            EventObj e = new EventObj(id, eventType, loc, dateVal, endDateValue, groupType, txtPrice, createdBy, eventLeaders, parentReviews, paymentList, availableSpaces, lng, lat, "pending");
                             myRef.child(id).setValue(e);
                             mProgress.dismiss();
                             Intent intent = new Intent(getApplicationContext(), ProfileFragment.class);
@@ -541,8 +543,7 @@ public class CreateNewEvent extends AppCompatActivity {
                 mProgress.dismiss();
                 Toast.makeText(this, "Please enter a correctly formatted date", Toast.LENGTH_SHORT).show();
             }
-        }
-        else{
+        } else {
             mProgress.dismiss();
             Toast.makeText(this, "A minimum of two leaders are required to run an event", Toast.LENGTH_SHORT).show();
         }

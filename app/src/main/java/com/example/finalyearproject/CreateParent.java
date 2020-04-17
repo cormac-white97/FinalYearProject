@@ -172,7 +172,7 @@ public class CreateParent extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Toast.makeText(CreateParent.this, "Worked", Toast.LENGTH_LONG).show();
                                 String id = mUser.getUid();
-                                Parent parent = new Parent(id, txtname, txtPhone, txtEmail, childId, parentGroup, " ");
+                                Parent parent = new Parent(id, txtname, txtPhone, txtEmail, childId, parentGroup);
 
                                 parentRef.child("Person").child("Parent").child(id).setValue(parent);
                                 mProgress.dismiss();
@@ -214,7 +214,7 @@ public class CreateParent extends AppCompatActivity {
             parentRef = mDatabase.getInstance().getReference();
 
             String id = mUser.getUid();
-            Parent parent = new Parent(id, txtname, txtPhone, txtEmail, childId, parentGroup, " ");
+            Parent parent = new Parent(id, txtname, txtPhone, txtEmail, childId, parentGroup);
 
             parentRef.child("Person").child("Parent").child(id).setValue(parent);
             mProgress.dismiss();

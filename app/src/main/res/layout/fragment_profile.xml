@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/imgProfile"
             android:layout_width="match_parent"
             android:layout_height="119dp"
             android:layout_marginTop="10dp"
@@ -116,6 +116,23 @@
                 android:inputType="date" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <Button
+            android:id="@+id/btnMakePayment"
+            android:layout_width="230dp"
+            android:layout_height="54dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/btn_rounded"
+            android:text="View Event Reviews"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
     </LinearLayout>
 

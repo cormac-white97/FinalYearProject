@@ -37,6 +37,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.VERTICAL;
@@ -87,8 +88,10 @@ public class EventReportFragment extends Fragment implements OnChartValueSelecte
                     double lng = ds.getValue(EventObj.class).getLng();
                     String approved = ds.getValue(EventObj.class).getApproved();
                     boolean dateReached = false;
+                   HashMap<String, String> parentReviews = ds.getValue(EventObj.class).getParentReviews();
 
-                    EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, approved);
+
+                    EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, parentReviews, paymentList, availableSpaces, lng, lat, approved);
                     eventDetails.add(e);
 
                     if (!groupList.contains(group)) {
@@ -182,7 +185,7 @@ public class EventReportFragment extends Fragment implements OnChartValueSelecte
 
         for (EventObj ed : eventDetails) {
             if (ed.getGroup().equals(String.valueOf(pe.getLabel()))) {
-                EventObj eventObj = new EventObj(ed.getId(), ed.getType(), ed.getLocation(), ed.getDate(), ed.getEndDate(), ed.getGroup(), ed.getPrice(), ed.getCreatedBy(), ed.getEventLeaders(), ed.getPaymentList(), ed.getAvailableSpaces(), ed.getLat(), ed.getLng(), ed.getApproved());
+                EventObj eventObj = new EventObj(ed.getId(), ed.getType(), ed.getLocation(), ed.getDate(), ed.getEndDate(), ed.getGroup(), ed.getPrice(), ed.getCreatedBy(), ed.getEventLeaders(), ed.getParentReviews(), ed.getPaymentList(), ed.getAvailableSpaces(), ed.getLat(), ed.getLng(), ed.getApproved());
                 myDataset.add(eventObj);
             }
         }

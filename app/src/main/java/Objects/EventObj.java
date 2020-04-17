@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class EventObj implements Parcelable {
     String id;
@@ -17,13 +18,14 @@ public class EventObj implements Parcelable {
     double price;
     String createdBy;
     HashMap<String, String> eventLeaders;
+    HashMap<String, String> parentReviews;
     ArrayList<String> paymentList;
     int availableSpaces;
     double lng;
     double lat;
     String approved;
 
-    public EventObj(String id, String type, String location, String date, String endDate,  String group, double price, String createdBy, HashMap<String, String> eventLeaders, ArrayList<String> paymentList, int availableSpaces,double lng, double lat, String approved) {
+    public EventObj(String id, String type, String location, String date, String endDate, String group, double price, String createdBy, HashMap<String, String> eventLeaders, HashMap<String, String> parentReviews, ArrayList<String> paymentList, int availableSpaces, double lng, double lat, String approved) {
         this.id = id;
         this.type = type;
         this.location = location;
@@ -33,6 +35,7 @@ public class EventObj implements Parcelable {
         this.price = price;
         this.createdBy = createdBy;
         this.eventLeaders = eventLeaders;
+        this.parentReviews = parentReviews;
         this.paymentList = paymentList;
         this.availableSpaces = availableSpaces;
         this.lng = lng;
@@ -58,18 +61,6 @@ public class EventObj implements Parcelable {
         lat = in.readDouble();
         approved = in.readString();
     }
-
-    public static final Creator<EventObj> CREATOR = new Creator<EventObj>() {
-        @Override
-        public EventObj createFromParcel(Parcel in) {
-            return new EventObj(in);
-        }
-
-        @Override
-        public EventObj[] newArray(int size) {
-            return new EventObj[size];
-        }
-    };
 
     public String getId() {
         return id;
@@ -143,6 +134,14 @@ public class EventObj implements Parcelable {
         this.eventLeaders = eventLeaders;
     }
 
+    public HashMap<String, String> getParentReviews() {
+        return parentReviews;
+    }
+
+    public void setParentReviews(HashMap<String, String> parentReviews) {
+        this.parentReviews = parentReviews;
+    }
+
     public ArrayList<String> getPaymentList() {
         return paymentList;
     }
@@ -183,10 +182,28 @@ public class EventObj implements Parcelable {
         this.approved = approved;
     }
 
+    public static Creator<EventObj> getCREATOR() {
+        return CREATOR;
+    }
+
+    public static final Creator<EventObj> CREATOR = new Creator<EventObj>() {
+        @Override
+        public EventObj createFromParcel(Parcel in) {
+            return new EventObj(in);
+        }
+
+        @Override
+        public EventObj[] newArray(int size) {
+            return new EventObj[size];
+        }
+    };
+
     @Override
     public int describeContents() {
         return 0;
     }
+
+
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {

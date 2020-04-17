@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -180,6 +181,7 @@ public class HomeFragment extends Fragment {
                     lat = ds.getValue(EventObj.class).getLat();
                     lng = ds.getValue(EventObj.class).getLng();
                     String approved = ds.getValue(EventObj.class).getApproved();
+                    HashMap<String, String> parentReviews = new HashMap<>();
                     boolean dateReached = false;
 
 
@@ -190,7 +192,7 @@ public class HomeFragment extends Fragment {
                     do {
                         if (longDate.equals(longEndDate)) {
                             //Must be repeated one more time to add event to the last day
-                            EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, approved);
+                            EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, parentReviews, paymentList, availableSpaces, lng, lat, approved);
                             eventObjs.add(e);
 
                             addEventMarker(group, longDate, type, ev2, compactCalendar);
@@ -199,7 +201,7 @@ public class HomeFragment extends Fragment {
                             dateReached = true;
                         } else {
 
-                            EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, approved);
+                            EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, parentReviews, paymentList, availableSpaces, lng, lat, approved);
                             eventObjs.add(e);
 
                             addEventMarker(group, longDate, type, ev2, compactCalendar);
@@ -209,7 +211,7 @@ public class HomeFragment extends Fragment {
 
                     } while (dateReached != true);
 
-                    EventObj eObj = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, approved);
+                    EventObj eObj = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, parentReviews, paymentList, availableSpaces, lng, lat, approved);
                     allEventsInDB.add(eObj);
                 }
             }
@@ -260,7 +262,7 @@ public class HomeFragment extends Fragment {
                     while (dateReached == false);
 
                     if (eventDays.contains(dateEpoch)) {
-                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getDate(), e.getEndDate(), e.getGroup(), e.getPrice(), e.getCreatedBy(), e.getEventLeaders(), e.getPaymentList(), e.getAvailableSpaces(), e.getLat(), e.getLng(), e.getApproved());
+                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getDate(), e.getEndDate(), e.getGroup(), e.getPrice(), e.getCreatedBy(), e.getEventLeaders(), e.getParentReviews(), e.getPaymentList(), e.getAvailableSpaces(), e.getLat(), e.getLng(), e.getApproved());
                         myDataset.add(eventObj);
                     }
                 }

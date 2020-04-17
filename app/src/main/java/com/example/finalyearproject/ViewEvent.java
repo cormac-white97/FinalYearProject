@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,8 +40,6 @@ import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -54,9 +51,9 @@ import java.util.UUID;
 
 import Objects.EventObj;
 import Objects.Leader;
-import Objects.Member;
 import Objects.Parent;
 import Objects.PaymentHistory;
+import Objects.Review;
 
 
 public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
@@ -73,11 +70,15 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     private Button btnGoing;
     private Button btnNotGoing;
     private Button btnPay;
+    private Button btnReview;
     private FloatingActionButton btnEventEdit;
     private TextView txtMsg;
 
+    private String eventCreatedBy;
+
     ArrayList<String> leaderNames = new ArrayList<>();
     ArrayList<String> paymentList = new ArrayList<>();
+    ArrayList<Review> reviewList = new ArrayList<>();
     private String eventId;
     private double priceVal;
     HashMap<String, String> eventLeaders = new LinkedHashMap<>();
@@ -86,8 +87,11 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     double lng;
     double lat;
     String eventLocation;
+    HashMap<String, String> parentReviews = new HashMap<>();
     FirebaseDatabase mDatabase;
+    FirebaseDatabase reviewDatabase;
     DatabaseReference mRef;
+    DatabaseReference reviewRef;
     String userType = null;
     String eventGroup;
     String name;
@@ -118,11 +122,13 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         btnNotGoing = findViewById(R.id.btnNo);
         btnPay = findViewById(R.id.btnMakePayment);
         btnEventEdit = findViewById(R.id.btnEventEdit);
+        btnReview = findViewById(R.id.btnOpenReview);
         txtMsg = findViewById(R.id.approvalMessage);
 
         btnGoing.setVisibility(View.INVISIBLE);
         btnNotGoing.setVisibility(View.INVISIBLE);
         btnPay.setVisibility(View.INVISIBLE);
+        btnReview.setVisibility(View.INVISIBLE);
         txtMsg.setVisibility(View.INVISIBLE);
 
 
@@ -131,6 +137,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
+        reviewDatabase = FirebaseDatabase.getInstance();
 
     }
 
@@ -159,7 +166,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String eventCreatedBy = ds.getValue(EventObj.class).getCreatedBy();
+                    eventCreatedBy = ds.getValue(EventObj.class).getCreatedBy();
                     String eventStartDate = ds.getValue(EventObj.class).getDate();
                     String eventEndDate = ds.getValue(EventObj.class).getEndDate();
                     eventGroup = ds.getValue(EventObj.class).getGroup();
@@ -199,8 +206,9 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                         txtPrice.setText(txtPriceParsed);
                         lat = ds.getValue(EventObj.class).getLat();
                         lng = ds.getValue(EventObj.class).getLng();
+                        parentReviews = ds.getValue(EventObj.class).getParentReviews();
 
-                        event = new EventObj(eventId, eventType, eventLocation, eventStartDate, eventEndDate, eventGroup, priceVal, eventCreatedBy, eventLeaders, paymentList, availableSpaces, lng, lat, approved);
+                        event = new EventObj(eventId, eventType, eventLocation, eventStartDate, eventEndDate, eventGroup, priceVal, eventCreatedBy, eventLeaders,parentReviews, paymentList, availableSpaces, lng, lat, approved);
 
                         MapsInitializer.initialize(getApplicationContext());
                         mMap = googleMap;
@@ -291,11 +299,21 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                 Date today = Calendar.getInstance().getTime();
                                 Long todayLong = Long.parseLong(String.valueOf(today.getTime()));
 
+
                                 if (Long.parseLong(event.getEndDate()) < todayLong) {
-                                    txtMsg.setText("Event passed");
-                                    txtMsg.setVisibility(View.VISIBLE);
-                                }
-                                else{
+                                    if (paymentList.contains(childID[0])) {
+                                        for(String parentId : parentReviews.keySet()){
+                                            if(parentId.equals(mUser.getUid())){
+                                                btnReview.setVisibility(View.INVISIBLE);
+                                            }
+                                            else{
+                                                btnReview.setVisibility(View.VISIBLE);
+                                            }
+                                        }
+
+                                    }
+
+                                } else {
                                     if (mUser.getUid().equals(ID[0]))
                                         if (paymentList.contains(childID[0])) {
                                             btnPay.setVisibility(View.GONE);
@@ -307,7 +325,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                         }
 
                                 }
-                                }
+                            }
 
                             foundUser[0] = true;
                             break;
@@ -382,6 +400,17 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
 
         startActivityForResult(intent, paypal_request_code);
+    }
+
+    public void openReview(View v) {
+        String eventID = eventId;
+        String parentId = mUser.getUid();
+
+        Intent openReview = new Intent(this, AddReview.class);
+        openReview.putExtra("eventId", eventID);
+        openReview.putExtra("parentId", parentId);
+        openReview.putExtra("createdBy", eventCreatedBy);
+        startActivity(openReview);
     }
 
     @Override
