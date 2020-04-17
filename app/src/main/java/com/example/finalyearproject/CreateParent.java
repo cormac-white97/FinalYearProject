@@ -60,6 +60,7 @@ public class CreateParent extends AppCompatActivity {
     ArrayList<Member> allMember = new ArrayList<>();
     ArrayList<String> childList = new ArrayList<>();
     private Activity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +86,8 @@ public class CreateParent extends AppCompatActivity {
                         String txtName = ds.getValue(Parent.class).getName();
                         String txtEmail = ds.getValue(Parent.class).getEmail();
                         String txtPhone = ds.getValue(Parent.class).getPhone();
-
+                        String txtChildId = ds.getValue(Parent.class).getChildId();
+                        String txtParentGroup = ds.getValue(Parent.class).getGroup();
 
 
                         EditText name = findViewById(R.id.txtParentName);
@@ -93,19 +95,19 @@ public class CreateParent extends AppCompatActivity {
                         EditText password = findViewById(R.id.txtParentPass);
                         EditText confirm = findViewById(R.id.txtParentConfirm);
                         EditText phone = findViewById(R.id.txtParentPhone);
-                        final Spinner child = findViewById(R.id.parentChild);
 
                         //The password can be updated from the log in page
                         password.setVisibility(View.GONE);
                         confirm.setVisibility(View.GONE);
-                        //The parent should not be able to update who their child is
-                        child.setVisibility(View.GONE);
+
 
                         if (id.equals(parentId)) {
 
                             name.setText(txtName);
                             email.setText(txtEmail);
                             phone.setText(txtPhone);
+                            childId = txtChildId;
+                            parentGroup = txtParentGroup;
 
                             Button btnCreate = findViewById(R.id.create_parent_account);
                             btnCreate.setVisibility(View.INVISIBLE);
@@ -125,12 +127,10 @@ public class CreateParent extends AppCompatActivity {
                 }
             });
         } else {
-            Button btnUpdate = findViewById(R.id.btnMemberUpdate);
+            Button btnUpdate = findViewById(R.id.btnParentUpdate);
             btnUpdate.setVisibility(View.INVISIBLE);
         }
     }
-
-
 
 
     public void createNewParent(View v) {
@@ -210,43 +210,22 @@ public class CreateParent extends AppCompatActivity {
         final String txtPhone = phone.getText().toString();
 
 
-        int i = 0;
-        for (Member member : allMember) {
-
-            if (member.getName().equals(child.getSelectedItem().toString())) {
-                childId = member.getId();
-                //Assign the parent to the same group as their child
-                parentGroup = member.getGroup();
-                break;
-            }
-            i++;
-        }
         if (txtPass.equals(txtConfirm) && mAuth != null) {
             parentRef = mDatabase.getInstance().getReference();
-            mAuth.createUserWithEmailAndPassword(txtEmail, txtPass)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Toast.makeText(CreateParent.this, "Worked", Toast.LENGTH_LONG).show();
-                                String id = mUser.getUid();
-                                Parent parent = new Parent(id, txtname, txtPhone, txtEmail, childId, parentGroup, " ");
 
-                                parentRef.child("Person").child("Parent").child(id).setValue(parent);
-                                mProgress.dismiss();
-                                activity.finish();
+            String id = mUser.getUid();
+            Parent parent = new Parent(id, txtname, txtPhone, txtEmail, childId, parentGroup, " ");
 
-                            } else {
-                                mProgress.dismiss();
-                                Toast.makeText(CreateParent.this, "Didn't Work", Toast.LENGTH_LONG).show();
+            parentRef.child("Person").child("Parent").child(id).setValue(parent);
+            mProgress.dismiss();
+            activity.finish();
 
-                            }
-                        }
-                    });
         } else {
-            Toast.makeText(CreateParent.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            mProgress.dismiss();
+            Toast.makeText(CreateParent.this, "Didn't Work", Toast.LENGTH_LONG).show();
+
         }
+
 
     }
 }

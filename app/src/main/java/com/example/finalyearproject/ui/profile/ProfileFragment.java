@@ -94,173 +94,165 @@ public class ProfileFragment extends Fragment {
         txtProfilePhoneNum = view.findViewById(R.id.profilePhoneNum);
         btnEdit = view.findViewById(R.id.btnEdit);
 
-        if(intentType.equals("myProfile")){
-            for (final String accountType : accountTypes) {
-                database = FirebaseDatabase.getInstance();
-                myRef = database.getReference("Person").child(accountType);
-                if (accountType.equals("Leader")) {
-                    myRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                                String id = ds.getValue(Leader.class).getPersonID();
-                                String name = ds.getValue(Leader.class).getName();
-                                String email = ds.getValue(Leader.class).getEmail();
-                                String DOB = ds.getValue(Leader.class).getDOB();
-                                String vettingDate = ds.getValue(Leader.class).getVettingDate();
-                                String group = ds.getValue(Leader.class).getGroup();
-                                String phone = ds.getValue(Leader.class).getPhone();
+        for (final String accountType : accountTypes) {
+            database = FirebaseDatabase.getInstance();
+            myRef = database.getReference("Person").child(accountType);
+            if (accountType.equals("Leader")) {
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                                if (id.equals(userId)) {
-                                    Toast.makeText(getContext(), "leader found", Toast.LENGTH_LONG).show();
-                                    txtProfileName.setText(name);
-                                    txtProfileEmail.setText(email);
-                                    txtDOB.setText(DOB);
-                                    txtVettingDate.setText(vettingDate);
-                                    txtProfileGroup.setText(group);
-                                    txtProfilePhoneNum.setText(phone);
-                                    break;
-                                }
+                            String id = ds.getValue(Leader.class).getPersonID();
+                            String name = ds.getValue(Leader.class).getName();
+                            String email = ds.getValue(Leader.class).getEmail();
+                            String DOB = ds.getValue(Leader.class).getDOB();
+                            String vettingDate = ds.getValue(Leader.class).getVettingDate();
+                            String group = ds.getValue(Leader.class).getGroup();
+                            String phone = ds.getValue(Leader.class).getPhone();
 
+                            if (id.equals(userId)) {
+                                Toast.makeText(getContext(), "leader found", Toast.LENGTH_LONG).show();
+                                txtProfileName.setText(name);
+                                txtProfileEmail.setText(email);
+                                txtDOB.setText(DOB);
+                                txtVettingDate.setText(vettingDate);
+                                txtProfileGroup.setText(group);
+                                txtProfilePhoneNum.setText(phone);
+                                break;
                             }
-                        }
-
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
                         }
-                    });
-                }
-                else if(accountType.equals("Parent")){
-                    myRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-                                String id = ds.getValue(Parent.class).getParentId();
-                                String name = ds.getValue(Parent.class).getName();
-                                String email = ds.getValue(Parent.class).getEmail();
-
-                                String group = ds.getValue(Parent.class).getGroup();
-                                String phone = ds.getValue(Parent.class).getPhone();
+                    }
 
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                if (id.equals(userId)) {
-                                    child = ds.getValue(Parent.class).getChildId();
-                                    txtProfileName.setText(name);
-                                    txtProfileEmail.setText(email);
-                                    txtProfileGroup.setText(group);
-                                    txtProfilePhoneNum.setText(phone);
+                    }
+                });
+            } else if (accountType.equals("Parent")) {
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                                    TextInputLayout vettingDate = view.findViewById(R.id.text_input_layout_txtVetting);
-                                    TextInputLayout dob = view.findViewById(R.id.text_input_layout_txtDOB);
-                                    dob.setVisibility(View.INVISIBLE);
-                                    txtDOB.setVisibility(View.INVISIBLE);
-                                    vettingDate.setHint("Child");
+                            String id = ds.getValue(Parent.class).getParentId();
+                            String name = ds.getValue(Parent.class).getName();
+                            String email = ds.getValue(Parent.class).getEmail();
 
-                                    myRef = database.getReference("Person").child("Member");
-                                    myRef.addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-                                                String id = ds.getValue(Member.class).getId();
-                                                String name = ds.getValue(Member.class).getName();
+                            String group = ds.getValue(Parent.class).getGroup();
+                            String phone = ds.getValue(Parent.class).getPhone();
 
 
+                            if (id.equals(userId)) {
+                                child = ds.getValue(Parent.class).getChildId();
+                                txtProfileName.setText(name);
+                                txtProfileEmail.setText(email);
+                                txtProfileGroup.setText(group);
+                                txtProfilePhoneNum.setText(phone);
 
-                                                if (id.equals(child)) {
-                                                    txtVettingDate.setText(name);
-                                                    break;
-                                                }
+                                TextInputLayout vettingDate = view.findViewById(R.id.text_input_layout_txtVetting);
+                                TextInputLayout dob = view.findViewById(R.id.text_input_layout_txtDOB);
+                                dob.setVisibility(View.INVISIBLE);
+                                txtDOB.setVisibility(View.INVISIBLE);
+                                vettingDate.setHint("Child");
 
+                                myRef = database.getReference("Person").child("Member");
+                                myRef.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                                            String id = ds.getValue(Member.class).getId();
+                                            String name = ds.getValue(Member.class).getName();
+
+
+                                            if (id.equals(child)) {
+                                                txtVettingDate.setText(name);
+                                                break;
                                             }
-                                        }
-
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                         }
-                                    });
+                                    }
 
-                                    txtVettingDate.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Intent childDetails = new Intent(getContext(), MemberProfile.class);
-                                            childDetails.putExtra("id", child);
-                                            startActivity(childDetails);
-                                        }
-                                    });
 
-                                    btnEdit.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Intent updateParent = new Intent(getContext(), CreateParent.class);
-                                            updateParent.putExtra("id", userId);
-                                            updateParent.putExtra("type", "update");
-                                            startActivity(updateParent);
-                                        }
-                                    });
-                                }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                                    }
+                                });
+
+                                txtVettingDate.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent childDetails = new Intent(getContext(), MemberProfile.class);
+                                        childDetails.putExtra("id", child);
+                                        startActivity(childDetails);
+                                    }
+                                });
+
+                                btnEdit.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent updateParent = new Intent(getContext(), CreateParent.class);
+                                        updateParent.putExtra("id", userId);
+                                        updateParent.putExtra("type", "update");
+                                        startActivity(updateParent);
+                                    }
+                                });
                             }
-                        }
-
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
                         }
-                    });
+                    }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        }
+
+
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("Person").child("Leader");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                    String id = ds.getValue(Leader.class).getPersonID();
+                    String name = ds.getValue(Leader.class).getName();
+                    String email = ds.getValue(Leader.class).getEmail();
+                    String DOB = ds.getValue(Leader.class).getDOB();
+                    String vettingDate = ds.getValue(Leader.class).getVettingDate();
+                    String group = ds.getValue(Leader.class).getGroup();
+                    String phone = ds.getValue(Leader.class).getPhone();
+
+                    if (id.equals(intentId)) {
+                        Toast.makeText(getContext(), "leader found", Toast.LENGTH_LONG).show();
+                        txtProfileName.setText(name);
+                        txtProfileEmail.setText(email);
+                        txtDOB.setText(DOB);
+                        txtVettingDate.setText(vettingDate);
+                        txtProfileGroup.setText(group);
+                        txtProfilePhoneNum.setText(phone);
+                        break;
+                    }
 
                 }
             }
-        }
-        else if(intentType.equals("viewLeader") && intentId != null){
-
-            database = FirebaseDatabase.getInstance();
-            myRef = database.getReference("Person").child("Leader");
-            myRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-                        String id = ds.getValue(Leader.class).getPersonID();
-                        String name = ds.getValue(Leader.class).getName();
-                        String email = ds.getValue(Leader.class).getEmail();
-                        String DOB = ds.getValue(Leader.class).getDOB();
-                        String vettingDate = ds.getValue(Leader.class).getVettingDate();
-                        String group = ds.getValue(Leader.class).getGroup();
-                        String phone = ds.getValue(Leader.class).getPhone();
-
-                        if (id.equals(intentId)) {
-                            Toast.makeText(getContext(), "leader found", Toast.LENGTH_LONG).show();
-                            txtProfileName.setText(name);
-                            txtProfileEmail.setText(email);
-                            txtDOB.setText(DOB);
-                            txtVettingDate.setText(vettingDate);
-                            txtProfileGroup.setText(group);
-                            txtProfilePhoneNum.setText(phone);
-                            break;
-                        }
-
-                    }
-                }
 
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });
-        }
-
-
-
+            }
+        });
 
 
         return view;

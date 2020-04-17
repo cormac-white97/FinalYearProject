@@ -1,15 +1,18 @@
 
 package com.example.finalyearproject;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,6 +67,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     private Button btnGoing;
     private Button btnNotGoing;
     private Button btnPay;
+    private FloatingActionButton btnEventEdit;
     private TextView txtMsg;
 
     ArrayList<String> leaderNames = new ArrayList<>();
@@ -83,8 +87,9 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     String name;
     int txtAvailableSpaces;
     boolean onLeaderList = false;
-    private boolean approved = false;
+    private String approved;
     String personId;
+    EventObj event;
     private PaymentsClient paymentsClient;
     private static final int paypal_request_code = 7171;
     public static final String paypalClientID = "AWxCqTIpH--tM8IgOK9bBxAcM_eaG-3stEMSKBUrE0wVgycoGkbjPBFKupgfIZPXeZtlgF5AmmjEgdPZ";
@@ -106,6 +111,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         btnGoing = findViewById(R.id.btnGoing);
         btnNotGoing = findViewById(R.id.btnNo);
         btnPay = findViewById(R.id.btnMakePayment);
+        btnEventEdit = findViewById(R.id.btnEventEdit);
         txtMsg = findViewById(R.id.approvalMessage);
 
         btnGoing.setVisibility(View.INVISIBLE);
@@ -135,6 +141,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
         mRef = mDatabase.getReference("Event");
         mRef.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUser = mAuth.getInstance().getCurrentUser();
@@ -158,6 +165,8 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                     paymentList = ds.getValue(EventObj.class).getPaymentList();
                     priceVal = ds.getValue(EventObj.class).getPrice();
                     int availableSpaces = ds.getValue(EventObj.class).getAvailableSpaces();
+                    approved = ds.getValue(EventObj.class).getApproved();
+
 
                     LinkedHashMap<String, String> leadersAttending = new LinkedHashMap<>(eventLeaders);
 
@@ -171,7 +180,13 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                     }
 
 
+
                     if (eventId.equals(clickedID)) {
+
+                        String userId = mUser.getUid();
+                        if (!eventCreatedBy.equals(mUser.getUid())) {
+                            btnEventEdit.hide();
+                        }
                         String txtPriceParsed = "€" + String.valueOf(priceVal);
                         txtGroup.setText(eventGroup);
                         txtLocation.setText(eventLocation);
@@ -180,6 +195,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                         lat = ds.getValue(EventObj.class).getLat();
                         lng = ds.getValue(EventObj.class).getLng();
 
+                        event = new EventObj(eventId, eventType, eventLocation, eventStartDate, eventEndDate, eventGroup, priceVal, eventCreatedBy, eventLeaders, paymentList, availableSpaces, lng, lat, approved);
 
                         MapsInitializer.initialize(getApplicationContext());
                         mMap = googleMap;
@@ -296,6 +312,15 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
             }
         }
 
+        btnEventEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editIntent = new Intent(ViewEvent.this, CreateNewEvent.class);
+                editIntent.putExtra("editEvent", (Parcelable) event);
+                editIntent.putExtra("type", "Edit");
+                startActivity(editIntent);
+            }
+        });
 
         btnGoing.setOnClickListener(new View.OnClickListener() {
             @Override

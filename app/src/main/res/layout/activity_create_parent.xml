@@ -145,7 +145,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/btnMemberUpdate"
+                android:id="@+id/btnParentUpdate"
                 android:layout_width="230dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="100dp"
@@ -153,7 +153,7 @@
                 android:layout_marginEnd="100dp"
                 android:background="@drawable/btn_rounded"
                 android:gravity="center"
-                android:onClick="updateMember"
+                android:onClick="updateParent"
                 android:text="Update Parent Details"
                 android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"

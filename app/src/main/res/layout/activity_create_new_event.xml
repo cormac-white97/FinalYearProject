@@ -110,7 +110,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnCreateEvent"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="117dp"
@@ -121,6 +121,21 @@
         android:background="@drawable/btn_rounded"
         android:onClick="createNewEvent"
         android:text="Create Event"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnUpdateEvent"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="117dp"
+        android:layout_marginEnd="117dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/btn_rounded"
+        android:onClick="updateEvent"
+        android:text="Update Event"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -162,7 +177,7 @@
         android:text="Click to add leaders to the event"
         android:textAlignment="center"
         android:textColor="#084897"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/btnCreateEvent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

@@ -1,10 +1,13 @@
 package Objects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class EventObj {
+public class EventObj implements Parcelable {
     String id;
     String type;
     String location;
@@ -39,6 +42,34 @@ public class EventObj {
 
     public EventObj() {
     }
+
+    protected EventObj(Parcel in) {
+        id = in.readString();
+        type = in.readString();
+        location = in.readString();
+        date = in.readString();
+        endDate = in.readString();
+        group = in.readString();
+        price = in.readDouble();
+        createdBy = in.readString();
+        paymentList = in.createStringArrayList();
+        availableSpaces = in.readInt();
+        lng = in.readDouble();
+        lat = in.readDouble();
+        approved = in.readString();
+    }
+
+    public static final Creator<EventObj> CREATOR = new Creator<EventObj>() {
+        @Override
+        public EventObj createFromParcel(Parcel in) {
+            return new EventObj(in);
+        }
+
+        @Override
+        public EventObj[] newArray(int size) {
+            return new EventObj[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -150,5 +181,27 @@ public class EventObj {
 
     public void setApproved(String approved) {
         this.approved = approved;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(type);
+        dest.writeString(location);
+        dest.writeString(date);
+        dest.writeString(endDate);
+        dest.writeString(group);
+        dest.writeDouble(price);
+        dest.writeString(createdBy);
+        dest.writeStringList(paymentList);
+        dest.writeInt(availableSpaces);
+        dest.writeDouble(lng);
+        dest.writeDouble(lat);
+        dest.writeString(approved);
     }
 }

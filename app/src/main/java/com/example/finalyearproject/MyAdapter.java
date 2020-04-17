@@ -62,7 +62,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public String getNameByID(final String id){
         String nameValue = null;
-        nameValue = dbIDs.get(id);
+        int i = 0;
+        for(String idVal : dbIDs.keySet()){
+            if(idVal.equals(id)){
+                nameValue = dbIDs.values().toArray()[i].toString();
+                break;
+            }
+            i++;
+
+        }
+
 
         return nameValue;
     }

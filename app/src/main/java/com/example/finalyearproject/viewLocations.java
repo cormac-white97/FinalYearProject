@@ -71,6 +71,7 @@ public class viewLocations extends FragmentActivity implements OnMapReadyCallbac
                     intent.putExtra(dateKey, date);
                     intent.putExtra(locationKey, marker.getTitle());
                     intent.putExtras(b);
+                    intent.putExtra("type", "createNew");
                     startActivity(intent);
                     finish();
                 }

@@ -14,7 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.UUID;
 
-//TODO - change to Leader Object and add leader group variable
+
 public class Leader {
     private String personID;
     private String name;

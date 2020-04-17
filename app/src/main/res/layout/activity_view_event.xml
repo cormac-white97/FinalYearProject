@@ -104,7 +104,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="374dp"
+                    android:layout_width="400dp"
                     android:layout_height="66dp"
                     android:layout_marginTop="30dp">
 
@@ -171,6 +171,20 @@
                         app:layout_constraintHorizontal_bias="0.29"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/btnEventEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="78dp"
+                        android:layout_marginBottom="4dp"
+                        android:clickable="true"
+                        app:backgroundTint="#223e92"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@android:drawable/ic_menu_edit" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

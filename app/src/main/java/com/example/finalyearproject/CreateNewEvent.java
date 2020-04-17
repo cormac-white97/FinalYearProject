@@ -62,10 +62,9 @@ public class CreateNewEvent extends AppCompatActivity {
     private DatabaseReference personRef;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-
     private DatabaseReference eventRef;
 
-    String type;
+    String eventType;
     String group;
     String dateVal;
     String Startdate;
@@ -86,10 +85,13 @@ public class CreateNewEvent extends AppCompatActivity {
     boolean[] checkedItems;
     ArrayList<Integer> mUserItems = new ArrayList<>();
     String[] list;
-    TextView mItemSelected;
+    TextView lblSelectedLeaders;
     Calendar myCalendar;
     private final int MY_PERMISSION_REQUEST_SEND_SMS = 0;
 
+    Intent newEvent;
+    String type;
+    EventObj editEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,12 +99,11 @@ public class CreateNewEvent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create_new_event);
-        Intent newEvent = getIntent();
+        newEvent = getIntent();
+        type = newEvent.getStringExtra("type");
+        editEvent = newEvent.getParcelableExtra("editEvent");
         final String location = newEvent.getStringExtra(viewLocations.locationKey);
-        Startdate = newEvent.getStringExtra(viewLocations.dateKey);
-        LatLng latLng = newEvent.getParcelableExtra("location");
-        lng = latLng.longitude;
-        lat = latLng.latitude;
+
         txtEndDate = findViewById(R.id.txtEndDate);
         mProgress = new ProgressDialog(getApplicationContext());
         eventSpinner = (Spinner) findViewById(R.id.txtEvent);
@@ -110,10 +111,10 @@ public class CreateNewEvent extends AppCompatActivity {
         txtLocation = findViewById(R.id.txtLocation);
         txtStartDate = findViewById(R.id.txtStartDate);
         btnReturn = findViewById(R.id.returnArrow);
-        mItemSelected = findViewById(R.id.leaderSelected);
+        lblSelectedLeaders = findViewById(R.id.leaderSelected);
         price = findViewById(R.id.txtPrice);
 
-        mItemSelected.setVisibility(View.GONE);
+        lblSelectedLeaders.setVisibility(View.GONE);
 
         database = FirebaseDatabase.getInstance();
         personRef = database.getReference("Person").child("Leader");
@@ -121,11 +122,11 @@ public class CreateNewEvent extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myCalendar = Calendar.getInstance();
 
-
         personRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUser = mAuth.getInstance().getCurrentUser();
+                createdBy = mUser.getUid();
 
                 final String currentUserEmail = mUser.getEmail();
 
@@ -140,13 +141,10 @@ public class CreateNewEvent extends AppCompatActivity {
                     String email = ds.getValue(Leader.class).getEmail();
                     String vettingDate = ds.getValue(Leader.class).getVettingDate();
 
-                    Leader p = new Leader(personID,  name, DOB, group, phone, email, vettingDate);
+                    Leader p = new Leader(personID, name, DOB, group, phone, email, vettingDate);
+                    //Adding all leader objects to an arraylist to select leaders to assign to event
                     leaders.add(p);
 
-                    if (currentUserEmail.equals(email)) {
-                        createdBy = personID;
-
-                    }
 
                 }
             }
@@ -157,11 +155,14 @@ public class CreateNewEvent extends AppCompatActivity {
             }
         });
 
+
         database = FirebaseDatabase.getInstance();
         eventRef = database.getReference("Event");
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
+        //Reading all events from the db to check that all leaders are not already assigned to
+        //and event on the selected dates
         eventRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -180,7 +181,7 @@ public class CreateNewEvent extends AppCompatActivity {
                     double price = ds.getValue(EventObj.class).getPrice();
                     String eventType = ds.getValue(EventObj.class).getType();
                     HashMap<String, String> eventLeaders = ds.getValue(EventObj.class).getEventLeaders();
-                    ArrayList<String> paymentList =  ds.getValue(EventObj.class).getPaymentList();
+                    ArrayList<String> paymentList = ds.getValue(EventObj.class).getPaymentList();
                     int availableSpaces = ds.getValue(EventObj.class).getAvailableSpaces();
                     double lat = ds.getValue(EventObj.class).getLat();
                     double lng = ds.getValue(EventObj.class).getLat();
@@ -210,28 +211,51 @@ public class CreateNewEvent extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.createNewToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-        dateVal = sdf.format(Float.parseFloat(Startdate));
 
-        txtStartDate.setText(dateVal);
-        txtLocation.setText(location);
+        if(type.equals("createNew")){
+
+            Startdate = newEvent.getStringExtra(viewLocations.dateKey);
+            LatLng latLng = newEvent.getParcelableExtra("location");
+            lng = latLng.longitude;
+            lat = latLng.latitude;
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+            dateVal = sdf.format(Float.parseFloat(Startdate));
+
+            txtStartDate.setText(dateVal);
+            txtLocation.setText(location);
+
+
+        }
+        else if(type.equals("Edit")){
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+            String editStartDateVal = sdf.format(Float.parseFloat(editEvent.getDate()));
+
+            txtStartDate.setText(editStartDateVal);
+            txtLocation.setText(editEvent.getLocation());
+            price.setText("EDIT");
+        }
+
+
         String eventTypeList[] = new String[]{"Please Select", "Camp", "Hike"};
         final String groupTypeList[] = new String[]{"Please Select", "Beavers", "Cubs", "Scouts", "Ventures", "Rovers"};
 
 
-// Create an ArrayAdapter using the string array and a default spinner layout
+        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, eventTypeList);
 
         ArrayAdapter<String> groupAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, groupTypeList);
 
-// Specify the layout to use when the list of choices appears
+        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         groupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-// Apply the adapter to the spinner
+        // Apply the adapter to the spinner
         eventSpinner.setAdapter(adapter);
         groupSpinner.setAdapter(groupAdapter);
 
@@ -245,14 +269,14 @@ public class CreateNewEvent extends AppCompatActivity {
                 listItemsByGroup.clear();
                 if (!groupSelected.equals("Please Select")) {
                     list = null;
-
+                    //Create leader option list based on the selected group
                     for (Leader p : leaders) {
                         String leaderGroup = p.getGroup();
                         String name = p.getName();
                         allListItems.put(name, leaderGroup);
                     }
-                    //Toast.makeText(parent.getContext(), groupSelected, Toast.LENGTH_SHORT).show();
-                    mItemSelected.setVisibility(View.VISIBLE);
+
+                    lblSelectedLeaders.setVisibility(View.VISIBLE);
 
                     int i = -1;
 
@@ -273,9 +297,9 @@ public class CreateNewEvent extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
-                // sometimes you need nothing here
             }
         });
+
 
     }
 
@@ -297,18 +321,18 @@ public class CreateNewEvent extends AppCompatActivity {
 
 
             String uID = e.getCreatedBy();
-            ArrayList<String>leaderIdKeyset = new ArrayList<String>(eventLeaders.keySet());
+            ArrayList<String> leaderIdKeyset = new ArrayList<String>(eventLeaders.keySet());
 
             do {
                 //add all the days in each existing event in the database to an arraylist
-                    if (dbStartDate == dbEndDate) {
-                        dbEventDays.put(dbStartDate, leaderIdKeyset);
-                        dbStartDate = dbStartDate + 86400000L;
-                        dateReached = true;
-                    } else {
-                        dbEventDays.put(dbStartDate, leaderIdKeyset);
-                        dbStartDate = dbStartDate + 86400000L;
-                    }
+                if (dbStartDate == dbEndDate) {
+                    dbEventDays.put(dbStartDate, leaderIdKeyset);
+                    dbStartDate = dbStartDate + 86400000L;
+                    dateReached = true;
+                } else {
+                    dbEventDays.put(dbStartDate, leaderIdKeyset);
+                    dbStartDate = dbStartDate + 86400000L;
+                }
 
             } while (dateReached == false);
 
@@ -362,6 +386,9 @@ public class CreateNewEvent extends AppCompatActivity {
 
 
     public void addLeadersToEvent(View v) {
+        lblSelectedLeaders.setText("");
+        eventLeaders.clear();
+        mUserItems.clear();
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
         mBuilder.setTitle("Available Leaders");
 
@@ -369,11 +396,12 @@ public class CreateNewEvent extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                //add leader name to selected leaders if not already in list
+                //else remove leader if name is unchecked
+                //TODO - this is crashing with an index out of bounds exception when adding and removing names
                 if (isChecked) {
                     if (!mUserItems.contains(which)) {
                         mUserItems.add(which);
-                    } else {
-                        mUserItems.remove(which);
                     }
                 }
 
@@ -382,8 +410,6 @@ public class CreateNewEvent extends AppCompatActivity {
 
         mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                item = "";
-                mItemSelected.setText(item);
 
                 for (int i = 0; i < mUserItems.size(); i++) {
                     if (mUserItems != null) {
@@ -400,7 +426,7 @@ public class CreateNewEvent extends AppCompatActivity {
 
                 }
 
-                mItemSelected.setText(item);
+                lblSelectedLeaders.setText(item);
             }
         });
 
@@ -415,7 +441,7 @@ public class CreateNewEvent extends AppCompatActivity {
         mProgress.setMessage("Please Wait");
         mProgress.show();
 
-        type = eventSpinner.getSelectedItem().toString();
+        eventType = eventSpinner.getSelectedItem().toString();
         group = groupSpinner.getSelectedItem().toString();
         boolean idMatch = false;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -427,11 +453,11 @@ public class CreateNewEvent extends AppCompatActivity {
         }
 
 
-        if (type.equals("Please Select") || group.equals("Please Select") || txtEndDate.getText().toString().equals("")) {
+        if (eventType.equals("Please Select") || group.equals("Please Select") || txtEndDate.getText().toString().equals("")) {
             mProgress.dismiss();
             Toast.makeText(this, "Please Fill All Details", Toast.LENGTH_LONG).show();
         } else {
-            String eventType = type;
+            String eventType = this.eventType;
             String loc = txtLocation.getText().toString();
             String dateVal = Startdate;
             String endDateValue = Long.toString(epochEndDate);
@@ -446,10 +472,10 @@ public class CreateNewEvent extends AppCompatActivity {
 
             leaderAvailable = isLeaderAvailable(dateVal, endDateValue, createdBy);
 
-            for(int i = 0; i < eventLeaders.size(); i++) {
+            for (int i = 0; i < eventLeaders.size(); i++) {
                 String leaderID = eventLeaders.keySet().toArray()[i].toString();
                 selectedAvailable = isLeaderAvailable(dateVal, endDateValue, leaderID);
-                if(selectedAvailable == false){
+                if (selectedAvailable == false) {
                     break;
                 }
             }
@@ -457,25 +483,22 @@ public class CreateNewEvent extends AppCompatActivity {
             if (leaderAvailable == true) {
                 // Write a message to the database
 
-                //TODO - send email based on leader availability
                 DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Event");
                 myRef.keepSynced(true);
 
                 //check if the permission is not granted
-                if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.SEND_SMS)!= PackageManager.PERMISSION_GRANTED){
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                     //Check if the user has not denied the request
-                    if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)){
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)) {
                         SmsManager smsManager = SmsManager.getDefault();
                         smsManager.sendTextMessage("0858402059", null, "sms message", null, null);
-                    }
-                    else{
+                    } else {
                         //Ask the user for permission
-                        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.SEND_SMS}, MY_PERMISSION_REQUEST_SEND_SMS);
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSION_REQUEST_SEND_SMS);
                     }
-                    try{
+                    try {
 
-                    }
-                    catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -484,10 +507,9 @@ public class CreateNewEvent extends AppCompatActivity {
                 mProgress.setMessage("Adding to Events");
                 mProgress.show();
 
-                if(groupType.equals("Scouts") || groupType.equals("Venutes")){
+                if (groupType.equals("Scouts") || groupType.equals("Venutes")) {
                     availableSpaces = 2 * eventLeaders.size();
-                }
-                else{
+                } else {
                     availableSpaces = 3 * eventLeaders.size();
                 }
                 ArrayList<String> paymentList = new ArrayList<>();
@@ -509,16 +531,110 @@ public class CreateNewEvent extends AppCompatActivity {
 
     }
 
+
+    public void updateEvent(View v) {
+        final ProgressDialog mProgress = new ProgressDialog(this);
+        mProgress.setMessage("Please Wait");
+        mProgress.show();
+
+        eventType = eventSpinner.getSelectedItem().toString();
+        group = groupSpinner.getSelectedItem().toString();
+        boolean idMatch = false;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date endDateVal = sdf.parse(txtEndDate.getText().toString());
+            epochEndDate = endDateVal.getTime();
+        } catch (ParseException e) {
+            Toast.makeText(this, "Please enter a correctly formatted date", Toast.LENGTH_SHORT).show();
+        }
+
+
+        if (eventType.equals("Please Select") || group.equals("Please Select") || txtEndDate.getText().toString().equals("")) {
+            mProgress.dismiss();
+            Toast.makeText(this, "Please Fill All Details", Toast.LENGTH_LONG).show();
+        } else {
+            String eventType = this.eventType;
+            String loc = txtLocation.getText().toString();
+            String dateVal = Startdate;
+            String endDateValue = Long.toString(epochEndDate);
+            String groupType = group;
+            String id = UUID.randomUUID().toString();
+            txtPrice = Double.parseDouble(price.getText().toString());
+            int availableSpaces;
+
+            //if a leader is creating an event they should
+            //automatically be assigned to the event
+            eventLeaders.put(createdBy, "Approved");
+
+            leaderAvailable = isLeaderAvailable(dateVal, endDateValue, createdBy);
+
+            for (int i = 0; i < eventLeaders.size(); i++) {
+                String leaderID = eventLeaders.keySet().toArray()[i].toString();
+                selectedAvailable = isLeaderAvailable(dateVal, endDateValue, leaderID);
+                if (selectedAvailable == false) {
+                    break;
+                }
+            }
+
+            if (leaderAvailable == true) {
+                // Write a message to the database
+
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Event");
+                myRef.keepSynced(true);
+
+                //check if the permission is not granted
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                    //Check if the user has not denied the request
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)) {
+                        SmsManager smsManager = SmsManager.getDefault();
+                        smsManager.sendTextMessage("0858402059", null, "sms message", null, null);
+                    } else {
+                        //Ask the user for permission
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSION_REQUEST_SEND_SMS);
+                    }
+                    try {
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                //post to database
+                mProgress.setMessage("Adding to Events");
+                mProgress.show();
+
+                if (groupType.equals("Scouts") || groupType.equals("Venutes")) {
+                    availableSpaces = 2 * eventLeaders.size();
+                } else {
+                    availableSpaces = 3 * eventLeaders.size();
+                }
+                ArrayList<String> paymentList = new ArrayList<>();
+                paymentList.add("Empty");
+                //start uploading....
+                EventObj e = new EventObj(id, eventType, loc, dateVal, endDateValue, groupType, txtPrice, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, "pending");
+                myRef.child(editEvent.getId()).setValue(e);
+                mProgress.dismiss();
+                Intent intent = new Intent(getApplicationContext(), ProfileFragment.class);
+                startActivity(intent);
+                finish();
+            } else if (leaderAvailable == false) {
+                mProgress.dismiss();
+                Toast.makeText(getApplicationContext(), "A leader you have selected is not available on the dates you have selected", Toast.LENGTH_LONG).show();
+
+
+            }
+        }
+    }
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int [] grantResults ){
-        switch(requestCode){
-            case MY_PERMISSION_REQUEST_SEND_SMS:{
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSION_REQUEST_SEND_SMS: {
                 //check whether the length of grantResults is greater than 0 and is equal to PERMISSIONS_GRANTED
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     SmsManager smsManager = SmsManager.getDefault();
                     smsManager.sendTextMessage("0852393910", null, "sms message", null, null);
-                }
-                else{
+                } else {
                     Toast.makeText(this, "Please allow the app to send SMS text messages", Toast.LENGTH_LONG).show();
                 }
             }
