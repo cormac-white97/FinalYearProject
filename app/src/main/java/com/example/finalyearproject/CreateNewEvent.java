@@ -443,104 +443,109 @@ public class CreateNewEvent extends AppCompatActivity {
         group = groupSpinner.getSelectedItem().toString();
         boolean idMatch = false;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            Date endDateVal = sdf.parse(txtEndDate.getText().toString());
-            epochEndDate = endDateVal.getTime();
-            if (eventType.equals("Please Select") || group.equals("Please Select") || txtEndDate.getText().toString().equals("")) {
-                mProgress.dismiss();
-                Toast.makeText(this, "Please Fill All Details", Toast.LENGTH_LONG).show();
-            } else {
-                String eventType = this.eventType;
-                String loc = txtLocation.getText().toString();
-                String dateVal = Startdate;
-                String endDateValue = Long.toString(epochEndDate);
-                String groupType = group;
-                String id = UUID.randomUUID().toString();
-                txtPrice = Double.parseDouble(price.getText().toString());
-                int availableSpaces = 0;
 
-                if(epochEndDate < Long.parseLong(dateVal)){
+        //if a leader is creating an event they should
+        //automatically be assigned to the event
+        eventLeaders.put(createdBy, "Approved");
+
+        if(eventLeaders.size() >= 2){
+            try {
+                Date endDateVal = sdf.parse(txtEndDate.getText().toString());
+                epochEndDate = endDateVal.getTime();
+                if (eventType.equals("Please Select") || group.equals("Please Select") || txtEndDate.getText().toString().equals("")) {
                     mProgress.dismiss();
-                    Toast.makeText(this, "The end date cannot be before the start date", Toast.LENGTH_LONG).show();
-                }
-                else{
-                    //if a leader is creating an event they should
-                    //automatically be assigned to the event
-                    eventLeaders.put(createdBy, "Approved");
+                    Toast.makeText(this, "Please Fill All Details", Toast.LENGTH_LONG).show();
+                } else {
+                    String eventType = this.eventType;
+                    String loc = txtLocation.getText().toString();
+                    String dateVal = Startdate;
+                    String endDateValue = Long.toString(epochEndDate);
+                    String groupType = group;
+                    String id = UUID.randomUUID().toString();
+                    txtPrice = Double.parseDouble(price.getText().toString());
+                    int availableSpaces = 0;
 
-                    leaderAvailable = isLeaderAvailable(dateVal, endDateValue, createdBy);
-
-                    for (int i = 0; i < eventLeaders.size(); i++) {
-                        String leaderID = eventLeaders.keySet().toArray()[i].toString();
-                        selectedAvailable = isLeaderAvailable(dateVal, endDateValue, leaderID);
-                        if (selectedAvailable == false) {
-                            break;
-                        }
+                    if(epochEndDate < Long.parseLong(dateVal)){
+                        mProgress.dismiss();
+                        Toast.makeText(this, "The end date cannot be before the start date", Toast.LENGTH_LONG).show();
                     }
+                    else{
 
-                    if (leaderAvailable == true) {
-                        // Write a message to the database
 
-                        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Event");
-                        myRef.keepSynced(true);
+                        leaderAvailable = isLeaderAvailable(dateVal, endDateValue, createdBy);
 
-                        //check if the permission is not granted
-                        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                            //Check if the user has not denied the request
-                            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)) {
-                                SmsManager smsManager = SmsManager.getDefault();
-                                smsManager.sendTextMessage("0858402059", null, "sms message", null, null);
-                            } else {
-                                //Ask the user for permission
-                                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSION_REQUEST_SEND_SMS);
-                            }
-                            try {
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                        for (int i = 0; i < eventLeaders.size(); i++) {
+                            String leaderID = eventLeaders.keySet().toArray()[i].toString();
+                            selectedAvailable = isLeaderAvailable(dateVal, endDateValue, leaderID);
+                            if (selectedAvailable == false) {
+                                break;
                             }
                         }
 
-                        //post to database
-                        mProgress.setMessage("Adding to Events");
-                        mProgress.show();
+                        if (leaderAvailable == true) {
+                            // Write a message to the database
 
-                        if (groupType.equals("Scouts") || groupType.equals("Venutes")) {
-                            availableSpaces = 8 * eventLeaders.size();
-                        } else if (groupType.equals("Beavers") || groupType.equals("Cubs")) {
-                            availableSpaces = 5 * eventLeaders.size();
-                        } else if (groupType.equals("Rovers")) {
-                            //Maximum number of members in any group
-                            //As Rovers are adults there is no set ratio
-                            availableSpaces = 30;
+                            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Event");
+                            myRef.keepSynced(true);
+
+                            //check if the permission is not granted
+                            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                                //Check if the user has not denied the request
+                                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)) {
+                                    SmsManager smsManager = SmsManager.getDefault();
+                                    smsManager.sendTextMessage("0858402059", null, "sms message", null, null);
+                                } else {
+                                    //Ask the user for permission
+                                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSION_REQUEST_SEND_SMS);
+                                }
+                                try {
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            //post to database
+                            mProgress.setMessage("Adding to Events");
+                            mProgress.show();
+
+                            if (groupType.equals("Scouts") || groupType.equals("Ventures")) {
+                                availableSpaces = 8 * eventLeaders.size();
+                            } else if (groupType.equals("Beavers") || groupType.equals("Cubs")) {
+                                availableSpaces = 5 * eventLeaders.size();
+                            } else if (groupType.equals("Rovers")) {
+                                //Maximum number of members in any group
+                                //As Rovers are adults there is no set ratio
+                                availableSpaces = 30;
+                            }
+
+                            ArrayList<String> paymentList = new ArrayList<>();
+                            paymentList.add("Empty");
+                            //start uploading....
+                            EventObj e = new EventObj(id, eventType, loc, dateVal, endDateValue, groupType, txtPrice, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, "pending");
+                            myRef.child(id).setValue(e);
+                            mProgress.dismiss();
+                            Intent intent = new Intent(getApplicationContext(), ProfileFragment.class);
+                            startActivity(intent);
+                            finish();
+                        } else if (leaderAvailable == false) {
+                            mProgress.dismiss();
+                            Toast.makeText(getApplicationContext(), "A leader you have selected is not available on the dates you have selected", Toast.LENGTH_LONG).show();
+
+
                         }
-
-                        ArrayList<String> paymentList = new ArrayList<>();
-                        paymentList.add("Empty");
-                        //start uploading....
-                        EventObj e = new EventObj(id, eventType, loc, dateVal, endDateValue, groupType, txtPrice, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, "pending");
-                        myRef.child(id).setValue(e);
-                        mProgress.dismiss();
-                        Intent intent = new Intent(getApplicationContext(), ProfileFragment.class);
-                        startActivity(intent);
-                        finish();
-                    } else if (leaderAvailable == false) {
-                        mProgress.dismiss();
-                        Toast.makeText(getApplicationContext(), "A leader you have selected is not available on the dates you have selected", Toast.LENGTH_LONG).show();
-
-
                     }
-                }
 
+                }
+            } catch (ParseException e) {
+                mProgress.dismiss();
+                Toast.makeText(this, "Please enter a correctly formatted date", Toast.LENGTH_SHORT).show();
             }
-        } catch (ParseException e) {
-            mProgress.dismiss();
-            Toast.makeText(this, "Please enter a correctly formatted date", Toast.LENGTH_SHORT).show();
         }
-
-
-
-
+        else{
+            mProgress.dismiss();
+            Toast.makeText(this, "A minimum of two leaders are required to run an event", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

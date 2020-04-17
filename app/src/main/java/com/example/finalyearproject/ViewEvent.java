@@ -5,12 +5,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
@@ -39,8 +41,12 @@ import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -133,7 +139,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     public void onMapReady(final GoogleMap googleMap) {
 
         final boolean[] found = {false};
-        final String[] leaderID = new String[1];
+        final String[] ID = new String[1];
         final String[] childID = new String[1];
         final String[] email = new String[1];
         final String[] personType = new String[1];
@@ -180,7 +186,6 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                     }
 
 
-
                     if (eventId.equals(clickedID)) {
 
                         String userId = mUser.getUid();
@@ -222,13 +227,15 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
             }
         });
 
-        List<String> typeList = Arrays.asList("Leader", "Parent", "Member");
+
+        List<String> typeList = Arrays.asList("Leader", "Parent");
         final boolean[] foundUser = {false};
 
         for (String type : typeList) {
             final String tempType = type;
             mRef = mDatabase.getReference("Person").child(type);
             mRef.addValueEventListener(new ValueEventListener() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     mUser = mAuth.getInstance().getCurrentUser();
@@ -236,13 +243,13 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                     final String currentUserEmail = mUser.getEmail();
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         if (tempType.equals("Leader")) {
-                            leaderID[0] = ds.getValue(Leader.class).getPersonID();
+                            ID[0] = ds.getValue(Leader.class).getPersonID();
                             email[0] = ds.getValue(Leader.class).getEmail();
                             name = ds.getValue(Leader.class).getName();
                             group[0] = ds.getValue(Leader.class).getGroup();
 
                             for (String id : eventLeaders.keySet()) {
-                                if (leaderID[0].equals(id)) {
+                                if (ID[0].equals(id)) {
                                     leaderNames.add(name);
                                 }
                             }
@@ -252,17 +259,13 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                             txtAttending.setText(leaderNamesDisplay);
 
                         } else if (tempType.equals("Parent")) {
-                            leaderID[0] = ds.getValue(Parent.class).getParentId();
+                            ID[0] = ds.getValue(Parent.class).getParentId();
                             email[0] = ds.getValue(Parent.class).getEmail();
                             name = ds.getValue(Parent.class).getName();
                             personType[0] = tempType;
                             group[0] = ds.getValue(Parent.class).getGroup();
                             childID[0] = ds.getValue(Parent.class).getChildId();
                             parentChildIds.put(email[0], childID[0]);
-                        } else if (tempType.equals("Member")) {
-                            name = ds.getValue(Member.class).getName();
-                            personType[0] = tempType;
-                            group[0] = ds.getValue(Member.class).getGroup();
                         }
 
 
@@ -271,7 +274,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                             if (tempType.equals("Leader")) {
                                 if (onLeaderList) {
                                     for (String id : eventLeaders.keySet()) {
-                                        if (id.equals(leaderID[0])) {
+                                        if (id.equals(ID[0])) {
                                             String approval = eventLeaders.values().toArray()[i].toString();
                                             if (approval.equals("pending")) {
                                                 btnGoing.setVisibility(View.VISIBLE);
@@ -285,14 +288,27 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                     }
                                 }
                             } else if (tempType.equals("Parent")) {
-                                if (eventGroup.equals(group[0])/* && readyToPay*/) {
+                                Date today = Calendar.getInstance().getTime();
+                                Long todayLong = Long.parseLong(String.valueOf(today.getTime()));
 
-                                    btnPay.setVisibility(View.VISIBLE);
+                                if (Long.parseLong(event.getEndDate()) < todayLong) {
+                                    txtMsg.setText("Event passed");
+                                    txtMsg.setVisibility(View.VISIBLE);
+                                }
+                                else{
+                                    if (mUser.getUid().equals(ID[0]))
+                                        if (paymentList.contains(childID[0])) {
+                                            btnPay.setVisibility(View.GONE);
+                                            txtMsg.setText("You have paid for this event");
+                                            txtMsg.setVisibility(View.VISIBLE);
+                                        } else if (eventGroup.equals(group[0])/* && readyToPay*/) {
+
+                                            btnPay.setVisibility(View.VISIBLE);
+                                        }
+
+                                }
                                 }
 
-                            } else if (tempType.equals("Member")) {
-                                Toast.makeText(ViewEvent.this, "Member", Toast.LENGTH_LONG).show();
-                            }
                             foundUser[0] = true;
                             break;
                         }
