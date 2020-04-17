@@ -14,25 +14,25 @@
     <fragment
         android:id="@+id/nav_group"
         android:name="com.example.finalyearproject.ui.viewMembers.ViewMembersFragment"
-        android:label="@string/menu_gallery"
+        android:label="My Group"
         tools:layout="@layout/fragment_view_members" />
 
     <fragment
         android:id="@+id/nav_events"
         android:name="com.example.finalyearproject.ui.profile.ProfileFragment"
-        android:label="@string/menu_slideshow"
+        android:label="My Profile"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/nav_create_account"
         android:name="com.example.finalyearproject.ui.createAccount.CreateAccountFragment"
-        android:label="@string/menu_tools"
+        android:label="Create an account"
         tools:layout="@layout/fragment_leaders" />
 
     <fragment
         android:id="@+id/nav_event_report"
         android:name="com.example.finalyearproject.ui.eventReport.EventReportFragment"
-        android:label="@string/menu_share"
+        android:label="Report"
         tools:layout="@layout/fragment_event_report" />
 
     <fragment

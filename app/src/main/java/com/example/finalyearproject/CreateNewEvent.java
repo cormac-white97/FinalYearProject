@@ -80,10 +80,13 @@ public class CreateNewEvent extends AppCompatActivity {
     boolean leaderAvailable = true;
     boolean selectedAvailable = true;
     ArrayList<EventObj> existingEvents = new ArrayList<>();
+
     ArrayList<Leader> leaders = new ArrayList<>();
     LinkedHashMap<String, String> allListItems = new LinkedHashMap<>();
     LinkedHashMap<String, String> eventLeaders = new LinkedHashMap<>();
     boolean[] checkedItems;
+
+    //The position of the selected item in the dialog box
     ArrayList<Integer> mUserItems = new ArrayList<>();
     String[] list;
     TextView lblSelectedLeaders;
@@ -145,7 +148,6 @@ public class CreateNewEvent extends AppCompatActivity {
                     Leader p = new Leader(personID, name, DOB, group, phone, email, vettingDate);
                     //Adding all leader objects to an arraylist to select leaders to assign to event
                     leaders.add(p);
-
 
                 }
             }
@@ -214,33 +216,20 @@ public class CreateNewEvent extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-        if(type.equals("createNew")){
+        Startdate = newEvent.getStringExtra(viewLocations.dateKey);
+        LatLng latLng = newEvent.getParcelableExtra("location");
+        lng = latLng.longitude;
+        lat = latLng.latitude;
 
-            Startdate = newEvent.getStringExtra(viewLocations.dateKey);
-            LatLng latLng = newEvent.getParcelableExtra("location");
-            lng = latLng.longitude;
-            lat = latLng.latitude;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        dateVal = sdf.format(Float.parseFloat(Startdate));
 
-            dateVal = sdf.format(Float.parseFloat(Startdate));
+        txtStartDate.setText(dateVal);
+        txtLocation.setText(location);
 
-            txtStartDate.setText(dateVal);
-            txtLocation.setText(location);
-
-            Button btnUpdate = findViewById(R.id.btnUpdateEvent);
-            btnUpdate.setVisibility(View.GONE);
-
-        }
-        else if(type.equals("Edit")){
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-            String editStartDateVal = sdf.format(Float.parseFloat(editEvent.getDate()));
-
-            txtStartDate.setText(editStartDateVal);
-            txtLocation.setText(editEvent.getLocation());
-            price.setText("EDIT");
-        }
+        Button btnUpdate = findViewById(R.id.btnUpdateEvent);
+        btnUpdate.setVisibility(View.GONE);
 
 
         String eventTypeList[] = new String[]{"Please Select", "Camp", "Hike"};
@@ -392,6 +381,7 @@ public class CreateNewEvent extends AppCompatActivity {
         lblSelectedLeaders.setText("");
         eventLeaders.clear();
         mUserItems.clear();
+        item = "";
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
         mBuilder.setTitle("Available Leaders");
 
@@ -415,7 +405,7 @@ public class CreateNewEvent extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
 
                 for (int i = 0; i < mUserItems.size(); i++) {
-                    if (mUserItems != null) {
+                    if (!mUserItems.isEmpty()) {
                         item = item + " " + list[mUserItems.get(i)] + ",";
                     }
 
@@ -423,20 +413,16 @@ public class CreateNewEvent extends AppCompatActivity {
 
                 for (Leader p1 : leaders) {
                     String name = p1.getName();
-                    if(!eventLeaders.isEmpty()){
-                        if (item.contains(name)) {
-                            eventLeaders.put(p1.getPersonID(), "pending");
-                        }
+                    if (item.contains(name)) {
+                        eventLeaders.put(p1.getPersonID(), "pending");
                     }
-
-
                 }
 
                 lblSelectedLeaders.setText(item);
             }
         });
 
-        mBuilder.setCancelable(false);
+        mBuilder.setCancelable(true);
 
         AlertDialog mDialog = mBuilder.create();
         mDialog.show();
@@ -470,7 +456,7 @@ public class CreateNewEvent extends AppCompatActivity {
             String groupType = group;
             String id = UUID.randomUUID().toString();
             txtPrice = Double.parseDouble(price.getText().toString());
-            int availableSpaces;
+            int availableSpaces = 0;
 
             //if a leader is creating an event they should
             //automatically be assigned to the event
@@ -514,10 +500,15 @@ public class CreateNewEvent extends AppCompatActivity {
                 mProgress.show();
 
                 if (groupType.equals("Scouts") || groupType.equals("Venutes")) {
-                    availableSpaces = 2 * eventLeaders.size();
-                } else {
-                    availableSpaces = 3 * eventLeaders.size();
+                    availableSpaces = 8 * eventLeaders.size();
+                } else if (groupType.equals("Beavers") || groupType.equals("Cubs")) {
+                    availableSpaces = 5 * eventLeaders.size();
+                } else if (groupType.equals("Rovers")) {
+                    //Maximum number of members in any group
+                    //As Rovers are adults there is no set ratio
+                    availableSpaces = 30;
                 }
+
                 ArrayList<String> paymentList = new ArrayList<>();
                 paymentList.add("Empty");
                 //start uploading....
@@ -535,101 +526,6 @@ public class CreateNewEvent extends AppCompatActivity {
             }
         }
 
-    }
-
-
-    public void updateEvent(View v) {
-        final ProgressDialog mProgress = new ProgressDialog(this);
-        mProgress.setMessage("Please Wait");
-        mProgress.show();
-
-        eventType = eventSpinner.getSelectedItem().toString();
-        group = groupSpinner.getSelectedItem().toString();
-        boolean idMatch = false;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            Date endDateVal = sdf.parse(txtEndDate.getText().toString());
-            epochEndDate = endDateVal.getTime();
-        } catch (ParseException e) {
-            Toast.makeText(this, "Please enter a correctly formatted date", Toast.LENGTH_SHORT).show();
-        }
-
-
-        if (eventType.equals("Please Select") || group.equals("Please Select") || txtEndDate.getText().toString().equals("")) {
-            mProgress.dismiss();
-            Toast.makeText(this, "Please Fill All Details", Toast.LENGTH_LONG).show();
-        } else {
-            String eventType = this.eventType;
-            String loc = txtLocation.getText().toString();
-            String dateVal = Startdate;
-            String endDateValue = Long.toString(epochEndDate);
-            String groupType = group;
-            String id = UUID.randomUUID().toString();
-            txtPrice = Double.parseDouble(price.getText().toString());
-            int availableSpaces;
-
-            //if a leader is creating an event they should
-            //automatically be assigned to the event
-            eventLeaders.put(createdBy, "Approved");
-
-            leaderAvailable = isLeaderAvailable(dateVal, endDateValue, createdBy);
-
-            for (int i = 0; i < eventLeaders.size(); i++) {
-                String leaderID = eventLeaders.keySet().toArray()[i].toString();
-                selectedAvailable = isLeaderAvailable(dateVal, endDateValue, leaderID);
-                if (selectedAvailable == false) {
-                    break;
-                }
-            }
-
-            if (leaderAvailable == true) {
-                // Write a message to the database
-
-                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Event");
-                myRef.keepSynced(true);
-
-                //check if the permission is not granted
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                    //Check if the user has not denied the request
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)) {
-                        SmsManager smsManager = SmsManager.getDefault();
-                        smsManager.sendTextMessage("0858402059", null, "sms message", null, null);
-                    } else {
-                        //Ask the user for permission
-                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSION_REQUEST_SEND_SMS);
-                    }
-                    try {
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                //post to database
-                mProgress.setMessage("Adding to Events");
-                mProgress.show();
-
-                if (groupType.equals("Scouts") || groupType.equals("Venutes")) {
-                    availableSpaces = 2 * eventLeaders.size();
-                } else {
-                    availableSpaces = 3 * eventLeaders.size();
-                }
-                ArrayList<String> paymentList = new ArrayList<>();
-                paymentList.add("Empty");
-                //start uploading....
-                EventObj e = new EventObj(id, eventType, loc, dateVal, endDateValue, groupType, txtPrice, createdBy, eventLeaders, paymentList, availableSpaces, lng, lat, "pending");
-                myRef.child(editEvent.getId()).setValue(e);
-                mProgress.dismiss();
-                Intent intent = new Intent(getApplicationContext(), ProfileFragment.class);
-                startActivity(intent);
-                finish();
-            } else if (leaderAvailable == false) {
-                mProgress.dismiss();
-                Toast.makeText(getApplicationContext(), "A leader you have selected is not available on the dates you have selected", Toast.LENGTH_LONG).show();
-
-
-            }
-        }
     }
 
     @Override
