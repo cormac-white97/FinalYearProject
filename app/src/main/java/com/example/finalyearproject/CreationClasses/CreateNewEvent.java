@@ -1,4 +1,4 @@
-package com.example.finalyearproject;
+package com.example.finalyearproject.CreationClasses;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +25,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.finalyearproject.R;
 import com.example.finalyearproject.ui.profile.ProfileFragment;
+import com.example.finalyearproject.ViewDetails.viewLocations;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,8 +47,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
-import Objects.EventObj;
-import Objects.Leader;
+import com.example.finalyearproject.Objects.EventObj;
+import com.example.finalyearproject.Objects.Leader;
 
 public class CreateNewEvent extends AppCompatActivity {
     Spinner eventSpinner;

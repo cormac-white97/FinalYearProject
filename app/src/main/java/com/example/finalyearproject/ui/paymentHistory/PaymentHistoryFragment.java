@@ -1,12 +1,9 @@
 package com.example.finalyearproject.ui.paymentHistory;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.finalyearproject.LeaderAdapter;
-import com.example.finalyearproject.PaymentListAdapter;
+import com.example.finalyearproject.Adapters.PaymentListAdapter;
 import com.example.finalyearproject.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import Objects.PaymentHistory;
+import com.example.finalyearproject.Objects.PaymentHistory;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.VERTICAL;
 

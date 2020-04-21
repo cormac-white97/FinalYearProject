@@ -1,4 +1,4 @@
-package com.example.finalyearproject;
+package com.example.finalyearproject.Adapters;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.finalyearproject.R;
+import com.example.finalyearproject.ViewDetails.ViewEvent;
 import com.example.finalyearproject.ui.home.HomeFragment;
-import com.example.finalyearproject.ui.profile.ProfileFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -18,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.List;
 
-import Objects.EventObj;
+import com.example.finalyearproject.Objects.EventObj;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private List<EventObj> values;

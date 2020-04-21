@@ -1,6 +1,9 @@
 
-package com.example.finalyearproject;
+package com.example.finalyearproject.ViewDetails;
 
+import com.example.finalyearproject.CreationClasses.AddReview;
+import com.example.finalyearproject.CreationClasses.CreateNewEvent;
+import com.example.finalyearproject.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 
@@ -49,11 +52,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 
-import Objects.EventObj;
-import Objects.Leader;
-import Objects.Parent;
-import Objects.PaymentHistory;
-import Objects.Review;
+import com.example.finalyearproject.Objects.EventObj;
+import com.example.finalyearproject.Objects.Leader;
+import com.example.finalyearproject.Objects.Parent;
+import com.example.finalyearproject.Objects.PaymentHistory;
+import com.example.finalyearproject.Objects.Review;
 
 
 public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {

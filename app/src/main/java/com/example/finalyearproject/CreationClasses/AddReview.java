@@ -1,4 +1,4 @@
-package com.example.finalyearproject;
+package com.example.finalyearproject.CreationClasses;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,16 +7,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.finalyearproject.ui.home.HomeFragment;
+import com.example.finalyearproject.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.UUID;
 
-import Objects.Review;
+import com.example.finalyearproject.Objects.Review;
 
 import static com.google.firebase.database.FirebaseDatabase.getInstance;
 

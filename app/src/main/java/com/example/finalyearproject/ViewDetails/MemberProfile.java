@@ -1,4 +1,4 @@
-package com.example.finalyearproject;
+package com.example.finalyearproject.ViewDetails;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.finalyearproject.CreationClasses.CreateMember;
+import com.example.finalyearproject.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,8 +22,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import Objects.Member;
-import Objects.Parent;
+import com.example.finalyearproject.Objects.Member;
+import com.example.finalyearproject.Objects.Parent;
 
 import static java.util.Calendar.DATE;
 import static java.util.Calendar.MONTH;
@@ -71,27 +73,28 @@ public class MemberProfile extends AppCompatActivity {
                     String DOB = ds.getValue(Member.class).getMemDob();
                     String notes = ds.getValue(Member.class).getNotes();
 
-                    if (id.equals(memberProfileId)) {
-                        Date dt = null;
-                        txtName.setText(name);
-                        txtGroup.setText(group);
-                        Date today = Calendar.getInstance().getTime();
+                    if(id != null){
+                        if (id.equals(memberProfileId)) {
+                            Date dt = null;
+                            txtName.setText(name);
+                            txtGroup.setText(group);
+                            Date today = Calendar.getInstance().getTime();
 
-                        Date dobDate = new Date(Long.parseLong(DOB));
-                        int age = getDiffYears(dobDate,today);
-                        txtAge.setText(String.valueOf(age));
+                            Date dobDate = new Date(Long.parseLong(DOB));
+                            int age = getDiffYears(dobDate,today);
+                            txtAge.setText(String.valueOf(age));
 
-                        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-                        Date dateDom = new Date(Long.parseLong(DOM));
+                            Date dateDom = new Date(Long.parseLong(DOM));
 
-                        txtDom.setText(dateFormat.format(dateDom));
+                            txtDom.setText(dateFormat.format(dateDom));
 
-                        txtNotes.setText(notes);
+                            txtNotes.setText(notes);
 
-                        break;
+                            break;
 
-
+                        }
 
                     }
 

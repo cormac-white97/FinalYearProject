@@ -1,17 +1,19 @@
-package com.example.finalyearproject;
+package com.example.finalyearproject.Adapters;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.finalyearproject.R;
+import com.example.finalyearproject.ViewDetails.ViewEvent;
+
 import java.util.ArrayList;
 
-import Objects.PaymentHistory;
+import com.example.finalyearproject.Objects.PaymentHistory;
 
 public class PaymentListAdapter extends RecyclerView.Adapter<PaymentListAdapter.MyViewHolder> {
     private ArrayList<PaymentHistory> values;

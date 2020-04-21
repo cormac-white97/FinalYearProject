@@ -1,4 +1,4 @@
-package com.example.finalyearproject;
+package com.example.finalyearproject.CreationClasses;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,12 +8,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.finalyearproject.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -27,8 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import Objects.Member;
-import Objects.Parent;
+import com.example.finalyearproject.Objects.Member;
+import com.example.finalyearproject.Objects.Parent;
 
 public class CreateParent extends AppCompatActivity {
 

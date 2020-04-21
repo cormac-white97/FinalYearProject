@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.finalyearproject.AccountAdapter;
+import com.example.finalyearproject.Adapters.AccountAdapter;
 import com.example.finalyearproject.R;
 
 import java.util.ArrayList;

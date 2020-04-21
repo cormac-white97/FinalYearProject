@@ -1,4 +1,4 @@
-package Objects;
+package com.example.finalyearproject.Objects;
 
 public class Review {
     String reviewId;

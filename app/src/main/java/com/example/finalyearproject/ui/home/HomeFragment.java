@@ -14,21 +14,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import Objects.EventObj;
+import com.example.finalyearproject.Objects.EventObj;
 
-import com.example.finalyearproject.MyAdapter;
+import com.example.finalyearproject.Adapters.MyAdapter;
 
-import Objects.Leader;
-import Objects.Parent;
+import com.example.finalyearproject.Objects.Leader;
+import com.example.finalyearproject.Objects.Parent;
 
 import com.example.finalyearproject.R;
-import com.example.finalyearproject.viewLocations;
+import com.example.finalyearproject.ViewDetails.viewLocations;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,7 +44,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 

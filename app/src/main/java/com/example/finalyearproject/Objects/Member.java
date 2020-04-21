@@ -1,21 +1,20 @@
-package Objects;
+package com.example.finalyearproject.Objects;
 
 
 public class Member {
-    String id;
+    String memberId;
     String name;
     String group;
     String memDob;
     String memDom;
     String notes;
-    String fcmToken;
 
     public Member() {
 
     }
 
-    public Member(String id, String name, String group, String memDob, String memDom, String notes) {
-        this.id = id;
+    public Member(String memberId, String name, String group, String memDob, String memDom, String notes) {
+        this.memberId = memberId;
         this.name = name;
         this.group = group;
         this.memDob = memDob;
@@ -24,11 +23,11 @@ public class Member {
     }
 
     public String getId() {
-        return id;
+        return memberId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String memberId) {
+        this.memberId = memberId;
     }
 
     public String getName() {

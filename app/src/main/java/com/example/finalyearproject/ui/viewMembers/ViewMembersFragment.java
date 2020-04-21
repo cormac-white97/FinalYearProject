@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.finalyearproject.GroupViewAdapter;
-import Objects.Leader;
-import Objects.Member;
+import com.example.finalyearproject.Adapters.GroupViewAdapter;
+import com.example.finalyearproject.Objects.Leader;
+import com.example.finalyearproject.Objects.Member;
 
 import com.example.finalyearproject.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -107,9 +107,11 @@ public class ViewMembersFragment extends Fragment {
                     DOB = ds.getValue(Member.class).getMemDob();
                     notes = ds.getValue(Member.class).getNotes();
 
-                    if(group.equals(loggedInGroup)){
-                        Member m = new Member(id, name, group,DOB, DOM, notes);
-                        myDataset.add(m);
+                    if(group != null){
+                        if(group.equals(loggedInGroup)){
+                            Member m = new Member(id, name, group,DOB, DOM, notes);
+                            myDataset.add(m);
+                        }
                     }
 
                 }

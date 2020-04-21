@@ -1,4 +1,4 @@
-package com.example.finalyearproject;
+package com.example.finalyearproject.Adapters;
 
         import android.content.Intent;
         import android.view.LayoutInflater;
@@ -8,9 +8,12 @@ package com.example.finalyearproject;
 
         import androidx.recyclerview.widget.RecyclerView;
 
+        import com.example.finalyearproject.CreationClasses.AddReview;
+        import com.example.finalyearproject.R;
+
         import java.util.ArrayList;
 
-        import Objects.Review;
+        import com.example.finalyearproject.Objects.Review;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHolder> {
     private ArrayList<Review> values;

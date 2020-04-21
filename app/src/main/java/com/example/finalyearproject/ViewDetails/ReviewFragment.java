@@ -1,6 +1,5 @@
-package com.example.finalyearproject;
+package com.example.finalyearproject.ViewDetails;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.finalyearproject.Adapters.ReviewAdapter;
+import com.example.finalyearproject.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,8 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import Objects.PaymentHistory;
-import Objects.Review;
+import com.example.finalyearproject.Objects.Review;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.VERTICAL;
 
@@ -50,7 +50,6 @@ public class ReviewFragment extends Fragment {
 
         type = getActivity().getIntent().getExtras().getString("type");
 
-        viewReview = rootView.findViewById(R.id.reviewTitles);
 
         mRef = mDatabase.getReference("Review");
         mRef.addValueEventListener(new ValueEventListener() {

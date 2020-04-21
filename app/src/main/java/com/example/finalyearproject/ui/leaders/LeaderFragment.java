@@ -4,19 +4,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.finalyearproject.GroupViewAdapter;
-import com.example.finalyearproject.LeaderAdapter;
+import com.example.finalyearproject.Adapters.LeaderAdapter;
 import com.example.finalyearproject.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,9 +26,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import Objects.Leader;
-import Objects.Member;
-import Objects.Parent;
+import com.example.finalyearproject.Objects.Leader;
+import com.example.finalyearproject.Objects.Parent;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.VERTICAL;
 

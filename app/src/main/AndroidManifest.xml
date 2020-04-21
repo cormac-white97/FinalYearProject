@@ -23,15 +23,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".AddReview"></activity>
-        <activity android:name=".ViewLeaderDetails" />
+        <activity android:name=".CreationClasses.AddReview"></activity>
+        <activity android:name=".ViewDetails.ViewLeaderDetails" />
         <activity android:name=".forgotPassword" />
-        <activity android:name=".MemberProfile" />
-        <activity android:name=".CreateMember" />
-        <activity android:name=".CreateParent" />
-        <activity android:name=".CreateLeader" />
-        <activity android:name=".ViewEvent" />
-        <activity android:name=".CreateNewEvent" />
+        <activity android:name=".ViewDetails.MemberProfile" />
+        <activity android:name=".CreationClasses.CreateMember" />
+        <activity android:name=".CreationClasses.CreateParent" />
+        <activity android:name=".CreationClasses.CreateLeader" />
+        <activity android:name=".ViewDetails.ViewEvent" />
+        <activity android:name=".CreationClasses.CreateNewEvent" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -48,7 +48,7 @@
             android:value="true" />
 
         <activity
-            android:name=".viewLocations"
+            android:name=".ViewDetails.viewLocations"
             android:label="@string/title_activity_view_locations" />
         <activity
             android:name=".Dashboard"

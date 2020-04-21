@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewEvent">
+    tools:context=".ViewDetails.ViewEvent">
 
 
 
@@ -25,7 +25,7 @@
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="390dp"
                     android:layout_height="224dp"
-                    tools:context=".viewLocations" />
+                    tools:context=".ViewDetails.viewLocations" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_input_layout_group"

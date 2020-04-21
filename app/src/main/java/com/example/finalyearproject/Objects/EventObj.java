@@ -1,12 +1,10 @@
-package Objects;
+package com.example.finalyearproject.Objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 public class EventObj implements Parcelable {
     String id;

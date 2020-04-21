@@ -1,4 +1,4 @@
-package com.example.finalyearproject;
+package com.example.finalyearproject.CreationClasses;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.finalyearproject.R;
 import com.example.finalyearproject.ui.viewMembers.ViewMembersFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,8 +31,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
-import Objects.Member;
-import Objects.Parent;
+import com.example.finalyearproject.Objects.Member;
+import com.example.finalyearproject.Objects.Parent;
 
 public class CreateMember extends AppCompatActivity {
     private FirebaseDatabase database;
@@ -58,7 +59,7 @@ public class CreateMember extends AppCompatActivity {
         parentSpinner = findViewById(R.id.parentChild);
 
         Spinner memberSpinner = findViewById(R.id.memberGroup);
-        final String groupTypeList[] = new String[]{"Please Select", "Beavers", "Cubs", "Scouts", "Ventures", "Rovers"};
+        final String groupTypeList[] = new String[]{"Please Select a Group", "Beavers", "Cubs", "Scouts", "Ventures", "Rovers"};
 
         //Setting values for the group type spinner
 // Create an ArrayAdapter using the string array and a default spinner layout
@@ -141,39 +142,42 @@ public class CreateMember extends AppCompatActivity {
                         Spinner groupSpinner = findViewById(R.id.memberGroup);
                         EditText newNotes = findViewById(R.id.notes);
 
-                        if (id.equals(memberProfileId)) {
-                            int i = 0;
+                        if(id != null){
+                            if (id.equals(memberProfileId)) {
+                                int i = 0;
 
-                            for (String value : groupTypeList) {
-                                if (value.equals(group)) {
-                                    groupSpinner.setSelection(i);
-                                    break;
+                                for (String value : groupTypeList) {
+                                    if (value.equals(group)) {
+                                        groupSpinner.setSelection(i);
+                                        break;
+                                    }
+                                    i++;
                                 }
-                                i++;
+
+
+                                Date dt = null;
+                                newfName.setText(name);
+
+
+                                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+                                Date dobDate = new Date(Long.parseLong(DOB));
+                                newDob.setText(dateFormat.format(dobDate));
+
+                                Date dateDom = new Date(Long.parseLong(DOM));
+                                newDom.setText(dateFormat.format(dateDom));
+
+                                newNotes.setText(notes);
+
+                                Button btnCreate = findViewById(R.id.btnCreateNew);
+                                btnCreate.setVisibility(View.INVISIBLE);
+
+                                break;
+
+
                             }
-
-
-                            Date dt = null;
-                            newfName.setText(name);
-
-
-                            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-                            Date dobDate = new Date(Long.parseLong(DOB));
-                            newDob.setText(dateFormat.format(dobDate));
-
-                            Date dateDom = new Date(Long.parseLong(DOM));
-                            newDom.setText(dateFormat.format(dateDom));
-
-                            newNotes.setText(notes);
-
-                            Button btnCreate = findViewById(R.id.btnCreateNew);
-                            btnCreate.setVisibility(View.INVISIBLE);
-
-                            break;
-
-
                         }
+
 
                     }
                 }

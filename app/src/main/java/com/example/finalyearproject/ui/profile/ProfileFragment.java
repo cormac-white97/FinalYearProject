@@ -1,12 +1,10 @@
 package com.example.finalyearproject.ui.profile;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,20 +16,17 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import Objects.EventObj;
+import com.example.finalyearproject.CreationClasses.CreateParent;
+import com.example.finalyearproject.ViewDetails.MemberProfile;
 
-import com.example.finalyearproject.CreateParent;
-import com.example.finalyearproject.MemberProfile;
-import com.example.finalyearproject.MyAdapter;
-
-import Objects.Leader;
-import Objects.Member;
-import Objects.Parent;
+import com.example.finalyearproject.Objects.Leader;
+import com.example.finalyearproject.Objects.Member;
+import com.example.finalyearproject.Objects.Parent;
+import com.example.finalyearproject.Objects.Review;
 
 import com.example.finalyearproject.R;
-import com.example.finalyearproject.viewLocations;
+import com.example.finalyearproject.Adapters.ReviewAdapter;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
-import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,11 +37,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.*;
@@ -75,6 +67,9 @@ public class ProfileFragment extends Fragment {
     String intentId;
 
     String child = null;
+    RecyclerView viewReview;
+    ArrayList<Review> reviewList = new ArrayList<>();
+
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -95,6 +90,12 @@ public class ProfileFragment extends Fragment {
         btnEdit = view.findViewById(R.id.btnEdit);
 
 
+        viewReview = view.findViewById(R.id.viewLeaderReviews);
+
+
+        if (intentId == null) {
+            intentId = mUser.getUid();
+        }
         for (final String accountType : accountTypes) {
             database = FirebaseDatabase.getInstance();
             myRef = database.getReference("Person").child(accountType);
@@ -159,6 +160,7 @@ public class ProfileFragment extends Fragment {
                                 txtDOB.setVisibility(View.INVISIBLE);
                                 vettingDate.setHint("Child");
 
+
                                 myRef = database.getReference("Person").child("Member");
                                 myRef.addValueEventListener(new ValueEventListener() {
                                     @Override
@@ -169,10 +171,13 @@ public class ProfileFragment extends Fragment {
                                             String name = ds.getValue(Member.class).getName();
 
 
-                                            if (id.equals(child)) {
-                                                txtVettingDate.setText(name);
-                                                break;
+                                            if (id != null) {
+                                                if (id.equals(child)) {
+                                                    txtVettingDate.setText(name);
+                                                    break;
+                                                }
                                             }
+
 
                                         }
                                     }
@@ -255,8 +260,51 @@ public class ProfileFragment extends Fragment {
         });
 
 
+        myRef = database.getReference("Review");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String id = ds.getValue(Review.class).getReviewId();
+                    String parentId = ds.getValue(Review.class).getParentId();
+                    String eventId = ds.getValue(Review.class).getEventId();
+                    String createdBy = ds.getValue(Review.class).getCreatedBy();
+                    String txtTitle = ds.getValue(Review.class).getTitle();
+                    String txtBody = ds.getValue(Review.class).getBody();
+
+                    if (createdBy.equals(intentId)) {
+                        Review r = new Review(id, parentId, eventId, createdBy, txtTitle, txtBody);
+                        reviewList.add(r);
+                    }
+
+
+                }
+
+                setAdapter();
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         return view;
 
+    }
+
+    public void openReviews(View v) {
+
+    }
+
+    public void setAdapter() {
+        LinearLayoutManager myLayoutManager = new LinearLayoutManager(getActivity());
+        viewReview.setLayoutManager(myLayoutManager);
+        ReviewAdapter mAdapter = new ReviewAdapter(reviewList);
+        viewReview.addItemDecoration(new
+
+                DividerItemDecoration(getActivity(), VERTICAL));
+        viewReview.setAdapter(mAdapter);
     }
 
 }

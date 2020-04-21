@@ -1,23 +1,22 @@
-package Objects;
+package com.example.finalyearproject.Objects;
 
 public class Parent {
     String parentId;
     String name;
-    String password;
     String phone;
     String email;
-    String childId;
+    String memberId;
     String group;
 
     public Parent() {
     }
 
-    public Parent(String parentId, String name, String phone, String email, String childId, String group) {
+    public Parent(String parentId, String name, String phone, String email, String memberId, String group) {
         this.parentId = parentId;
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.childId = childId;
+        this.memberId = memberId;
         this.group = group;
     }
 
@@ -54,11 +53,11 @@ public class Parent {
     }
 
     public String getChildId() {
-        return childId;
+        return memberId;
     }
 
-    public void setChildId(String childId) {
-        this.childId = childId;
+    public void setChildId(String memberId) {
+        this.memberId = memberId;
     }
 
     public String getGroup() {

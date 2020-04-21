@@ -1,4 +1,4 @@
-package com.example.finalyearproject;
+package com.example.finalyearproject.ViewDetails;
 
 
 import android.content.Intent;
@@ -6,8 +6,9 @@ import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.finalyearproject.CreationClasses.CreateNewEvent;
+import com.example.finalyearproject.R;
 import com.example.finalyearproject.ui.home.HomeFragment;
-import com.example.finalyearproject.ui.profile.ProfileFragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

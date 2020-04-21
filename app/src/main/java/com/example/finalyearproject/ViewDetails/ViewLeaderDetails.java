@@ -1,4 +1,4 @@
-package com.example.finalyearproject;
+package com.example.finalyearproject.ViewDetails;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.finalyearproject.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -16,7 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import Objects.Leader;
+import com.example.finalyearproject.Objects.Leader;
 
 public class ViewLeaderDetails extends AppCompatActivity {
     FirebaseDatabase database;

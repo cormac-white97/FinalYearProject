@@ -1,48 +1,34 @@
-package Objects;
-
-import android.graphics.Color;
-
-import androidx.annotation.NonNull;
-
-import com.github.sundeepk.compactcalendarview.domain.Event;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.UUID;
+package com.example.finalyearproject.Objects;
 
 
 public class Leader {
-    private String personID;
+    private String leaderId;
     private String name;
     private String DOB;
     private String group;
     private String Phone;
-    private String Email;
+    private String email;
     private String vettingDate;
 
     public Leader() {
     }
 
-    public Leader(String personID, String name, String DOB, String group, String phone, String email, String vettingDate) {
-        this.personID = personID;
+    public Leader(String leaderId, String name, String DOB, String group, String phone, String email, String vettingDate) {
+        this.leaderId = leaderId;
         this.name = name;
         this.DOB = DOB;
         this.group = group;
         Phone = phone;
-        Email = email;
+        this.email = email;
         this.vettingDate = vettingDate;
     }
 
-    public String getPersonID() {
-        return personID;
+    public String getLeaderId() {
+        return leaderId;
     }
 
-    public void setPersonID(String personID) {
-        this.personID = personID;
+    public void setLeaderId(String leaderId) {
+        this.leaderId = leaderId;
     }
 
     public String getName() {
@@ -78,11 +64,11 @@ public class Leader {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getVettingDate() {

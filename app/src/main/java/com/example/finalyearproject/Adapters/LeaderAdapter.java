@@ -1,4 +1,4 @@
-package com.example.finalyearproject;
+package com.example.finalyearproject.Adapters;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,12 +9,15 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.finalyearproject.R;
+import com.example.finalyearproject.ViewDetails.ViewLeaderDetails;
+
 import java.util.ArrayList;
 
-import Objects.Member;
+import com.example.finalyearproject.Objects.Leader;
 
-public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.MyViewHolder> {
-    private ArrayList<Member> values;
+public class LeaderAdapter extends RecyclerView.Adapter<LeaderAdapter.MyViewHolder> {
+    private ArrayList<Leader> values;
     public static final String MESSAGE_KEY1 ="text";
     public static final String MESSAGE_KEY2 ="position";
     // Provide a reference to the views for each data item
@@ -31,7 +34,7 @@ public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.MyVi
     }
 
     // Provide the dataset to the Adapter
-    public GroupViewAdapter(ArrayList<Member> myDataset) {
+    public LeaderAdapter(ArrayList<Leader> myDataset) {
         values = myDataset;
     }
 
@@ -51,22 +54,23 @@ public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.MyVi
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final Member type = values.get(position);
+        final Leader type = values.get(position);
         holder.txtHeader.setText(type.getName());
 
         holder.txtHeader.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Toast.makeText(v.getContext() ,type.getId(), Toast.LENGTH_SHORT ).show();
+                Toast.makeText(v.getContext() ,type.getPersonID(), Toast.LENGTH_SHORT ).show();
                 //addItem(position);
                 // call activity to pass the item position
-                Intent intent = new Intent(v.getContext(), MemberProfile.class);
-                intent.putExtra("id", type.getId());
+                Intent intent = new Intent(v.getContext(), ViewLeaderDetails.class);
+                intent.putExtra("id", type.getPersonID());
+                intent.putExtra("type", "viewLeader");
                 v.getContext().startActivity(intent);
 
             }
 
-            public void addItem(int position, Member item){
+            public void addItem(int position, Leader item){
                 values.add(position, item); //values is the ArrayList
                 notifyItemInserted(position);
             }
@@ -76,7 +80,7 @@ public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.MyVi
                 notifyItemRemoved(position);
             }
 
-            public void update(Member newItem, int position){
+            public void update(Leader newItem, int position){
                 values.set(position, newItem);
                 notifyItemChanged(position);
             }
