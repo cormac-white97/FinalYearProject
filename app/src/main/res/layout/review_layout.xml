@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight">
-    <TextView
-        android:id="@+id/reviewTitle"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:text="TextView"
-        android:textColor="#084897"
-        android:textSize="15sp"/>
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/rating"
+        android:id="@+id/viewReviewTitle"
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:text="TextView"
         android:textColor="#084897"
-        android:textSize="12sp"/>
+        android:textSize="15sp" />
+
+    <RatingBar
+        android:id="@+id/viewRating"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:progressTint="@android:color/holo_blue_bright"
+        android:saveEnabled="true"/>
+
 
 </LinearLayout>

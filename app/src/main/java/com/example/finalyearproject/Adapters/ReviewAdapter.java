@@ -1,9 +1,12 @@
 package com.example.finalyearproject.Adapters;
 
         import android.content.Intent;
+        import android.graphics.Color;
+        import android.media.Rating;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
+        import android.widget.RatingBar;
         import android.widget.TextView;
 
         import androidx.recyclerview.widget.RecyclerView;
@@ -23,14 +26,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView txtHeader;
-        public TextView txtRating;
+        public RatingBar txtRating;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            txtHeader = (TextView) itemView.findViewById(R.id.reviewTitle);
-            txtRating = (TextView) itemView.findViewById(R.id.rating);
+            txtHeader = (TextView) itemView.findViewById(R.id.viewReviewTitle);
+            txtRating = (RatingBar) itemView.findViewById(R.id.viewRating);
 
         }
     }
@@ -59,7 +62,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
         final String type = values.get(position).getTitle();
         final int rating = values.get(position).getRating();
         holder.txtHeader.setText(type);
-        holder.txtRating.setText(rating);
+        holder.txtRating.setNumStars(rating);
 
         holder.txtHeader.setOnClickListener(new View.OnClickListener(){
             @Override

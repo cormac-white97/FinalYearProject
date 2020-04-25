@@ -124,7 +124,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Leader's Event Reviews:"
+            android:text="Leader's Previous Event Reviews:"
             android:textAlignment="center"
             android:textColor="#084897"
             android:textSize="20sp"
