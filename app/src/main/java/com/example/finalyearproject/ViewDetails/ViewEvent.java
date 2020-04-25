@@ -252,7 +252,6 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                         if (l.getGroup().equals(eventGroup)) {
                             if (!editLeaderNames.contains(l.getName())) {
                                 if (!eventLeaders.containsKey(l.getLeaderId()))
-                                    //TODO - finish adding functionality to edit event leaders and price
                                     editLeaderNames.add(l.getName());
                             }
                         }
@@ -478,12 +477,10 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                     }
                                 }
                                 //TODO - take out loop
-                                for (String newLeadersId : newLeaders) {
+
                                     String leaderNamesDisplay = leaderNames.toString();
                                     leaderNamesDisplay = leaderNamesDisplay.substring(1, leaderNamesDisplay.length() - 1);
                                     txtAttending.setText(leaderNamesDisplay);
-                                }
-
                             }
                         });
 
@@ -517,7 +514,6 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                 String price = txtPrice.getText().toString();
                 mRef.child(eventId).child("price").setValue(Double.parseDouble(price));
 
-                txtAttending.setText("€" + price);
 
                 if (newLeaders != null) {
                     for (String newLeadersId : newLeaders) {
