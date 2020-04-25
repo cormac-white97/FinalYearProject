@@ -23,12 +23,15 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView txtHeader;
+        public TextView txtRating;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            txtHeader = (TextView) itemView.findViewById(R.id.accountType);
+            txtHeader = (TextView) itemView.findViewById(R.id.reviewTitle);
+            txtRating = (TextView) itemView.findViewById(R.id.rating);
+
         }
     }
 
@@ -43,7 +46,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
                                            int viewType) {
         // create a new view
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.account_layout, parent, false);
+        View v = inflater.inflate(R.layout.review_layout, parent, false);
 //        View v = inflater.inflate(R.layout.account_layout, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
@@ -54,7 +57,9 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final String type = values.get(position).getTitle();
+        final int rating = values.get(position).getRating();
         holder.txtHeader.setText(type);
+        holder.txtRating.setText(rating);
 
         holder.txtHeader.setOnClickListener(new View.OnClickListener(){
             @Override

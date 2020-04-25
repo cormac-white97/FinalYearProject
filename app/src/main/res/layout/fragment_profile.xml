@@ -116,11 +116,6 @@
                 android:inputType="date" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/viewLeaderReviews"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

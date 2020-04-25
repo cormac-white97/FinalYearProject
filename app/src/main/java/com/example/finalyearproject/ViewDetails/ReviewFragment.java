@@ -62,16 +62,17 @@ public class ReviewFragment extends Fragment {
                    String createdBy = ds.getValue(Review.class).getCreatedBy();
                    String txtTitle = ds.getValue(Review.class).getTitle();
                    String txtBody = ds.getValue(Review.class).getBody();
+                   int rating = ds.getValue(Review.class).getRating();
 
                    if(type.equals("Event")){
                        if (eventId.equals(intentId)) {
-                           Review r = new Review(id, parentId, eventId, createdBy, txtTitle, txtBody);
+                           Review r = new Review(id, parentId, eventId, createdBy, txtTitle, txtBody, rating);
                            reviewList.add(r);
                        }
                    }
                    else if(type.equals("Leader")){
                        if(createdBy.equals(intentId)){
-                           Review r = new Review(id, parentId, eventId, createdBy, txtTitle, txtBody);
+                           Review r = new Review(id, parentId, eventId, createdBy, txtTitle, txtBody, rating);
                            reviewList.add(r);
                        }
                    }

@@ -9,9 +9,9 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="411dp"
-        android:layout_height="145dp"
-        android:layout_marginTop="78dp"
+        android:layout_height="210dp"
         android:layout_marginLeft="50dp"
+        android:layout_marginTop="78dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +40,59 @@
             android:scrollbars="vertical"
             android:scrollHorizontally="false"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+        <TextView
+            android:id="@+id/lblRating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rating:"
+            android:textAlignment="center"
+            android:textColor="#084897"
+            android:textSize="20sp" />
+
+
+
+        <RadioGroup
+            android:id="@+id/ratingGroup"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rating1"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="1" />
+
+            <RadioButton
+                android:id="@+id/rating2"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="2" />
+
+
+
+            <RadioButton
+                android:id="@+id/rating3"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="3" />
+
+            <RadioButton
+                android:id="@+id/rating4"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="4" />
+
+            <RadioButton
+                android:id="@+id/rating5"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="5" />
+
+
+        </RadioGroup>
 
     </LinearLayout>
 

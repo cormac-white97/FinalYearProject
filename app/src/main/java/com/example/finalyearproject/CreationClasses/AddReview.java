@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.finalyearproject.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,10 +29,13 @@ public class AddReview extends AppCompatActivity {
 
     private EditText title;
     private EditText body;
+    private RadioGroup radioRatingGroup;
+    private RadioButton selectedButton;
 
     private String eventId;
     private String parentId;
     private String createdBy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +51,7 @@ public class AddReview extends AppCompatActivity {
 
         title = findViewById(R.id.reviewTitle);
         body = findViewById(R.id.reviewBody);
+        radioRatingGroup = findViewById(R.id.ratingGroup);
     }
 
     public void createReview(View v){
@@ -52,14 +59,18 @@ public class AddReview extends AppCompatActivity {
         String txtTitle = title.getText().toString();
         String txtBody = body.getText().toString();
         HashMap<String, String> parentReviews = new HashMap<>();
-
+        int selectedId = radioRatingGroup.getCheckedRadioButtonId();
+        selectedButton = (RadioButton) findViewById(selectedId);
+        int ratingValue = Integer.parseInt(selectedButton.getText().toString());
         parentReviews.put(parentId, id);
 
-        Review r = new Review(id, parentId, eventId, createdBy, txtTitle, txtBody);
+        Review r = new Review(id, parentId, eventId, createdBy, txtTitle, txtBody, ratingValue);
 
 
         mRef.child("Review").child(id).setValue(r);
         mRef.child("Event").child(eventId).child("parentReviews").setValue(parentReviews);
+
+        Toast.makeText(this, "Thank you for your review", Toast.LENGTH_LONG).show();
 
         this.finish();
 

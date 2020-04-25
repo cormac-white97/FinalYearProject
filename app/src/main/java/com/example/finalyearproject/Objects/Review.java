@@ -7,17 +7,19 @@ public class Review {
     String createdBy;
     String title;
     String body;
+    int rating;
 
     public Review() {
     }
 
-    public Review(String reviewId, String parentId, String eventId, String createdBy, String title, String body) {
+    public Review(String reviewId, String parentId, String eventId, String createdBy, String title, String body, int rating) {
         this.reviewId = reviewId;
         this.parentId = parentId;
         this.eventId = eventId;
         this.createdBy = createdBy;
         this.title = title;
         this.body = body;
+        this.rating = rating;
     }
 
     public String getReviewId() {
@@ -66,5 +68,13 @@ public class Review {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 }

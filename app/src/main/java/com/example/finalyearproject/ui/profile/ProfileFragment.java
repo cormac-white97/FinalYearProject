@@ -68,7 +68,6 @@ public class ProfileFragment extends Fragment {
 
     String child = null;
     RecyclerView viewReview;
-    ArrayList<Review> reviewList = new ArrayList<>();
 
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -263,35 +262,7 @@ public class ProfileFragment extends Fragment {
         });
 
 
-        myRef = database.getReference("Review");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String id = ds.getValue(Review.class).getReviewId();
-                    String parentId = ds.getValue(Review.class).getParentId();
-                    String eventId = ds.getValue(Review.class).getEventId();
-                    String createdBy = ds.getValue(Review.class).getCreatedBy();
-                    String txtTitle = ds.getValue(Review.class).getTitle();
-                    String txtBody = ds.getValue(Review.class).getBody();
 
-                    if (createdBy.equals(intentId)) {
-                        Review r = new Review(id, parentId, eventId, createdBy, txtTitle, txtBody);
-                        reviewList.add(r);
-                    }
-
-
-                }
-
-                setAdapter();
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
         return view;
 
     }
@@ -300,14 +271,6 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    public void setAdapter() {
-        LinearLayoutManager myLayoutManager = new LinearLayoutManager(getActivity());
-        viewReview.setLayoutManager(myLayoutManager);
-        ReviewAdapter mAdapter = new ReviewAdapter(reviewList);
-        viewReview.addItemDecoration(new
 
-                DividerItemDecoration(getActivity(), VERTICAL));
-        viewReview.setAdapter(mAdapter);
-    }
 
 }
