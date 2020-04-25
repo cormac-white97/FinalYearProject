@@ -286,6 +286,7 @@ public class CreateMember extends AppCompatActivity {
         } else {
             member = new Member(memberProfileId, txtName, txtMemGroup, txtDobDate, txtDomDate, txtNotes);
             memberRef.child("Person").child("Member").child(memberProfileId).setValue(member);
+            memberRef.child("Person").child("Parent").child(memberProfileId).setValue(txtMemGroup);
             mProgress.dismiss();
             Intent i = new Intent(getApplicationContext(), ViewMembersFragment.class);
             startActivity(i);

@@ -201,7 +201,6 @@ public class CreateParent extends AppCompatActivity {
         EditText password = findViewById(R.id.txtParentPass);
         EditText confirm = findViewById(R.id.txtParentConfirm);
         EditText phone = findViewById(R.id.txtParentPhone);
-        final Spinner child = findViewById(R.id.parentChild);
 
         final String txtname = name.getText().toString();
         final String txtEmail = email.getText().toString();

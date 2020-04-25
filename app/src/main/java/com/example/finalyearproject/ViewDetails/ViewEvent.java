@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -50,6 +51,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import com.example.finalyearproject.Objects.EventObj;
@@ -61,7 +64,6 @@ import com.example.finalyearproject.Objects.Review;
 
 public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
-    private FirebaseDatabase database;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
@@ -74,18 +76,34 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     private Button btnNotGoing;
     private Button btnPay;
     private Button btnReview;
+    private FloatingActionButton btnSave;
     private FloatingActionButton btnEventEdit;
     private TextView txtMsg;
 
     private String eventCreatedBy;
 
     ArrayList<String> leaderNames = new ArrayList<>();
+    ArrayList<String> editLeaderNames = new ArrayList<>();
+
     ArrayList<String> paymentList = new ArrayList<>();
     ArrayList<Review> reviewList = new ArrayList<>();
     private String eventId;
     private double priceVal;
     HashMap<String, String> eventLeaders = new LinkedHashMap<>();
     LinkedHashMap<String, String> parentChildIds = new LinkedHashMap<>();
+
+    boolean[] checkedItems;
+    String item;
+    //The position of the selected item in the dialog box
+    ArrayList<Integer> mUserItems = new ArrayList<>();
+    String[] list;
+    ArrayList<Leader> leaders = new ArrayList<>();
+
+    ArrayList<String> newLeaders = new ArrayList<String>();
+
+    private DatabaseReference personRef;
+
+
     GoogleMap mMap;
     double lng;
     double lat;
@@ -127,12 +145,14 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         btnEventEdit = findViewById(R.id.btnEventEdit);
         btnReview = findViewById(R.id.btnOpenReview);
         txtMsg = findViewById(R.id.approvalMessage);
+        btnSave = findViewById(R.id.btnSave);
 
         btnGoing.setVisibility(View.INVISIBLE);
         btnNotGoing.setVisibility(View.INVISIBLE);
         btnPay.setVisibility(View.INVISIBLE);
         btnReview.setVisibility(View.INVISIBLE);
         txtMsg.setVisibility(View.INVISIBLE);
+        btnSave.hide();
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.viewMap);
@@ -141,6 +161,40 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         reviewDatabase = FirebaseDatabase.getInstance();
+
+        personRef = mDatabase.getReference("Person").child("Leader");
+        mAuth = FirebaseAuth.getInstance();
+
+        personRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mUser = mAuth.getInstance().getCurrentUser();
+
+                final String currentUserEmail = mUser.getEmail();
+
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String personID = ds.getValue(Leader.class).getLeaderId();
+                    String name = ds.getValue(Leader.class).getName();
+                    String DOB = ds.getValue(Leader.class).getDOB();
+                    String group = ds.getValue(Leader.class).getGroup();
+                    String phone = ds.getValue(Leader.class).getPhone();
+
+                    String email = ds.getValue(Leader.class).getEmail();
+                    String vettingDate = ds.getValue(Leader.class).getVettingDate();
+
+                    Leader p = new Leader(personID, name, DOB, group, phone, email, vettingDate);
+                    //Adding all leader objects to an arraylist to select leaders to assign to event
+                    leaders.add(p);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -170,7 +224,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     eventCreatedBy = ds.getValue(EventObj.class).getCreatedBy();
-                    String eventStartDate = ds.getValue(EventObj.class).getDate();
+                    String eventStartDate = ds.getValue(EventObj.class).getStartDate();
                     String eventEndDate = ds.getValue(EventObj.class).getEndDate();
                     eventGroup = ds.getValue(EventObj.class).getGroup();
                     eventId = ds.getValue(EventObj.class).getId();
@@ -194,7 +248,16 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                             break;
                         }
                     }
+                    for (Leader l : leaders) {
+                        if (l.getGroup().equals(eventGroup)) {
+                            if (!editLeaderNames.contains(l.getName())) {
+                                if (!eventLeaders.containsKey(l.getLeaderId()))
+                                    //TODO - finish adding functionality to edit event leaders and price
+                                    editLeaderNames.add(l.getName());
+                            }
+                        }
 
+                    }
 
                     if (eventId.equals(clickedID)) {
 
@@ -211,7 +274,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                         lng = ds.getValue(EventObj.class).getLng();
                         parentReviews = ds.getValue(EventObj.class).getParentReviews();
 
-                        event = new EventObj(eventId, eventType, eventLocation, eventStartDate, eventEndDate, eventGroup, priceVal, eventCreatedBy, eventLeaders,parentReviews, paymentList, availableSpaces, lng, lat, approved);
+                        event = new EventObj(eventId, eventType, eventLocation, eventStartDate, eventEndDate, eventGroup, priceVal, eventCreatedBy, eventLeaders, parentReviews, paymentList, availableSpaces, lng, lat, approved);
 
                         MapsInitializer.initialize(getApplicationContext());
                         mMap = googleMap;
@@ -241,8 +304,10 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
         List<String> typeList = Arrays.asList("Leader", "Parent");
         final boolean[] foundUser = {false};
+        final int[] i = {0};
 
         for (String type : typeList) {
+
             final String tempType = type;
             mRef = mDatabase.getReference("Person").child(type);
             mRef.addValueEventListener(new ValueEventListener() {
@@ -250,18 +315,24 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     mUser = mAuth.getInstance().getCurrentUser();
-
+                    int j = 0;
                     final String currentUserEmail = mUser.getEmail();
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         if (tempType.equals("Leader")) {
-                            ID[0] = ds.getValue(Leader.class).getPersonID();
+                            ID[0] = ds.getValue(Leader.class).getLeaderId();
                             email[0] = ds.getValue(Leader.class).getEmail();
                             name = ds.getValue(Leader.class).getName();
                             group[0] = ds.getValue(Leader.class).getGroup();
 
+
                             for (String id : eventLeaders.keySet()) {
                                 if (ID[0].equals(id)) {
-                                    leaderNames.add(name);
+                                    String approval = eventLeaders.values().toArray()[i[0]].toString();
+
+                                    if (approval.equals("Approved")) {
+                                        leaderNames.add(name);
+                                        i[0]++;
+                                    }
                                 }
                             }
 
@@ -281,23 +352,22 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
 
                         if (currentUserEmail.equals(email[0])) {
-                            int i = 0;
+
                             if (tempType.equals("Leader")) {
-                                if (onLeaderList) {
-                                    for (String id : eventLeaders.keySet()) {
-                                        if (id.equals(ID[0])) {
-                                            String approval = eventLeaders.values().toArray()[i].toString();
-                                            if (approval.equals("pending")) {
-                                                btnGoing.setVisibility(View.VISIBLE);
-                                                btnNotGoing.setVisibility(View.VISIBLE);
-                                            } else if (approval.equals("Approved")) {
-                                                txtMsg.setText("You have indicated that you are going on this event");
-                                                txtMsg.setVisibility(View.VISIBLE);
-                                            }
+                                for (String id : eventLeaders.keySet()) {
+                                    if (id.equals(ID[0])) {
+                                        String approval = eventLeaders.values().toArray()[j].toString();
+                                        if (approval.equals("pending")) {
+                                            btnGoing.setVisibility(View.VISIBLE);
+                                            btnNotGoing.setVisibility(View.VISIBLE);
+                                        } else if (approval.equals("Approved")) {
+                                            txtMsg.setText("You are going on this event.");
+                                            txtMsg.setVisibility(View.VISIBLE);
                                         }
-                                        i++;
                                     }
+                                    j++;
                                 }
+
                             } else if (tempType.equals("Parent")) {
                                 Date today = Calendar.getInstance().getTime();
                                 Long todayLong = Long.parseLong(String.valueOf(today.getTime()));
@@ -305,11 +375,10 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
                                 if (Long.parseLong(event.getEndDate()) < todayLong) {
                                     if (paymentList.contains(childID[0])) {
-                                        for(String parentId : parentReviews.keySet()){
-                                            if(parentId.equals(mUser.getUid())){
+                                        for (String parentId : parentReviews.keySet()) {
+                                            if (parentId.equals(mUser.getUid())) {
                                                 btnReview.setVisibility(View.INVISIBLE);
-                                            }
-                                            else{
+                                            } else {
                                                 btnReview.setVisibility(View.VISIBLE);
                                             }
                                         }
@@ -331,7 +400,6 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                             }
 
                             foundUser[0] = true;
-                            break;
                         }
 
                     }
@@ -344,20 +412,125 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                 }
             });
 
-            if (foundUser[0] == true) {
-                break;
-            }
         }
 
         btnEventEdit.setOnClickListener(new View.OnClickListener() {
+            ArrayList<String> listItemsByGroup = new ArrayList<>();
+
             @Override
             public void onClick(View v) {
-                Intent editIntent = new Intent(ViewEvent.this, CreateNewEvent.class);
-                editIntent.putExtra("editEvent", (Parcelable) event);
-                editIntent.putExtra("type", "Edit");
-                startActivity(editIntent);
+                btnEventEdit.hide();
+                btnSave.show();
+
+                txtPrice.setTextColor(Color.BLACK);
+                txtPrice.setFocusableInTouchMode(true);
+                txtPrice.setEnabled(true);
+
+                String price = txtPrice.getText().toString();
+                price = price.substring(1, price.length() - 1);
+                txtPrice.setText(price);
+                txtAttending.setTextColor(Color.BLACK);
+
+                txtAttending.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        list = GetStringArray(editLeaderNames);
+
+                        eventLeaders.clear();
+                        mUserItems.clear();
+                        item = "";
+                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(ViewEvent.this);
+                        mBuilder.setTitle("Available Leaders");
+
+                        mBuilder.setMultiChoiceItems(list, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int position, boolean isChecked) {
+                                //add leader name to selected leaders if not already in list
+                                //else remove leader if name is unchecked
+                                if (isChecked) {
+                                    if (!mUserItems.contains(position)) {
+                                        mUserItems.add(position);
+                                    }
+                                } else {
+                                    mUserItems.remove((Integer.valueOf(position)));
+                                }
+
+                            }
+                        });
+
+                        mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                for (int i = 0; i < mUserItems.size(); i++) {
+                                    if (!mUserItems.isEmpty()) {
+                                        item = item + " " + list[mUserItems.get(i)] + ",";
+                                    }
+
+                                }
+
+
+                                for (Leader p1 : leaders) {
+                                    String name = p1.getName();
+                                    if (item.contains(name)) {
+                                        newLeaders.add(p1.getLeaderId());
+                                        leaderNames.add(name);
+                                    }
+                                }
+                                //TODO - take out loop
+                                for (String newLeadersId : newLeaders) {
+                                    String leaderNamesDisplay = leaderNames.toString();
+                                    leaderNamesDisplay = leaderNamesDisplay.substring(1, leaderNamesDisplay.length() - 1);
+                                    txtAttending.setText(leaderNamesDisplay);
+                                }
+
+                            }
+                        });
+
+                        mBuilder.setCancelable(true);
+
+                        AlertDialog mDialog = mBuilder.create();
+                        mDialog.show();
+                    }
+
+                });
             }
+
         });
+
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            ArrayList<String> listItemsByGroup = new ArrayList<>();
+
+            @Override
+            public void onClick(View v) {
+                mRef = mDatabase.getReference("Event");
+                btnEventEdit.show();
+                btnSave.hide();
+                txtAttending.setOnClickListener(null);
+
+                txtPrice.setTextColor(Color.GRAY);
+                txtPrice.setFocusableInTouchMode(false);
+                txtPrice.setEnabled(false);
+
+                txtAttending.setTextColor(Color.GRAY);
+                String price = txtPrice.getText().toString();
+                mRef.child(eventId).child("price").setValue(Double.parseDouble(price));
+
+                txtAttending.setText("€" + price);
+
+                if (newLeaders != null) {
+                    for (String newLeadersId : newLeaders) {
+                        mRef.child(eventId).child("eventLeaders").child(newLeadersId).setValue("pending");
+                        Toast.makeText(ViewEvent.this, "The leader's names will appear when they have accepted your invitation", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+
+            }
+
+        });
+
 
         btnGoing.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -368,6 +541,23 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                 btnNotGoing.setVisibility(View.INVISIBLE);
                 txtMsg.setText("You have indicated that you are going on this event");
                 txtMsg.setVisibility(View.VISIBLE);
+
+                ArrayList<String> approvedLeaders = new ArrayList<>();
+
+                for (Map.Entry<String, String> element : eventLeaders.entrySet()) {
+                    if (element.getValue().equals("Approved")) {
+                        approvedLeaders.add(element.getKey());
+                    }
+                }
+
+                int updatedSpaces = addSpaces(group[0], approvedLeaders);
+
+
+                mRef.child(eventId).child("availableSpaces").setValue(updatedSpaces);
+                txtSpaces.setText(String.valueOf(updatedSpaces));
+
+                finish();
+                startActivity(getIntent());
             }
         });
 
@@ -381,8 +571,10 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
+
                                 mRef = mDatabase.getReference("Event");
                                 mRef.child(eventId).child("eventLeaders").child(mUser.getUid()).removeValue();
+
                                 btnGoing.setVisibility(View.INVISIBLE);
                                 btnNotGoing.setVisibility(View.INVISIBLE);
                             }
@@ -455,6 +647,35 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
             }
         }
+    }
+
+    public static String[] GetStringArray(ArrayList<String> arr) {
+        // declaration and initialise String Array
+        String str[] = new String[arr.size()];
+
+        // ArrayList to Array Conversion
+        for (int j = 0; j < arr.size(); j++) {
+
+            // Assign each value to String array
+            str[j] = arr.get(j);
+        }
+
+        String[] returnList = str;
+
+        return str;
+    }
+
+    public int addSpaces(String group, ArrayList<String> leaders) {
+        int newSpaces = 0;
+
+        if (group.equals("Beavers") || group.equals("Cubs")) {
+            newSpaces = (leaders.size() + 1) * 5;
+        } else if (group.equals("Scouts") || group.equals("Ventures")) {
+            newSpaces = (leaders.size() + 1) * 8;
+        }
+
+
+        return newSpaces;
     }
 }
 

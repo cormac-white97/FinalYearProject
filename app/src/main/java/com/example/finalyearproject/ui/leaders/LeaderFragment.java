@@ -71,7 +71,7 @@ public class LeaderFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         if(type.equals("Leader")){
-                            String id = ds.getValue(Leader.class).getPersonID();
+                            String id = ds.getValue(Leader.class).getLeaderId();
                             String group = ds.getValue(Leader.class).getGroup();
 
                             if(id.equals(mUser.getUid())){
@@ -109,7 +109,7 @@ public class LeaderFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String id = ds.getValue(Leader.class).getPersonID();
+                    String id = ds.getValue(Leader.class).getLeaderId();
                     String name = ds.getValue(Leader.class).getName();
                     String email = ds.getValue(Leader.class).getEmail();
                     String DOB = ds.getValue(Leader.class).getDOB();

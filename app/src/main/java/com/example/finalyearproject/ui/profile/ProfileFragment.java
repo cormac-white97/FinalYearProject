@@ -105,7 +105,7 @@ public class ProfileFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                            String id = ds.getValue(Leader.class).getPersonID();
+                            String id = ds.getValue(Leader.class).getLeaderId();
                             String name = ds.getValue(Leader.class).getName();
                             String email = ds.getValue(Leader.class).getEmail();
                             String DOB = ds.getValue(Leader.class).getDOB();
@@ -230,7 +230,7 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                    String id = ds.getValue(Leader.class).getPersonID();
+                    String id = ds.getValue(Leader.class).getLeaderId();
                     String name = ds.getValue(Leader.class).getName();
                     String email = ds.getValue(Leader.class).getEmail();
                     String DOB = ds.getValue(Leader.class).getDOB();

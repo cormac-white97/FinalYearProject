@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EventObj implements Parcelable {
-    String id;
+    String eventId;
     String type;
     String location;
-    String date;
+    String startDate;
     String endDate;
     String group;
     double price;
@@ -23,11 +23,11 @@ public class EventObj implements Parcelable {
     double lat;
     String approved;
 
-    public EventObj(String id, String type, String location, String date, String endDate, String group, double price, String createdBy, HashMap<String, String> eventLeaders, HashMap<String, String> parentReviews, ArrayList<String> paymentList, int availableSpaces, double lng, double lat, String approved) {
-        this.id = id;
+    public EventObj(String eventId, String type, String location, String startDate, String endDate, String group, double price, String createdBy, HashMap<String, String> eventLeaders, HashMap<String, String> parentReviews, ArrayList<String> paymentList, int availableSpaces, double lng, double lat, String approved) {
+        this.eventId = eventId;
         this.type = type;
         this.location = location;
-        this.date = date;
+        this.startDate = startDate;
         this.endDate = endDate;
         this.group = group;
         this.price = price;
@@ -45,10 +45,10 @@ public class EventObj implements Parcelable {
     }
 
     protected EventObj(Parcel in) {
-        id = in.readString();
+        eventId = in.readString();
         type = in.readString();
         location = in.readString();
-        date = in.readString();
+        startDate = in.readString();
         endDate = in.readString();
         group = in.readString();
         price = in.readDouble();
@@ -61,11 +61,11 @@ public class EventObj implements Parcelable {
     }
 
     public String getId() {
-        return id;
+        return eventId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.eventId = id;
     }
 
     public String getType() {
@@ -84,12 +84,12 @@ public class EventObj implements Parcelable {
         this.location = location;
     }
 
-    public String getDate() {
-        return date;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
     public String getEndDate() {
@@ -205,10 +205,10 @@ public class EventObj implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        dest.writeString(eventId);
         dest.writeString(type);
         dest.writeString(location);
-        dest.writeString(date);
+        dest.writeString(startDate);
         dest.writeString(endDate);
         dest.writeString(group);
         dest.writeDouble(price);

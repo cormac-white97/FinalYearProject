@@ -120,7 +120,7 @@ public class HomeFragment extends Fragment {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
                         if (type.equals("Leader")) {
-                            String personID = ds.getValue(Leader.class).getPersonID();
+                            String personID = ds.getValue(Leader.class).getLeaderId();
                             String name = ds.getValue(Leader.class).getName();
                             String DOB = ds.getValue(Leader.class).getDOB();
                             String group = ds.getValue(Leader.class).getGroup();
@@ -166,7 +166,7 @@ public class HomeFragment extends Fragment {
                 Event ev2 = null;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String id = ds.getValue(EventObj.class).getId();
-                    String date = ds.getValue(EventObj.class).getDate();
+                    String date = ds.getValue(EventObj.class).getStartDate();
                     String endDate = ds.getValue(EventObj.class).getEndDate();
                     String group = ds.getValue(EventObj.class).getGroup();
                     String location = ds.getValue(EventObj.class).getLocation();
@@ -180,6 +180,7 @@ public class HomeFragment extends Fragment {
                     lng = ds.getValue(EventObj.class).getLng();
                     String approved = ds.getValue(EventObj.class).getApproved();
                     HashMap<String, String> parentReviews = new HashMap<>();
+
                     boolean dateReached = false;
 
 
@@ -193,7 +194,7 @@ public class HomeFragment extends Fragment {
                             EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, parentReviews, paymentList, availableSpaces, lng, lat, approved);
                             eventObjs.add(e);
 
-                            addEventMarker(group, longDate, type, ev2, compactCalendar);
+                            addEventMarker(group, longDate, type, ev2, compactCalendar, approved);
 
                             longDate = longDate + dayValue;
                             dateReached = true;
@@ -202,7 +203,7 @@ public class HomeFragment extends Fragment {
                             EventObj e = new EventObj(id, type, location, date, endDate, group, price, createdBy, eventLeaders, parentReviews, paymentList, availableSpaces, lng, lat, approved);
                             eventObjs.add(e);
 
-                            addEventMarker(group, longDate, type, ev2, compactCalendar);
+                            addEventMarker(group, longDate, type, ev2, compactCalendar, approved);
 
                             longDate = longDate + dayValue;
                         }
@@ -242,7 +243,7 @@ public class HomeFragment extends Fragment {
                 for (EventObj e : allEventsInDB) {
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                     ArrayList<Long> eventDays = new ArrayList<>();
-                    long dateTime = Long.parseLong(e.getDate());
+                    long dateTime = Long.parseLong(e.getStartDate());
                     boolean dateReached = false;
                     long endDate = Long.parseLong(e.getEndDate());
                     //create an arraylist to map dates between the start and end date to an event
@@ -260,7 +261,7 @@ public class HomeFragment extends Fragment {
                     while (dateReached == false);
 
                     if (eventDays.contains(dateEpoch)) {
-                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getDate(), e.getEndDate(), e.getGroup(), e.getPrice(), e.getCreatedBy(), e.getEventLeaders(), e.getParentReviews(), e.getPaymentList(), e.getAvailableSpaces(), e.getLat(), e.getLng(), e.getApproved());
+                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getStartDate(), e.getEndDate(), e.getGroup(), e.getPrice(), e.getCreatedBy(), e.getEventLeaders(), e.getParentReviews(), e.getPaymentList(), e.getAvailableSpaces(), e.getLat(), e.getLng(), e.getApproved());
                         myDataset.add(eventObj);
                     }
                 }
@@ -301,21 +302,21 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public void addEventMarker(String group, Long longDate, String type, Event ev2,CompactCalendarView calendar ) {
+    public void addEventMarker(String group, Long longDate, String type, Event ev2,CompactCalendarView calendar, String approval) {
 
         if (loggedInType.equals("Parent")) {
-            if (group.equals("Beavers") && group.equals(loggedInGroup)) {
+            if (group.equals("Beavers") && group.equals(loggedInGroup) && approval.equals("approved")) {
                 ev2 = new Event(Color.BLUE, longDate, type);
-            } else if (group.equals("Cubs") && group.equals(loggedInGroup)) {
+            } else if (group.equals("Cubs") && group.equals(loggedInGroup) && approval.equals("approved")) {
                 ev2 = new Event(Color.RED, longDate, type);
 
-            } else if (group.equals("Scouts") && group.equals(loggedInGroup)) {
+            } else if (group.equals("Scouts") && group.equals(loggedInGroup) && approval.equals("approved")) {
                 ev2 = new Event(Color.GREEN, longDate, type);
 
-            } else if (group.equals("Ventures") && group.equals(loggedInGroup)) {
+            } else if (group.equals("Ventures") && group.equals(loggedInGroup) && approval.equals("approved")) {
                 ev2 = new Event(Color.MAGENTA, longDate, type);
 
-            } else if (group.equals("Rovers") && group.equals(loggedInGroup)) {
+            } else if (group.equals("Rovers") && group.equals(loggedInGroup) && approval.equals("approved")) {
                 ev2 = new Event(Color.BLACK, longDate, type);
 
             }

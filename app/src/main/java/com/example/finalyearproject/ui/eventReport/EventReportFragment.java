@@ -73,7 +73,7 @@ public class EventReportFragment extends Fragment implements OnChartValueSelecte
                 Event ev2 = null;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String id = ds.getValue(EventObj.class).getId();
-                    String date = ds.getValue(EventObj.class).getDate();
+                    String date = ds.getValue(EventObj.class).getStartDate();
                     String endDate = ds.getValue(EventObj.class).getEndDate();
                     String group = ds.getValue(EventObj.class).getGroup();
                     String location = ds.getValue(EventObj.class).getLocation();
@@ -184,7 +184,7 @@ public class EventReportFragment extends Fragment implements OnChartValueSelecte
 
         for (EventObj ed : eventDetails) {
             if (ed.getGroup().equals(String.valueOf(pe.getLabel()))) {
-                EventObj eventObj = new EventObj(ed.getId(), ed.getType(), ed.getLocation(), ed.getDate(), ed.getEndDate(), ed.getGroup(), ed.getPrice(), ed.getCreatedBy(), ed.getEventLeaders(), ed.getParentReviews(), ed.getPaymentList(), ed.getAvailableSpaces(), ed.getLat(), ed.getLng(), ed.getApproved());
+                EventObj eventObj = new EventObj(ed.getId(), ed.getType(), ed.getLocation(), ed.getStartDate(), ed.getEndDate(), ed.getGroup(), ed.getPrice(), ed.getCreatedBy(), ed.getEventLeaders(), ed.getParentReviews(), ed.getPaymentList(), ed.getAvailableSpaces(), ed.getLat(), ed.getLng(), ed.getApproved());
                 myDataset.add(eventObj);
             }
         }

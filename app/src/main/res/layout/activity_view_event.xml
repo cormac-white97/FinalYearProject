@@ -39,7 +39,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
-                        android:singleLine="true" />
+                        android:editable="false"
+                        android:singleLine="true"
+                        android:textColor="#808080" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -54,7 +56,9 @@
                         android:layout_width="378dp"
                         android:layout_height="45dp"
                         android:focusable="false"
-                        android:singleLine="true" />
+                        android:editable="false"
+                        android:singleLine="true"
+                        android:textColor="#808080" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,7 +74,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
-                        android:singleLine="true" />
+                        android:editable="false"
+                        android:singleLine="true"
+                        android:textColor="#808080" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -85,7 +91,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
-                        android:singleLine="true" />
+                        android:editable="false"
+                        android:singleLine="true"
+                        android:textColor="#808080" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -97,10 +105,13 @@
 
                     <EditText
                         android:id="@+id/txtViewPrice"
+                        android:inputType="numberDecimal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
-                        android:singleLine="true" />
+                        android:enabled="false"
+                        android:singleLine="true"
+                        android:textColor="#808080" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -182,6 +193,21 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@android:drawable/ic_menu_edit" />
+
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/btnSave"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="78dp"
+                        android:layout_marginBottom="4dp"
+                        android:clickable="true"
+                        app:backgroundTint="#223e92"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@android:drawable/ic_menu_save" />
 
                     <Button
                         android:id="@+id/btnOpenReview"

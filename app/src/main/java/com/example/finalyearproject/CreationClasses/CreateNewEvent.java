@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -139,7 +140,7 @@ public class CreateNewEvent extends AppCompatActivity {
 
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String personID = ds.getValue(Leader.class).getPersonID();
+                    String personID = ds.getValue(Leader.class).getLeaderId();
                     String name = ds.getValue(Leader.class).getName();
                     String DOB = ds.getValue(Leader.class).getDOB();
                     String group = ds.getValue(Leader.class).getGroup();
@@ -179,7 +180,7 @@ public class CreateNewEvent extends AppCompatActivity {
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String eventCreatedBy = ds.getValue(EventObj.class).getCreatedBy();
-                    String eventStartDate = ds.getValue(EventObj.class).getDate();
+                    String eventStartDate = ds.getValue(EventObj.class).getStartDate();
                     String eventEndDate = ds.getValue(EventObj.class).getEndDate();
                     String eventGroup = ds.getValue(EventObj.class).getGroup();
                     String eventId = ds.getValue(EventObj.class).getId();
@@ -311,7 +312,7 @@ public class CreateNewEvent extends AppCompatActivity {
         long endDateLong = Long.parseLong(endDate);
 
         for (EventObj e : existingEvents) {
-            long dbStartDate = Long.parseLong(e.getDate());
+            long dbStartDate = Long.parseLong(e.getStartDate());
             long dbEndDate = Long.parseLong(e.getEndDate());
             String dbID = e.getCreatedBy();
             HashMap<String, String> eventLeaders = e.getEventLeaders();
@@ -397,14 +398,17 @@ public class CreateNewEvent extends AppCompatActivity {
         mBuilder.setMultiChoiceItems(list, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
 
             @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+            public void onClick(DialogInterface dialog, int position, boolean isChecked) {
                 //add leader name to selected leaders if not already in list
                 //else remove leader if name is unchecked
                 //TODO - this is crashing with an index out of bounds exception when adding and removing names
                 if (isChecked) {
-                    if (!mUserItems.contains(which)) {
-                        mUserItems.add(which);
+                    if (!mUserItems.contains(position)) {
+                        mUserItems.add(position);
                     }
+                }
+                else{
+                    mUserItems.remove((Integer.valueOf(position)));
                 }
 
             }
@@ -423,7 +427,7 @@ public class CreateNewEvent extends AppCompatActivity {
                 for (Leader p1 : leaders) {
                     String name = p1.getName();
                     if (item.contains(name)) {
-                        eventLeaders.put(p1.getPersonID(), "pending");
+                        eventLeaders.put(p1.getLeaderId(), "pending");
                     }
                 }
 
@@ -490,26 +494,12 @@ public class CreateNewEvent extends AppCompatActivity {
                             DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Event");
                             myRef.keepSynced(true);
 
-                            //check if the permission is not granted
-                            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                                //Check if the user has not denied the request
-                                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)) {
-                                    SmsManager smsManager = SmsManager.getDefault();
-                                    smsManager.sendTextMessage("0858402059", null, "sms message", null, null);
-                                } else {
-                                    //Ask the user for permission
-                                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSION_REQUEST_SEND_SMS);
-                                }
-                                try {
 
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
 
                             //post to database
                             mProgress.setMessage("Adding to Events");
                             mProgress.show();
+
 
                             if (groupType.equals("Scouts") || groupType.equals("Ventures")) {
                                 availableSpaces = 8 * eventLeaders.size();
@@ -525,6 +515,8 @@ public class CreateNewEvent extends AppCompatActivity {
                            HashMap<String, String> parentReviews = new HashMap<>();
                             parentReviews.put("Empty", "Empty");
                             paymentList.add("Empty");
+                            sendSmsNotification();
+
                             //start uploading....
                             EventObj e = new EventObj(id, eventType, loc, dateVal, endDateValue, groupType, txtPrice, createdBy, eventLeaders, parentReviews, paymentList, availableSpaces, lng, lat, "pending");
                             myRef.child(id).setValue(e);
@@ -551,20 +543,27 @@ public class CreateNewEvent extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSION_REQUEST_SEND_SMS: {
-                //check whether the length of grantResults is greater than 0 and is equal to PERMISSIONS_GRANTED
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage("0852393910", null, "sms message", null, null);
-                } else {
-                    Toast.makeText(this, "Please allow the app to send SMS text messages", Toast.LENGTH_LONG).show();
-                }
-            }
+    public void sendSmsNotification(){
+        //check if the permission is not granted
+       if(checkPermission(Manifest.permission.SEND_SMS)){
+           for(Leader l : leaders){
+               if(eventLeaders.keySet().contains(l.getLeaderId())){
+                   SmsManager smsManager = SmsManager.getDefault();
+                   smsManager.sendTextMessage(l.getPhone(), null, "test message", null, null );
+               }
+           }
+       }
+       else{
+           ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST_SEND_SMS);
 
-        }
+       }
+    }
+
+
+    public boolean checkPermission(String permission){
+        int check = ContextCompat.checkSelfPermission(this, permission);
+
+        return(check == PackageManager.PERMISSION_GRANTED);
     }
 }
 
