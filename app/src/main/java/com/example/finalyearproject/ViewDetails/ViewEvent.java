@@ -79,6 +79,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     private FloatingActionButton btnSave;
     private FloatingActionButton btnEventEdit;
     private TextView txtMsg;
+    private Button makeAvailable;
 
     private String eventCreatedBy;
 
@@ -146,6 +147,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         btnReview = findViewById(R.id.btnOpenReview);
         txtMsg = findViewById(R.id.approvalMessage);
         btnSave = findViewById(R.id.btnSave);
+        makeAvailable = findViewById(R.id.btnMakeAvailable);
 
         btnGoing.setVisibility(View.INVISIBLE);
         btnNotGoing.setVisibility(View.INVISIBLE);
@@ -261,8 +263,9 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                     if (eventId.equals(clickedID)) {
 
                         String userId = mUser.getUid();
-                        if (!eventCreatedBy.equals(mUser.getUid())) {
+                        if (!eventCreatedBy.equals(mUser.getUid()) || approved.equals("approved")) {
                             btnEventEdit.hide();
+                            makeAvailable.setVisibility(View.INVISIBLE);
                         }
                         String txtPriceParsed = "€" + String.valueOf(priceVal);
                         txtGroup.setText(eventGroup);
@@ -360,8 +363,12 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                             btnGoing.setVisibility(View.VISIBLE);
                                             btnNotGoing.setVisibility(View.VISIBLE);
                                         } else if (approval.equals("Approved")) {
-                                            txtMsg.setText("You are going on this event.");
-                                            txtMsg.setVisibility(View.VISIBLE);
+                                            if(!eventCreatedBy.equals(mUser.getUid())){
+                                                txtMsg.setText("You are going on this event.");
+                                                txtMsg.setVisibility(View.VISIBLE);
+                                            }
+
+
                                         }
                                     }
                                     j++;
@@ -672,6 +679,24 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
 
         return newSpaces;
+    }
+
+    public void makeEventAvailable(View v){
+        new AlertDialog.Builder(ViewEvent.this)
+                .setTitle("Warning!")
+                .setMessage("Once an event is made available, its details can no longer be edited." +
+                        " Are you sure you want to do this?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        mRef = mDatabase.getReference("Event");
+                        mRef.child(eventId).child("approved").setValue("approved");
+                        finish();
+                        startActivity(getIntent());
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null).show();
     }
 }
 

@@ -117,7 +117,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="400dp"
                     android:layout_height="66dp"
-                    android:layout_marginTop="30dp">
+                    android:layout_marginTop="10dp">
 
                     <Button
                         android:id="@+id/btnGoing"
@@ -140,8 +140,7 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:layout_marginEnd="95dp"
-                        android:layout_marginRight="95dp"
+                        android:layout_marginEnd="120dp"
                         android:layout_marginBottom="11dp"
                         android:background="@drawable/btn_rounded"
                         android:text="Not Goning"
@@ -157,7 +156,7 @@
                         android:layout_height="54dp"
                         android:layout_marginStart="45dp"
                         android:layout_marginTop="7dp"
-                        android:layout_marginEnd="100dp"
+                        android:layout_marginEnd="105dp"
                         android:layout_marginBottom="6dp"
                         android:background="@drawable/btn_rounded"
                         android:onClick="makePayment"
@@ -175,6 +174,7 @@
                         android:layout_width="251dp"
                         android:layout_height="49dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginEnd="70dp"
                         android:textAlignment="center"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -185,7 +185,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:layout_marginEnd="78dp"
+                        android:layout_marginEnd="70dp"
                         android:layout_marginBottom="4dp"
                         android:clickable="true"
                         app:backgroundTint="#223e92"
@@ -200,7 +200,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:layout_marginEnd="78dp"
+                        android:layout_marginEnd="70dp"
                         android:layout_marginBottom="4dp"
                         android:clickable="true"
                         app:backgroundTint="#223e92"
@@ -214,7 +214,7 @@
                         android:layout_width="230dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:layout_marginEnd="30dp"
+                        android:layout_marginEnd="35dp"
                         android:background="@drawable/btn_rounded"
                         android:onClick="openReview"
                         android:text="Create a review for event"
@@ -223,6 +223,24 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <Button
+                        android:id="@+id/btnMakeAvailable"
+                        android:layout_width="150dp"
+                        android:layout_height="54dp"
+                        android:layout_marginStart="45dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="150dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/btn_rounded"
+                        android:onClick="makeEventAvailable"
+                        android:text="Make Available"
+                        android:textColor="#FFFFFF"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

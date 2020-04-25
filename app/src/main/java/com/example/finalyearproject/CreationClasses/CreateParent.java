@@ -101,21 +101,24 @@ public class CreateParent extends AppCompatActivity {
                         confirm.setVisibility(View.GONE);
 
 
-                        if (id.equals(parentId)) {
+                        if (id != null) {
+                            if (id.equals(parentId)) {
 
-                            name.setText(txtName);
-                            email.setText(txtEmail);
-                            phone.setText(txtPhone);
-                            childId = txtChildId;
-                            parentGroup = txtParentGroup;
+                                name.setText(txtName);
+                                email.setText(txtEmail);
+                                phone.setText(txtPhone);
+                                childId = txtChildId;
+                                parentGroup = txtParentGroup;
 
-                            Button btnCreate = findViewById(R.id.create_parent_account);
-                            btnCreate.setVisibility(View.INVISIBLE);
+                                Button btnCreate = findViewById(R.id.create_parent_account);
+                                btnCreate.setVisibility(View.INVISIBLE);
 
-                            break;
+                                break;
 
 
+                            }
                         }
+
 
                     }
                 }
@@ -214,8 +217,17 @@ public class CreateParent extends AppCompatActivity {
 
             String id = mUser.getUid();
             Parent parent = new Parent(id, txtname, txtPhone, txtEmail, childId, parentGroup);
-
             parentRef.child("Person").child("Parent").child(id).setValue(parent);
+
+            mUser.updateEmail(txtEmail)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                        }
+                    });
+
+
             mProgress.dismiss();
             activity.finish();
 

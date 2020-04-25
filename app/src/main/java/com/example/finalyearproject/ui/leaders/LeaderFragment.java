@@ -82,9 +82,12 @@ public class LeaderFragment extends Fragment {
                             String id = ds.getValue(Parent.class).getParentId();
                             String group = ds.getValue(Leader.class).getGroup();
 
-                            if(id.equals(mUser.getUid())){
-                                loggedInGroup = group;
+                            if(id != null){
+                                if(id.equals(mUser.getUid())){
+                                    loggedInGroup = group;
+                                }
                             }
+
                         }
 
                     }

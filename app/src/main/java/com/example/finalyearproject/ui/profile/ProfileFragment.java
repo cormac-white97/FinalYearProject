@@ -147,67 +147,70 @@ public class ProfileFragment extends Fragment {
                             String phone = ds.getValue(Parent.class).getPhone();
 
 
-                            if (id.equals(userId)) {
-                                child = ds.getValue(Parent.class).getChildId();
-                                txtProfileName.setText(name);
-                                txtProfileEmail.setText(email);
-                                txtProfileGroup.setText(group);
-                                txtProfilePhoneNum.setText(phone);
+                            if(id != null){
+                                if (id.equals(userId)) {
+                                    child = ds.getValue(Parent.class).getChildId();
+                                    txtProfileName.setText(name);
+                                    txtProfileEmail.setText(email);
+                                    txtProfileGroup.setText(group);
+                                    txtProfilePhoneNum.setText(phone);
 
-                                TextInputLayout vettingDate = view.findViewById(R.id.text_input_layout_txtVetting);
-                                TextInputLayout dob = view.findViewById(R.id.text_input_layout_txtDOB);
-                                dob.setVisibility(View.INVISIBLE);
-                                txtDOB.setVisibility(View.INVISIBLE);
-                                vettingDate.setHint("Child");
-
-
-                                myRef = database.getReference("Person").child("Member");
-                                myRef.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-                                            String id = ds.getValue(Member.class).getId();
-                                            String name = ds.getValue(Member.class).getName();
+                                    TextInputLayout vettingDate = view.findViewById(R.id.text_input_layout_txtVetting);
+                                    TextInputLayout dob = view.findViewById(R.id.text_input_layout_txtDOB);
+                                    dob.setVisibility(View.INVISIBLE);
+                                    txtDOB.setVisibility(View.INVISIBLE);
+                                    vettingDate.setHint("Child");
 
 
-                                            if (id != null) {
-                                                if (id.equals(child)) {
-                                                    txtVettingDate.setText(name);
-                                                    break;
+                                    myRef = database.getReference("Person").child("Member");
+                                    myRef.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                                                String id = ds.getValue(Member.class).getId();
+                                                String name = ds.getValue(Member.class).getName();
+
+
+                                                if (id != null) {
+                                                    if (id.equals(child)) {
+                                                        txtVettingDate.setText(name);
+                                                        break;
+                                                    }
                                                 }
-                                            }
 
+
+                                            }
+                                        }
+
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                         }
-                                    }
+                                    });
 
+                                    txtVettingDate.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent childDetails = new Intent(getContext(), MemberProfile.class);
+                                            childDetails.putExtra("id", child);
+                                            startActivity(childDetails);
+                                        }
+                                    });
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-
-                                txtVettingDate.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent childDetails = new Intent(getContext(), MemberProfile.class);
-                                        childDetails.putExtra("id", child);
-                                        startActivity(childDetails);
-                                    }
-                                });
-
-                                btnEdit.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent updateParent = new Intent(getContext(), CreateParent.class);
-                                        updateParent.putExtra("id", userId);
-                                        updateParent.putExtra("type", "update");
-                                        startActivity(updateParent);
-                                    }
-                                });
+                                    btnEdit.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent updateParent = new Intent(getContext(), CreateParent.class);
+                                            updateParent.putExtra("id", userId);
+                                            updateParent.putExtra("type", "update");
+                                            startActivity(updateParent);
+                                        }
+                                    });
+                                }
                             }
+
 
                         }
                     }
