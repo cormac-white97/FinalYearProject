@@ -16,7 +16,7 @@
         <item
         android:id="@+id/nav_leaders"
         android:icon="@drawable/leader_icon"
-        android:title="@string/menu_send" />
+        android:title="Group Leaders" />
         <item
             android:id="@+id/nav_events"
             android:icon="@drawable/baseline_person_black_18dp"

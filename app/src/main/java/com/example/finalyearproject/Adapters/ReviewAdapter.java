@@ -67,10 +67,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
         holder.txtHeader.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //Toast.makeText(MainActivity.mycontext ,name, Toast.LENGTH_SHORT ).show();
-                //addItem(position);
-                // call activity to pass the item position
 
+                    //TODO -- allow user to view review onClick
                     Intent intent = new Intent(v.getContext(), AddReview.class);
                     intent.putExtra("type", "view");
                     v.getContext().startActivity(intent);

@@ -52,6 +52,15 @@
             android:textSize="20sp" />
 
 
+        <RatingBar
+            android:id="@+id/overallReview"
+            style="?android:attr/ratingBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:layout_marginLeft="70dp"
+            android:progressTint="@android:color/holo_blue_bright"
+            android:saveEnabled="true" />
 
         <RadioGroup
             android:id="@+id/ratingGroup"

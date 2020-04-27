@@ -43,6 +43,7 @@ public class CreateLeader extends AppCompatActivity {
     private Spinner group;
     private Leader leader;
     Activity activity = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +84,7 @@ public class CreateLeader extends AppCompatActivity {
         final String phoneNumValue = phone.getText().toString();
         final String emailValue = email.getText().toString();
         final String vettingValue = vetting.getText().toString();
+        final String groupValue = group.getSelectedItem().toString();
 
 
         if (passwordValue.equals(confirmPassValue) && mAuth != null) {
@@ -96,7 +98,7 @@ public class CreateLeader extends AppCompatActivity {
                                 Toast.makeText(CreateLeader.this, "Worked", Toast.LENGTH_LONG).show();
 
                                 String id = mUser.getUid();
-                                leader = new Leader(id, nameValue, DOBvalue,"Ventures", phoneNumValue, emailValue, vettingValue);
+                                leader = new Leader(id, nameValue, DOBvalue, groupValue, phoneNumValue, emailValue, vettingValue);
                                 myRef.child("Person").child("Leader").child(id).setValue(leader);
                                 mProgress.dismiss();
                                 activity.finish();
