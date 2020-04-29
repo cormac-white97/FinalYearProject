@@ -2,6 +2,9 @@ package com.example.finalyearproject.Adapters;
 
         import android.content.Intent;
         import android.graphics.Color;
+        import android.graphics.PorterDuff;
+        import android.graphics.drawable.Drawable;
+        import android.graphics.drawable.LayerDrawable;
         import android.media.Rating;
         import android.view.LayoutInflater;
         import android.view.View;
@@ -34,6 +37,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
 
             txtHeader = (TextView) itemView.findViewById(R.id.viewReviewTitle);
             txtRating = (RatingBar) itemView.findViewById(R.id.viewRating);
+            Drawable stars = txtRating.getProgressDrawable();
+            stars.setTint( Color.BLUE );
 
         }
     }
@@ -71,6 +76,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
                     //TODO -- allow user to view review onClick
                     Intent intent = new Intent(v.getContext(), AddReview.class);
                     intent.putExtra("type", "view");
+                    intent.putExtra("reviewId", values.get(position).getReviewId());
                     v.getContext().startActivity(intent);
             }
 

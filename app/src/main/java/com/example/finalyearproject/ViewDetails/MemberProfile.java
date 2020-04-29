@@ -119,12 +119,15 @@ public class MemberProfile extends AppCompatActivity {
                     String childId = ds.getValue(Parent.class).getChildId();
 
 
-                    if (childId.equals(memberProfileId)) {
-                       txtParentName.setText(name);
-                       txtParentPhone.setText(phone);
-                        break;
+                    if(childId != null){
+                        if (childId.equals(memberProfileId)) {
+                            txtParentName.setText(name);
+                            txtParentPhone.setText(phone);
+                            break;
 
+                        }
                     }
+
 
                 }
             }
@@ -160,6 +163,5 @@ public class MemberProfile extends AppCompatActivity {
         intent.putExtra("type", "update");
         intent.putExtra("memberId", memberProfileId);
         startActivity(intent);
-
     }
 }

@@ -5,11 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CreationClasses.AddReview">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/createNewToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#00175b"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/returnArrow"
+        android:layout_width="52dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/returnarrow" />
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="411dp"
-        android:layout_height="210dp"
+        android:layout_height="250dp"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="78dp"
         android:orientation="vertical"
@@ -17,22 +37,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addReviewMsg">
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_txtReviewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title:"
+            android:textColorHint="#00175b">
         <EditText
             android:id="@+id/reviewTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Title:"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_txtReviewBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Body:"
+            android:textColorHint="#00175b">
         <EditText
             android:id="@+id/reviewBody"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:gravity="top|left"
-            android:hint="Body:"
             android:inputType="textMultiLine"
             android:lines="6"
             android:overScrollMode="always"
@@ -40,6 +71,8 @@
             android:scrollbars="vertical"
             android:scrollHorizontally="false"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
 
         <TextView
@@ -49,7 +82,8 @@
             android:text="Rating:"
             android:textAlignment="center"
             android:textColor="#084897"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginRight="70dp"/>
 
 
         <RatingBar
@@ -58,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numStars="5"
-            android:layout_marginLeft="70dp"
+            android:layout_marginLeft="40dp"
             android:progressTint="@android:color/holo_blue_bright"
             android:saveEnabled="true" />
 
@@ -110,15 +144,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="7dp"
-        android:layout_marginTop="59dp"
+        android:layout_marginTop="26dp"
         android:layout_marginEnd="6dp"
         android:text="Add your thoughts about how the event went"
         android:textAlignment="center"
         android:textColor="#084897"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/createNewToolbar" />
 
     <Button
         android:id="@+id/btnAddReview"

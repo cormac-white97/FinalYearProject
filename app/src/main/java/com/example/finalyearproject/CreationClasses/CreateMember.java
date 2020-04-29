@@ -68,7 +68,7 @@ public class CreateMember extends AppCompatActivity {
 
         //Setting values for the group type spinner
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, groupTypeList);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, groupTypeList);
 
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -91,14 +91,10 @@ public class CreateMember extends AppCompatActivity {
                     String group = ds.getValue(Parent.class).getGroup();
 
 
-                    String childName = name;
-
                     Parent p = new Parent(parentId, name, phone, email, childId, group);
                     allParents.add(p);
-                    parentList.add(childName);
+                    parentList.add(name);
                 }
-
-
 
                 // Create an ArrayAdapter using the string array and a default spinner layout
                 ArrayAdapter<String> parentAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, parentList);
@@ -109,8 +105,7 @@ public class CreateMember extends AppCompatActivity {
                 // Apply the adapter to the spinner
                 parentSpinner.setAdapter(parentAdapter);
 
-                int parentPosition = parentAdapter.getPosition("John Smith");
-                parentSpinner.setSelection(parentPosition);
+
             }
 
             @Override
@@ -124,7 +119,6 @@ public class CreateMember extends AppCompatActivity {
         memberRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                parentList.add("Select the members parent");
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String leaderId = ds.getValue(Leader.class).getLeaderId();
@@ -136,20 +130,6 @@ public class CreateMember extends AppCompatActivity {
                     }
 
                 }
-
-
-
-                // Create an ArrayAdapter using the string array and a default spinner layout
-                ArrayAdapter<String> parentAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, parentList);
-
-                // Specify the layout to use when the list of choices appears
-                parentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                // Apply the adapter to the spinner
-                parentSpinner.setAdapter(parentAdapter);
-
-                int parentPosition = parentAdapter.getPosition("John Smith");
-                parentSpinner.setSelection(parentPosition);
             }
 
             @Override
@@ -190,6 +170,15 @@ public class CreateMember extends AppCompatActivity {
                             if (id.equals(memberProfileId)) {
                                 int i = 0;
 
+                                // Create an ArrayAdapter using the string array and a default spinner layout
+                                ArrayAdapter<String> parentAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, parentList);
+
+                                // Specify the layout to use when the list of choices appears
+                                parentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                                // Apply the adapter to the spinner
+                                parentSpinner.setAdapter(parentAdapter);
+
 //                                for (String value : groupTypeList) {
 //                                    if (value.equals(group)) {
 //                                        groupSpinner.setSelection(i);
@@ -198,7 +187,11 @@ public class CreateMember extends AppCompatActivity {
 //                                    i++;
 //                                }
 
+                                int groupPosition = adapter.getPosition(group);
+                                memGroup.setSelection(groupPosition);
 
+                                int parentPosition = parentAdapter.getPosition("John Smith");
+                                parentSpinner.setSelection(parentPosition);
                                 Date dt = null;
                                 newfName.setText(name);
 
@@ -331,7 +324,7 @@ public class CreateMember extends AppCompatActivity {
         final String txtNotes = notes.getText().toString();
         final String txtGroup = memGroup.getSelectedItem().toString();
 
-        if (txtGroup.equals("Please Select")) {
+        if (txtGroup.equals("Please Select a Group")) {
             Toast.makeText(this, "Please Select a Group", Toast.LENGTH_SHORT).show();
         } else {
             member = new Member(memberProfileId, txtName, txtGroup, txtDobDate, txtDomDate, txtNotes);

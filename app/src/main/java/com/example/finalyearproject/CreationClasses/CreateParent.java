@@ -179,7 +179,7 @@ public class CreateParent extends AppCompatActivity {
 
                                 parentRef.child("Person").child("Parent").child(id).setValue(parent);
                                 mProgress.dismiss();
-                                activity.finish();
+                                finish();
 
                             } else {
                                 mProgress.dismiss();
@@ -229,7 +229,7 @@ public class CreateParent extends AppCompatActivity {
 
 
             mProgress.dismiss();
-            activity.finish();
+            finish();
 
         } else {
             mProgress.dismiss();

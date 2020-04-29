@@ -4,6 +4,7 @@ package com.example.finalyearproject.ViewDetails;
 import com.example.finalyearproject.CreationClasses.AddReview;
 import com.example.finalyearproject.CreationClasses.CreateNewEvent;
 import com.example.finalyearproject.R;
+import com.example.finalyearproject.ViewReportList;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 
@@ -72,15 +73,18 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     private EditText txtAttending;
     private EditText txtSpaces;
     private EditText txtPrice;
+
+    private FloatingActionButton btnSave;
+    private FloatingActionButton btnEventEdit;
+
     private Button btnGoing;
     private Button btnNotGoing;
     private Button btnPay;
     private Button btnReview;
-    private FloatingActionButton btnSave;
-    private FloatingActionButton btnEventEdit;
-    private TextView txtMsg;
     private Button makeAvailable;
+    private Button viewReviews;
 
+    private TextView txtMsg;
     private String eventCreatedBy;
 
     ArrayList<String> leaderNames = new ArrayList<>();
@@ -148,11 +152,16 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         txtMsg = findViewById(R.id.approvalMessage);
         btnSave = findViewById(R.id.btnSave);
         makeAvailable = findViewById(R.id.btnMakeAvailable);
+        viewReviews = findViewById(R.id.btnOpenReview);
 
+
+        //TODO--buttons appearing when they are not supposed to
         btnGoing.setVisibility(View.INVISIBLE);
         btnNotGoing.setVisibility(View.INVISIBLE);
         btnPay.setVisibility(View.INVISIBLE);
         btnReview.setVisibility(View.INVISIBLE);
+        makeAvailable.setVisibility(View.INVISIBLE);
+        viewReviews.setVisibility(View.GONE);
         txtMsg.setVisibility(View.INVISIBLE);
         btnSave.hide();
 
@@ -358,8 +367,19 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                             if (tempType.equals("Leader")) {
                                 for (String id : eventLeaders.keySet()) {
                                     if (id.equals(ID[0])) {
+
                                         String approval = eventLeaders.values().toArray()[j].toString();
-                                        if (approval.equals("pending")) {
+                                        Date today = Calendar.getInstance().getTime();
+                                        Long todayLong = Long.parseLong(String.valueOf(today.getTime()));
+
+                                        if (Long.parseLong(event.getEndDate()) < todayLong) {
+                                            if(eventLeaders.containsKey(mUser.getUid())){
+                                                btnReview.setVisibility(View.GONE);
+                                                viewReviews.setVisibility(View.VISIBLE);
+                                            }
+
+                                        }
+                                        else if (approval.equals("pending")) {
                                             btnGoing.setVisibility(View.VISIBLE);
                                             btnNotGoing.setVisibility(View.VISIBLE);
                                         } else if (approval.equals("Approved")) {
@@ -378,14 +398,13 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                 Date today = Calendar.getInstance().getTime();
                                 Long todayLong = Long.parseLong(String.valueOf(today.getTime()));
 
-
                                 if (Long.parseLong(event.getEndDate()) < todayLong) {
                                     if (paymentList.contains(childID[0])) {
                                         for (String parentId : parentReviews.keySet()) {
                                             if (parentId.equals(mUser.getUid())) {
-                                                btnReview.setVisibility(View.INVISIBLE);
+                                                btnReview.setVisibility(View.GONE);
                                             } else {
-                                                btnReview.setVisibility(View.VISIBLE);
+                                               // btnReview.setVisibility(View.VISIBLE);
                                             }
                                         }
 
@@ -608,6 +627,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         openReview.putExtra("eventId", eventID);
         openReview.putExtra("parentId", parentId);
         openReview.putExtra("createdBy", eventCreatedBy);
+        openReview.putExtra("type", "create");
         startActivity(openReview);
     }
 
@@ -697,6 +717,11 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                     }
                 })
                 .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    public void openEventReviews(View v){
+        Intent viewReviews = new Intent(this, ViewReportList.class);
+        startActivity(viewReviews);
     }
 }
 
