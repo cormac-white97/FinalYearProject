@@ -30,6 +30,7 @@ import com.example.finalyearproject.R;
 import com.example.finalyearproject.ui.profile.ProfileFragment;
 import com.example.finalyearproject.ViewDetails.viewLocations;
 import com.google.android.gms.maps.model.LatLng;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +39,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,10 +49,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Properties;
 import java.util.UUID;
 
 import com.example.finalyearproject.Objects.EventObj;
 import com.example.finalyearproject.Objects.Leader;
+
+
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 
 public class CreateNewEvent extends AppCompatActivity {
     Spinner eventSpinner;
@@ -405,8 +416,7 @@ public class CreateNewEvent extends AppCompatActivity {
                     if (!mUserItems.contains(position)) {
                         mUserItems.add(position);
                     }
-                }
-                else{
+                } else {
                     mUserItems.remove((Integer.valueOf(position)));
                 }
 
@@ -440,7 +450,7 @@ public class CreateNewEvent extends AppCompatActivity {
         mDialog.show();
     }
 
-    public void createNewEvent(View v) {
+    public void createNewEvent(View v) throws MessagingException {
         final ProgressDialog mProgress = new ProgressDialog(this);
         mProgress.setMessage("Please Wait");
         mProgress.show();
@@ -494,7 +504,6 @@ public class CreateNewEvent extends AppCompatActivity {
                             myRef.keepSynced(true);
 
 
-
                             //post to database
                             mProgress.setMessage("Adding to Events");
                             mProgress.show();
@@ -511,14 +520,15 @@ public class CreateNewEvent extends AppCompatActivity {
                             }
 
                             ArrayList<String> paymentList = new ArrayList<>();
-                           HashMap<String, String> parentReviews = new HashMap<>();
+                            HashMap<String, String> parentReviews = new HashMap<>();
                             parentReviews.put("Empty", "Empty");
                             paymentList.add("Empty");
-                            sendSmsNotification();
+
 
                             //start uploading....
                             EventObj e = new EventObj(id, eventType, loc, dateVal, endDateValue, groupType, txtPrice, createdBy, eventLeaders, parentReviews, paymentList, availableSpaces, lng, lat, "pending");
                             myRef.child(id).setValue(e);
+                            sendSmsNotification();
                             mProgress.dismiss();
                             Intent intent = new Intent(getApplicationContext(), ProfileFragment.class);
                             startActivity(intent);
@@ -532,7 +542,7 @@ public class CreateNewEvent extends AppCompatActivity {
                     }
 
                 }
-            } catch (ParseException e) {
+            } catch (ParseException | MessagingException e) {
                 mProgress.dismiss();
                 Toast.makeText(this, "Please enter a correctly formatted date", Toast.LENGTH_SHORT).show();
             }
@@ -540,30 +550,39 @@ public class CreateNewEvent extends AppCompatActivity {
             mProgress.dismiss();
             Toast.makeText(this, "A minimum of two leaders are required to run an event", Toast.LENGTH_SHORT).show();
         }
+
     }
 
-    public void sendSmsNotification(){
+    public void sendSmsNotification() throws MessagingException {
         //check if the permission is not granted
-       if(checkPermission(Manifest.permission.SEND_SMS)){
-           for(Leader l : leaders){
-               if(eventLeaders.keySet().contains(l.getLeaderId())){
-                   SmsManager smsManager = SmsManager.getDefault();
-                   smsManager.sendTextMessage(l.getPhone(), null, "test message", null, null );
-               }
-           }
-       }
-       else{
-           ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST_SEND_SMS);
+        if (checkPermission(Manifest.permission.SEND_SMS)) {
+            for (Leader l : leaders) {
+                if (eventLeaders.keySet().contains(l.getLeaderId())) {
+                    SmsManager smsManager = SmsManager.getDefault();
+                    String str = l.getName();
 
-       }
+                    String[] splitStr = str.split("\\s+");
+
+                    String message = "Hi " + splitStr + ", you have been assigned to an event from " + dateVal + " to " + txtEndDate.getText().toString() + ".";
+                    smsManager.sendTextMessage(l.getPhone(), null, message, null, null);
+                }
+            }
+        } else {
+            ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST_SEND_SMS);
+
+        }
+
+
     }
 
 
-    public boolean checkPermission(String permission){
+    public boolean checkPermission(String permission) {
         int check = ContextCompat.checkSelfPermission(this, permission);
 
-        return(check == PackageManager.PERMISSION_GRANTED);
+        return (check == PackageManager.PERMISSION_GRANTED);
     }
+
+
 }
 
 

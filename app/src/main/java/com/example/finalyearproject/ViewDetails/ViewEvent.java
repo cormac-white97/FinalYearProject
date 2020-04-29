@@ -10,13 +10,19 @@ import com.paypal.android.sdk.payments.PayPalConfiguration;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -86,6 +92,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
     ArrayList<String> leaderNames = new ArrayList<>();
     ArrayList<String> editLeaderNames = new ArrayList<>();
+    ArrayList<Parent> parents = new ArrayList<>();
 
     ArrayList<String> paymentList = new ArrayList<>();
     ArrayList<Review> reviewList = new ArrayList<>();
@@ -105,6 +112,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
     private DatabaseReference personRef;
 
+    private final int MY_PERMISSION_REQUEST_SEND_SMS = 0;
 
     GoogleMap mMap;
     double lng;
@@ -348,6 +356,10 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                             txtAttending.setText(leaderNamesDisplay);
 
                         } else if (tempType.equals("Parent")) {
+
+                            String phone = ds.getValue(Parent.class).getPhone();
+                            String childId = ds.getValue(Parent.class).getChildId();
+
                             ID[0] = ds.getValue(Parent.class).getParentId();
                             email[0] = ds.getValue(Parent.class).getEmail();
                             name = ds.getValue(Parent.class).getName();
@@ -355,6 +367,9 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                             group[0] = ds.getValue(Parent.class).getGroup();
                             childID[0] = ds.getValue(Parent.class).getChildId();
                             parentChildIds.put(email[0], childID[0]);
+
+                            Parent p = new Parent(ID[0], name, phone,  email[0], childId, group[0]);
+                            parents.add(p);
                         }
 
 
@@ -706,6 +721,26 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         mRef = mDatabase.getReference("Event");
                         mRef.child(eventId).child("approved").setValue("approved");
+
+                        //check if the permission is not granted
+                        if(checkPermission(Manifest.permission.SEND_SMS)){
+                            for(Parent p : parents){
+                                if(eventGroup.contains(p.getGroup())){
+                                    SmsManager smsManager = SmsManager.getDefault();
+                                    String str = p.getName();
+
+                                    String[] splitStr = str.split("\\s+");
+
+                                    String message = "Hi " + splitStr  + ", an event has been made available.";
+                                    smsManager.sendTextMessage(p.getPhone(), null, message, null, null );
+                                }
+                            }
+                        }
+                        else{
+                            ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST_SEND_SMS);
+
+                        }
+
                         finish();
                         startActivity(getIntent());
                     }
@@ -717,6 +752,12 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         Intent viewReviews = new Intent(this, ViewReportList.class);
         viewReviews.putExtra("eventId", eventId);
         startActivity(viewReviews);
+    }
+
+    public boolean checkPermission(String permission){
+        int check = ContextCompat.checkSelfPermission(this, permission);
+
+        return(check == PackageManager.PERMISSION_GRANTED);
     }
 }
 
