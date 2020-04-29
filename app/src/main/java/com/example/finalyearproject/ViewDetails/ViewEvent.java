@@ -2,7 +2,6 @@
 package com.example.finalyearproject.ViewDetails;
 
 import com.example.finalyearproject.CreationClasses.AddReview;
-import com.example.finalyearproject.CreationClasses.CreateNewEvent;
 import com.example.finalyearproject.R;
 import com.example.finalyearproject.ViewReportList;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,7 +17,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,7 +51,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import com.example.finalyearproject.Objects.EventObj;
@@ -80,7 +77,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     private Button btnGoing;
     private Button btnNotGoing;
     private Button btnPay;
-    private Button btnReview;
+    private Button btnCreateReview;
     private Button makeAvailable;
     private Button viewReviews;
 
@@ -148,18 +145,17 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         btnNotGoing = findViewById(R.id.btnNo);
         btnPay = findViewById(R.id.btnMakePayment);
         btnEventEdit = findViewById(R.id.btnEventEdit);
-        btnReview = findViewById(R.id.btnOpenReview);
+        btnCreateReview = findViewById(R.id.btnCreateEventReviews);
         txtMsg = findViewById(R.id.approvalMessage);
         btnSave = findViewById(R.id.btnSave);
         makeAvailable = findViewById(R.id.btnMakeAvailable);
-        viewReviews = findViewById(R.id.btnOpenReview);
+        viewReviews = findViewById(R.id.btnViewReview);
 
 
-        //TODO--buttons appearing when they are not supposed to
         btnGoing.setVisibility(View.INVISIBLE);
         btnNotGoing.setVisibility(View.INVISIBLE);
         btnPay.setVisibility(View.INVISIBLE);
-        btnReview.setVisibility(View.INVISIBLE);
+        btnCreateReview.setVisibility(View.GONE);
         makeAvailable.setVisibility(View.INVISIBLE);
         viewReviews.setVisibility(View.GONE);
         txtMsg.setVisibility(View.INVISIBLE);
@@ -373,17 +369,15 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                         Long todayLong = Long.parseLong(String.valueOf(today.getTime()));
 
                                         if (Long.parseLong(event.getEndDate()) < todayLong) {
-                                            if(eventLeaders.containsKey(mUser.getUid())){
-                                                btnReview.setVisibility(View.GONE);
+                                            if (eventLeaders.containsKey(mUser.getUid())) {
                                                 viewReviews.setVisibility(View.VISIBLE);
                                             }
 
-                                        }
-                                        else if (approval.equals("pending")) {
+                                        } else if (approval.equals("pending")) {
                                             btnGoing.setVisibility(View.VISIBLE);
                                             btnNotGoing.setVisibility(View.VISIBLE);
                                         } else if (approval.equals("Approved")) {
-                                            if(!eventCreatedBy.equals(mUser.getUid())){
+                                            if (!eventCreatedBy.equals(mUser.getUid())) {
                                                 txtMsg.setText("You are going on this event.");
                                                 txtMsg.setVisibility(View.VISIBLE);
                                             }
@@ -400,14 +394,16 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
                                 if (Long.parseLong(event.getEndDate()) < todayLong) {
                                     if (paymentList.contains(childID[0])) {
-                                        for (String parentId : parentReviews.keySet()) {
-                                            if (parentId.equals(mUser.getUid())) {
-                                                btnReview.setVisibility(View.GONE);
-                                            } else {
-                                               // btnReview.setVisibility(View.VISIBLE);
-                                            }
+                                        if (parentReviews.keySet().contains(mUser.getUid())) {
+                                            btnCreateReview.setVisibility(View.GONE);
+                                            viewReviews.setVisibility(View.VISIBLE);
+                                            break;
+                                        } else {
+                                            btnCreateReview.setVisibility(View.VISIBLE);
                                         }
-
+                                    }
+                                    else{
+                                        viewReviews.setVisibility(View.VISIBLE);
                                     }
 
                                 } else {
@@ -417,7 +413,6 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                             txtMsg.setText("You have paid for this event");
                                             txtMsg.setVisibility(View.VISIBLE);
                                         } else if (eventGroup.equals(group[0])/* && readyToPay*/) {
-
                                             btnPay.setVisibility(View.VISIBLE);
                                         }
 
@@ -502,11 +497,10 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                         leaderNames.add(name);
                                     }
                                 }
-                                //TODO - take out loop
 
-                                    String leaderNamesDisplay = leaderNames.toString();
-                                    leaderNamesDisplay = leaderNamesDisplay.substring(1, leaderNamesDisplay.length() - 1);
-                                    txtAttending.setText(leaderNamesDisplay);
+                                String leaderNamesDisplay = leaderNames.toString();
+                                leaderNamesDisplay = leaderNamesDisplay.substring(1, leaderNamesDisplay.length() - 1);
+                                txtAttending.setText(leaderNamesDisplay);
                             }
                         });
 
@@ -701,7 +695,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         return newSpaces;
     }
 
-    public void makeEventAvailable(View v){
+    public void makeEventAvailable(View v) {
         new AlertDialog.Builder(ViewEvent.this)
                 .setTitle("Warning!")
                 .setMessage("Once an event is made available, its details can no longer be edited." +
@@ -719,8 +713,9 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
-    public void openEventReviews(View v){
+    public void openEventReviews(View v) {
         Intent viewReviews = new Intent(this, ViewReportList.class);
+        viewReviews.putExtra("eventId", eventId);
         startActivity(viewReviews);
     }
 }

@@ -401,7 +401,6 @@ public class CreateNewEvent extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int position, boolean isChecked) {
                 //add leader name to selected leaders if not already in list
                 //else remove leader if name is unchecked
-                //TODO - this is crashing with an index out of bounds exception when adding and removing names
                 if (isChecked) {
                     if (!mUserItems.contains(position)) {
                         mUserItems.add(position);

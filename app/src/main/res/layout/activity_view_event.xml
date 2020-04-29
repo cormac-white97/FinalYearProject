@@ -208,20 +208,43 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@android:drawable/ic_menu_save" />
-
                     <Button
-                        android:id="@+id/btnOpenReview"
-                        android:layout_width="230dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="35dp"
+                        android:id="@+id/btnViewReview"                          android:layout_width="150dp"
+                        android:layout_height="54dp"
+                        android:layout_marginStart="45dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="150dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/btn_rounded"
+                        android:onClick="openEventReviews"
+                        android:text="Open Event Reviews"
+                        android:textColor="#FFFFFF"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+                    <Button
+                        android:id="@+id/btnCreateEventReviews"
+                        android:layout_width="150dp"
+                        android:layout_height="54dp"
+                        android:layout_marginStart="45dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="150dp"
+                        android:layout_marginBottom="6dp"
                         android:background="@drawable/btn_rounded"
                         android:onClick="openReview"
-                        android:text="Create a review for event"
+                        android:text="Create a Review"
                         android:textColor="#FFFFFF"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+
 
                     <Button
                         android:id="@+id/btnMakeAvailable"
@@ -242,24 +265,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.0" />
 
-                    <Button
-                        android:id="@+id/btnViewReview"
-                        android:layout_width="150dp"
-                        android:layout_height="54dp"
-                        android:layout_marginStart="45dp"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginEnd="150dp"
-                        android:layout_marginBottom="6dp"
-                        android:background="@drawable/btn_rounded"
-                        android:onClick="openEventReviews"
-                        android:text="View Event Reviews"
-                        android:textColor="#FFFFFF"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -73,7 +73,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
             @Override
             public void onClick(View v){
 
-                    //TODO -- allow user to view review onClick
                     Intent intent = new Intent(v.getContext(), AddReview.class);
                     intent.putExtra("type", "view");
                     intent.putExtra("reviewId", values.get(position).getReviewId());

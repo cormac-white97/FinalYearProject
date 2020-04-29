@@ -260,10 +260,21 @@ public class HomeFragment extends Fragment {
                     }
                     while (dateReached == false);
 
-                    if (eventDays.contains(dateEpoch)) {
-                        EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getStartDate(), e.getEndDate(), e.getGroup(), e.getPrice(), e.getCreatedBy(), e.getEventLeaders(), e.getParentReviews(), e.getPaymentList(), e.getAvailableSpaces(), e.getLat(), e.getLng(), e.getApproved());
-                        myDataset.add(eventObj);
+                    if(loggedInType.equals("Leader")){
+                        if (eventDays.contains(dateEpoch)) {
+                            EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getStartDate(), e.getEndDate(), e.getGroup(), e.getPrice(), e.getCreatedBy(), e.getEventLeaders(), e.getParentReviews(), e.getPaymentList(), e.getAvailableSpaces(), e.getLat(), e.getLng(), e.getApproved());
+                            myDataset.add(eventObj);
+                        }
                     }
+                    else{
+                        if (eventDays.contains(dateEpoch)) {
+                            if(e.getApproved().equals("approved") && loggedInGroup.equals(e.getGroup())){
+                                EventObj eventObj = new EventObj(e.getId(), e.getType(), e.getLocation(), e.getStartDate(), e.getEndDate(), e.getGroup(), e.getPrice(), e.getCreatedBy(), e.getEventLeaders(), e.getParentReviews(), e.getPaymentList(), e.getAvailableSpaces(), e.getLat(), e.getLng(), e.getApproved());
+                                myDataset.add(eventObj);
+                            }
+                        }
+                    }
+
                 }
 
                 MyAdapter mAdapter = new MyAdapter(myDataset);

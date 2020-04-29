@@ -57,6 +57,8 @@ public class ViewReportList extends AppCompatActivity {
     ArrayList<BarEntry> barEntries = new ArrayList<>();
     ArrayList<Review> eventReview = new ArrayList<>();
     ArrayList<Review> myDataset = new ArrayList<Review>();
+    Intent review;
+    String selectedEventId;
 
     int oneCount = 0;
     int twoCount = 0;
@@ -73,6 +75,9 @@ public class ViewReportList extends AppCompatActivity {
         msg = findViewById(R.id.reviewMsg);
         btnReturn = findViewById(R.id.returnArrow);
 
+        review = getIntent();
+        selectedEventId = review.getStringExtra("eventId");
+
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Review");
         myRef.addValueEventListener(new ValueEventListener() {
@@ -87,8 +92,11 @@ public class ViewReportList extends AppCompatActivity {
                     String body = ds.getValue(Review.class).getBody();
                     int rating = ds.getValue(Review.class).getRating();
 
-                    Review r = new Review(id, parentId, eventId, createdBy, title, body, rating);
-                    eventReview.add(r);
+                    if(selectedEventId.equals(eventId)){
+                        Review r = new Review(id, parentId, eventId, createdBy, title, body, rating);
+                        eventReview.add(r);
+                    }
+
                 }
                 for (Review r : eventReview) {
                     if (r.getRating() == 1) {
@@ -169,7 +177,7 @@ public class ViewReportList extends AppCompatActivity {
                     }
                 }
 
-                setAdapter();
+                setAdapter(myDataset);
             }
 
             @Override
@@ -187,10 +195,10 @@ public class ViewReportList extends AppCompatActivity {
     }
 
 
-    public void setAdapter() {
+    public void setAdapter(ArrayList<Review> myDataset) {
         LinearLayoutManager myLayoutManager = new LinearLayoutManager(this);
         reviewList.setLayoutManager(myLayoutManager);
-        ReviewAdapter mAdapter = new ReviewAdapter(eventReview);
+        ReviewAdapter mAdapter = new ReviewAdapter(myDataset);
         reviewList.addItemDecoration(new
 
                 DividerItemDecoration(this, VERTICAL));
