@@ -7,269 +7,271 @@
     tools:context=".ViewDetails.ViewEvent">
 
 
-
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingTop="60dp"
-                android:paddingRight="20dp">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingTop="60dp"
+            android:paddingRight="20dp">
 
-                <fragment
-                    android:id="@+id/viewMap"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="390dp"
-                    android:layout_height="224dp"
-                    tools:context=".ViewDetails.viewLocations" />
+            <fragment
+                android:id="@+id/viewMap"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="390dp"
+                android:layout_height="224dp"
+                tools:context=".ViewDetails.viewLocations" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_input_layout_group"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Group"
+                android:textColorHint="#00175b">
+
+                <EditText
+                    android:id="@+id/txtViewGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Group"
-                    android:textColorHint="#00175b">
+                    android:editable="false"
+                    android:focusable="false"
+                    android:singleLine="true"
+                    android:textColor="#808080" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <EditText
-                        android:id="@+id/txtViewGroup"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:editable="false"
-                        android:singleLine="true"
-                        android:textColor="#808080" />
-                </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Location"
+                android:textColorHint="#00175b">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_input_layout_location"
+                <EditText
+                    android:id="@+id/txtViewLocation"
+                    android:layout_width="378dp"
+                    android:layout_height="45dp"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:singleLine="true"
+                    android:textColor="#808080" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_attending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Leaders Attending"
+                android:textColorHint="#00175b">
+
+                <EditText
+                    android:id="@+id/txtViewLeaders"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Location"
-                    android:textColorHint="#00175b">
+                    android:editable="false"
+                    android:focusable="false"
+                    android:singleLine="true"
+                    android:textColor="#808080" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <EditText
-                        android:id="@+id/txtViewLocation"
-                        android:layout_width="378dp"
-                        android:layout_height="45dp"
-                        android:focusable="false"
-                        android:editable="false"
-                        android:singleLine="true"
-                        android:textColor="#808080" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Spaces Available"
+                android:textColorHint="#00175b">
 
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_input_layout_attending"
+                <EditText
+                    android:id="@+id/txtViewSpaces"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Leaders Attending"
-                    android:textColorHint="#00175b">
+                    android:editable="false"
+                    android:focusable="false"
+                    android:singleLine="true"
+                    android:textColor="#808080" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <EditText
-                        android:id="@+id/txtViewLeaders"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:editable="false"
-                        android:singleLine="true"
-                        android:textColor="#808080" />
-                </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_layout_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Price"
+                android:textColorHint="#00175b">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_input_layout"
+                <EditText
+                    android:id="@+id/txtViewPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Spaces Available"
-                    android:textColorHint="#00175b">
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:textColor="#808080" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <EditText
-                        android:id="@+id/txtViewSpaces"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:editable="false"
-                        android:singleLine="true"
-                        android:textColor="#808080" />
-                </com.google.android.material.textfield.TextInputLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="400dp"
+                android:layout_height="66dp"
+                android:layout_marginTop="10dp">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_input_layout_price"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/btnGoing"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Price"
-                    android:textColorHint="#00175b">
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/btn_rounded"
+                    android:text="Going"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnNo"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
 
-                    <EditText
-                        android:id="@+id/txtViewPrice"
-                        android:inputType="numberDecimal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:enabled="false"
-                        android:singleLine="true"
-                        android:textColor="#808080" />
-                </com.google.android.material.textfield.TextInputLayout>
+                <Button
+                    android:id="@+id/btnNo"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="120dp"
+                    android:layout_marginBottom="11dp"
+                    android:background="@drawable/btn_rounded"
+                    android:text="Not Goning"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="400dp"
-                    android:layout_height="66dp"
-                    android:layout_marginTop="10dp">
+                <Button
+                    android:id="@+id/btnMakePayment"
+                    android:layout_width="230dp"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginEnd="105dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/btn_rounded"
+                    android:onClick="makePayment"
+                    android:text="Make Payment for Event"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
-                    <Button
-                        android:id="@+id/btnGoing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="6dp"
-                        android:background="@drawable/btn_rounded"
-                        android:text="Going"
-                        android:textColor="#FFFFFF"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/btnNo"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0" />
+                <TextView
+                    android:id="@+id/approvalMessage"
+                    android:layout_width="251dp"
+                    android:layout_height="49dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="70dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <Button
-                        android:id="@+id/btnNo"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="120dp"
-                        android:layout_marginBottom="11dp"
-                        android:background="@drawable/btn_rounded"
-                        android:text="Not Goning"
-                        android:textColor="#FFFFFF"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
-
-                    <Button
-                        android:id="@+id/btnMakePayment"
-                        android:layout_width="230dp"
-                        android:layout_height="54dp"
-                        android:layout_marginStart="45dp"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginEnd="105dp"
-                        android:layout_marginBottom="6dp"
-                        android:background="@drawable/btn_rounded"
-                        android:onClick="makePayment"
-                        android:text="Make Payment for Event"
-                        android:textColor="#FFFFFF"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
-
-                    <TextView
-                        android:id="@+id/approvalMessage"
-                        android:layout_width="251dp"
-                        android:layout_height="49dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="70dp"
-                        android:textAlignment="center"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/btnEventEdit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:layout_marginEnd="70dp"
-                        android:layout_marginBottom="4dp"
-                        android:clickable="true"
-                        app:backgroundTint="#223e92"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@android:drawable/ic_menu_edit" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btnEventEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="70dp"
+                    android:layout_marginBottom="4dp"
+                    android:clickable="true"
+                    app:backgroundTint="#223e92"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@android:drawable/ic_menu_edit" />
 
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/btnSave"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:layout_marginEnd="70dp"
-                        android:layout_marginBottom="4dp"
-                        android:clickable="true"
-                        app:backgroundTint="#223e92"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@android:drawable/ic_menu_save" />
-                    <Button
-                        android:id="@+id/btnViewReview"                          android:layout_width="150dp"
-                        android:layout_height="54dp"
-                        android:layout_marginStart="45dp"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginEnd="150dp"
-                        android:layout_marginBottom="6dp"
-                        android:background="@drawable/btn_rounded"
-                        android:onClick="openEventReviews"
-                        android:text="Open Event Reviews"
-                        android:textColor="#FFFFFF"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
-                    <Button
-                        android:id="@+id/btnCreateEventReviews"
-                        android:layout_width="150dp"
-                        android:layout_height="54dp"
-                        android:layout_marginStart="45dp"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginEnd="150dp"
-                        android:layout_marginBottom="6dp"
-                        android:background="@drawable/btn_rounded"
-                        android:onClick="openReview"
-                        android:text="Create a Review"
-                        android:textColor="#FFFFFF"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btnSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="70dp"
+                    android:layout_marginBottom="4dp"
+                    android:clickable="true"
+                    app:backgroundTint="#223e92"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@android:drawable/ic_menu_save" />
+
+                <Button
+                    android:id="@+id/btnViewReview"
+                    android:layout_width="150dp"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginEnd="150dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/btn_rounded"
+                    android:onClick="openEventReviews"
+                    android:text="Open Event Reviews"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <Button
+                    android:id="@+id/btnCreateEventReviews"
+                    android:layout_width="150dp"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginEnd="150dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/btn_rounded"
+                    android:onClick="openReview"
+                    android:text="Create a Review"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
 
-
-                    <Button
-                        android:id="@+id/btnMakeAvailable"
-                        android:layout_width="150dp"
-                        android:layout_height="54dp"
-                        android:layout_marginStart="45dp"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginEnd="150dp"
-                        android:layout_marginBottom="6dp"
-                        android:background="@drawable/btn_rounded"
-                        android:onClick="makeEventAvailable"
-                        android:text="Make Available"
-                        android:textColor="#FFFFFF"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                <Button
+                    android:id="@+id/btnMakeAvailable"
+                    android:layout_width="150dp"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginEnd="150dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/btn_rounded"
+                    android:onClick="makeEventAvailable"
+                    android:text="Make Available"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </LinearLayout>
     </ScrollView>
 
     <androidx.appcompat.widget.Toolbar
@@ -284,7 +286,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/returnArrow"
+        android:id="@+id/eventReturnArrow"
         android:layout_width="52dp"
         android:layout_height="32dp"
         android:layout_marginStart="8dp"
@@ -293,5 +295,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/returnarrow" />
+
+    <ImageView
+        android:id="@+id/deleteEvent"
+        android:layout_width="52dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:onClick="deleteEvent"
+        app:layout_constraintEnd_toEndOf="@+id/createNewToolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/trash_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

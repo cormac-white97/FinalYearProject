@@ -61,7 +61,7 @@ public class CreateMember extends AppCompatActivity {
         parentSpinner = findViewById(R.id.parentChild);
         final Spinner memGroup = findViewById(R.id.memberGroup);
 
-        memGroup.setVisibility(View.INVISIBLE);
+        memGroup.setVisibility(View.GONE);
 
         //Spinner memberSpinner = findViewById(R.id.memberGroup);
         final String groupTypeList[] = new String[]{"Please Select a Group", "Beavers", "Cubs", "Scouts", "Ventures", "Rovers"};

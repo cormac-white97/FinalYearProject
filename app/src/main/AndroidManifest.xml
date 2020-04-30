@@ -24,7 +24,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".ViewReportList"></activity>
+        <activity android:name=".ViewDetails.ViewReportList"></activity>
         <activity android:name=".CreationClasses.AddReview" />
         <activity android:name=".ViewDetails.ViewLeaderDetails" />
         <activity android:name=".forgotPassword" />

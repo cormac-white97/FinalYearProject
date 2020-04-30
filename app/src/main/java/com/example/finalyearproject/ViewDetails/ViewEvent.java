@@ -3,7 +3,6 @@ package com.example.finalyearproject.ViewDetails;
 
 import com.example.finalyearproject.CreationClasses.AddReview;
 import com.example.finalyearproject.R;
-import com.example.finalyearproject.ViewReportList;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 
@@ -26,6 +25,7 @@ import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -86,6 +86,8 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     private Button btnCreateReview;
     private Button makeAvailable;
     private Button viewReviews;
+    private ImageView deleteButton;
+    private ImageView btnBack;
 
     private TextView txtMsg;
     private String eventCreatedBy;
@@ -158,6 +160,8 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         btnSave = findViewById(R.id.btnSave);
         makeAvailable = findViewById(R.id.btnMakeAvailable);
         viewReviews = findViewById(R.id.btnViewReview);
+        deleteButton = findViewById(R.id.deleteEvent);
+        btnBack = findViewById(R.id.eventReturnArrow);
 
 
         btnGoing.setVisibility(View.INVISIBLE);
@@ -168,6 +172,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         viewReviews.setVisibility(View.GONE);
         txtMsg.setVisibility(View.INVISIBLE);
         btnSave.hide();
+        deleteButton.setVisibility(View.INVISIBLE);
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.viewMap);
@@ -279,6 +284,9 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                         if (!eventCreatedBy.equals(mUser.getUid()) || approved.equals("approved")) {
                             btnEventEdit.hide();
                             makeAvailable.setVisibility(View.INVISIBLE);
+                        } else if (eventCreatedBy.equals(mUser.getUid()) && approved.equals("pending")) {
+                            deleteButton.setVisibility(View.VISIBLE);
+                            makeAvailable.setVisibility(View.VISIBLE);
                         }
                         String txtPriceParsed = "€" + String.valueOf(priceVal);
                         txtGroup.setText(eventGroup);
@@ -368,7 +376,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                             childID[0] = ds.getValue(Parent.class).getChildId();
                             parentChildIds.put(email[0], childID[0]);
 
-                            Parent p = new Parent(ID[0], name, phone,  email[0], childId, group[0]);
+                            Parent p = new Parent(ID[0], name, phone, email[0], childId, group[0]);
                             parents.add(p);
                         }
 
@@ -386,6 +394,9 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                         if (Long.parseLong(event.getEndDate()) < todayLong) {
                                             if (eventLeaders.containsKey(mUser.getUid())) {
                                                 viewReviews.setVisibility(View.VISIBLE);
+                                                makeAvailable.setVisibility(View.GONE);
+                                                btnEventEdit.hide();
+                                                deleteButton.setVisibility(View.GONE);
                                             }
 
                                         } else if (approval.equals("pending")) {
@@ -416,8 +427,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                         } else {
                                             btnCreateReview.setVisibility(View.VISIBLE);
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         viewReviews.setVisibility(View.VISIBLE);
                                     }
 
@@ -614,6 +624,13 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
             }
         });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void makePayment(View v) {
@@ -650,7 +667,13 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                 String childId = null;
                 for (int i = 0; i < parentChildIds.keySet().size(); i++) {
                     String key = parentChildIds.keySet().toArray()[i].toString();
-                    childId = parentChildIds.values().toArray()[i].toString();
+                    if(parentChildIds.values().toArray()[i].toString() != null){
+                        childId = parentChildIds.values().toArray()[i].toString();
+                    }
+                    else{
+                        childId = "no child";
+
+                    }
                     if (key.equals(parentEmail)) {
                         for (String value : paymentList) {
                             if (value.equals("Empty")) {
@@ -660,7 +683,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                 paymentList.add(childId);
                             }
                         }
-
+                        break;
                     }
                 }
 
@@ -719,30 +742,42 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        mRef = mDatabase.getReference("Event");
-                        mRef.child(eventId).child("approved").setValue("approved");
-
-                        //check if the permission is not granted
-                        if(checkPermission(Manifest.permission.SEND_SMS)){
-                            for(Parent p : parents){
-                                if(eventGroup.contains(p.getGroup())){
-                                    SmsManager smsManager = SmsManager.getDefault();
-                                    String str = p.getName();
-
-                                    String[] splitStr = str.split("\\s+");
-
-                                    String message = "Hi " + splitStr  + ", an event has been made available.";
-                                    smsManager.sendTextMessage(p.getPhone(), null, message, null, null );
-                                }
+                        Boolean allApproved = true;
+                        for (String approval : eventLeaders.values()) {
+                            if (approval.equals("pending")) {
+                                allApproved = false;
+                                break;
                             }
-                        }
-                        else{
-                            ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST_SEND_SMS);
 
                         }
+                        if (allApproved) {
+                            mRef = mDatabase.getReference("Event");
+                            mRef.child(eventId).child("approved").setValue("approved");
 
-                        finish();
-                        startActivity(getIntent());
+                            //check if the permission is not granted
+                            if (checkPermission(Manifest.permission.SEND_SMS)) {
+                                for (Parent p : parents) {
+                                    if (eventGroup.contains(p.getGroup())) {
+                                        SmsManager smsManager = SmsManager.getDefault();
+                                        String str = p.getName();
+
+                                        String[] splitStr = str.split("\\s+");
+
+                                        String message = "Hi " + splitStr + ", an event has been made available.";
+                                        smsManager.sendTextMessage(p.getPhone(), null, message, null, null);
+                                    }
+                                }
+                            } else {
+                                ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST_SEND_SMS);
+
+                            }
+
+                            finish();
+                            startActivity(getIntent());
+                        } else {
+                            Toast.makeText(ViewEvent.this, "There are still leaders pending approval", Toast.LENGTH_LONG).show();
+                        }
+
                     }
                 })
                 .setNegativeButton(android.R.string.no, null).show();
@@ -754,10 +789,28 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         startActivity(viewReviews);
     }
 
-    public boolean checkPermission(String permission){
+    public boolean checkPermission(String permission) {
         int check = ContextCompat.checkSelfPermission(this, permission);
 
-        return(check == PackageManager.PERMISSION_GRANTED);
+        return (check == PackageManager.PERMISSION_GRANTED);
+    }
+
+    public void deleteEvent(View v) {
+        new AlertDialog.Builder(ViewEvent.this)
+                .setTitle("Warning!")
+                .setMessage("Are you sure you want to delete this event?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        mRef = mDatabase.getReference("Event");
+                        mRef.child(eventId).removeValue();
+
+                        finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null).show();
     }
 }
 

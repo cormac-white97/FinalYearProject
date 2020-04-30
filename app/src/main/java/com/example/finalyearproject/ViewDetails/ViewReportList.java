@@ -1,4 +1,4 @@
-package com.example.finalyearproject;
+package com.example.finalyearproject.ViewDetails;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +19,7 @@ import com.example.finalyearproject.Adapters.ReviewAdapter;
 import com.example.finalyearproject.CreationClasses.CreateNewEvent;
 import com.example.finalyearproject.Objects.EventObj;
 import com.example.finalyearproject.Objects.Review;
+import com.example.finalyearproject.R;
 import com.example.finalyearproject.ViewDetails.viewLocations;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -73,7 +74,7 @@ public class ViewReportList extends AppCompatActivity {
         chart = (BarChart) findViewById(R.id.review_chart);
         reviewList = findViewById(R.id.eventReviewList);
         msg = findViewById(R.id.reviewMsg);
-        btnReturn = findViewById(R.id.returnArrow);
+        btnReturn = findViewById(R.id.reviewReturnArrow);
 
         review = getIntent();
         selectedEventId = review.getStringExtra("eventId");
@@ -114,6 +115,7 @@ public class ViewReportList extends AppCompatActivity {
 
                 chart.animateXY(2000, 2000);
                 chart.invalidate();
+                chart.getDescription().setEnabled(false);
 
                 barEntries.add(new BarEntry(0, oneCount));
                 barEntries.add(new BarEntry(1, twoCount));
@@ -121,7 +123,7 @@ public class ViewReportList extends AppCompatActivity {
                 barEntries.add(new BarEntry(3, fourCount));
                 barEntries.add(new BarEntry(4, fiveCount));
 
-                BarDataSet dataSet = new BarDataSet(barEntries, "data set 1");
+                BarDataSet dataSet = new BarDataSet(barEntries, "");
                 final ArrayList<String> xAxisLabel = new ArrayList<>();
                 xAxisLabel.add("1");
                 xAxisLabel.add("2");

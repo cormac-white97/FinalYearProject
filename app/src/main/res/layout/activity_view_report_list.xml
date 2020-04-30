@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewReportList">
+    tools:context=".ViewDetails.ViewReportList">
 
     <LinearLayout
         android:layout_width="409dp"
@@ -68,7 +68,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/returnArrow"
+        android:id="@+id/reviewReturnArrow"
         android:layout_width="52dp"
         android:layout_height="32dp"
         android:layout_marginStart="8dp"

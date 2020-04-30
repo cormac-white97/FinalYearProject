@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_layout_group"
+                android:id="@+id/text_input_layout_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Name"
@@ -189,7 +189,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/returnArrow"
+        android:id="@+id/eventReturnArrow"
         android:layout_width="52dp"
         android:layout_height="32dp"
         android:layout_marginTop="10dp"

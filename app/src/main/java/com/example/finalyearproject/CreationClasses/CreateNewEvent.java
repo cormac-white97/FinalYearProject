@@ -14,6 +14,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.View;
@@ -471,6 +472,12 @@ public class CreateNewEvent extends AppCompatActivity {
                 if (eventType.equals("Please Select") || group.equals("Please Select") || txtEndDate.getText().toString().equals("")) {
                     mProgress.dismiss();
                     Toast.makeText(this, "Please Fill All Details", Toast.LENGTH_LONG).show();
+                    if(eventType.equals("Please Select")){
+                        eventSpinner.setBackgroundColor(Color.RED);
+                    }
+                    if(group.equals("Please Select")){
+                        groupSpinner.setBackgroundColor(Color.RED);
+                    }
                 } else {
                     String eventType = this.eventType;
                     String loc = txtLocation.getText().toString();
@@ -542,7 +549,8 @@ public class CreateNewEvent extends AppCompatActivity {
                     }
 
                 }
-            } catch (ParseException | MessagingException e) {
+            } catch (ParseException  e) {
+                txtEndDate.setBackgroundColor(Color.RED);
                 mProgress.dismiss();
                 Toast.makeText(this, "Please enter a correctly formatted date", Toast.LENGTH_SHORT).show();
             }

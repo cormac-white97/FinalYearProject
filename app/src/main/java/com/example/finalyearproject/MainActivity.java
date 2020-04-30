@@ -68,13 +68,14 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    public void signIn(View v) {
+    public String signIn(View v) {
         emailValue = email.getText().toString();
         passwordValue = password.getText().toString();
         database = FirebaseDatabase.getInstance();
         final ProgressDialog mProgress = new ProgressDialog(this);
         mProgress.setMessage("Please Wait");
         mProgress.show();
+        final String[] returnMsg = new String[1];
 
         if (!emailValue.equals("") && !password.equals("")) {
             mAuth.signInWithEmailAndPassword(emailValue, passwordValue).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -83,10 +84,12 @@ public class MainActivity extends AppCompatActivity {
                     if (!task.isSuccessful()) {
                         Toast.makeText(MainActivity.this, "Failed sign in", Toast.LENGTH_LONG).show();
                         mProgress.dismiss();
+                        returnMsg[0] = "failed";
                     } else {
                         mProgress.dismiss();
                         Intent login = new Intent(MainActivity.this, Dashboard.class);
                         startActivity(login);
+                        returnMsg[0] = "success";
                         finish();
 
                     }
@@ -99,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         else{
             Toast.makeText(MainActivity.this, "Fill all details.", Toast.LENGTH_LONG);
         }
+        return returnMsg[0];
     }
 
     public void forgotPassword(View v){

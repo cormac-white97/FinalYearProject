@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/returnArrow"
+        android:id="@+id/eventReturnArrow"
         android:layout_width="52dp"
         android:layout_height="32dp"
         android:layout_marginStart="8dp"
@@ -141,11 +141,10 @@
 
     <TextView
         android:id="@+id/addReviewMsg"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="7dp"
         android:layout_marginTop="26dp"
-        android:layout_marginEnd="6dp"
+        android:layout_marginEnd="50dp"
         android:text="Add your thoughts about how the event went"
         android:textAlignment="center"
         android:textColor="#084897"
