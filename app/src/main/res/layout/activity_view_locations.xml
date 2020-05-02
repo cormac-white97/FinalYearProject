@@ -8,8 +8,7 @@
 
     <LinearLayout
         android:layout_width="411dp"
-        android:layout_height="654dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="670dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,10 +16,10 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/addReviewMsg"
+            android:id="@+id/txtMapMsg"
             android:layout_width="347dp"
             android:layout_height="wrap_content"
-            android:text="Tap the information window in a marker to select a location."
+            android:text="Pick a location."
             android:textAlignment="center"
             android:textColor="#084897"
             android:textSize="20sp"
@@ -33,7 +32,7 @@
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="770dp"
+            android:layout_height="800dp"
             tools:context=".ViewDetails.viewLocations" />
 
 

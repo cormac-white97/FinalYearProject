@@ -3,6 +3,8 @@ package com.example.finalyearproject.ViewDetails;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -91,5 +93,15 @@ public class viewLocations extends FragmentActivity implements OnMapReadyCallbac
 
         mMap.setBuildingsEnabled(false);
         mMap.animateCamera(CameraUpdateFactory.zoomTo(6.7f));
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                TextView mapMsg = findViewById(R.id.txtMapMsg);
+                mapMsg.setText("Tap to create an event.");
+
+                return false;
+            }
+        });
     }
 }

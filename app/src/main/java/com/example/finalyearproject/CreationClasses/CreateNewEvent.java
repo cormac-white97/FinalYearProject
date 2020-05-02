@@ -469,14 +469,17 @@ public class CreateNewEvent extends AppCompatActivity {
             try {
                 Date endDateVal = sdf.parse(txtEndDate.getText().toString());
                 epochEndDate = endDateVal.getTime();
-                if (eventType.equals("Please Select") || group.equals("Please Select") || txtEndDate.getText().toString().equals("")) {
+                if (eventType.equals("Please Select") || group.equals("Please Select") || txtEndDate.getText().toString().equals("") || price.getText().toString().equals("")) {
                     mProgress.dismiss();
                     Toast.makeText(this, "Please Fill All Details", Toast.LENGTH_LONG).show();
                     if(eventType.equals("Please Select")){
                         eventSpinner.setBackgroundColor(Color.RED);
                     }
                     if(group.equals("Please Select")){
-                        groupSpinner.setBackgroundColor(Color.RED);
+                        groupSpinner.setBackgroundResource(R.drawable.error_border);
+                    }
+                    if(price.getText().toString().equals("")){
+                        price.setBackgroundResource(R.drawable.error_border);
                     }
                 } else {
                     String eventType = this.eventType;
@@ -550,7 +553,7 @@ public class CreateNewEvent extends AppCompatActivity {
 
                 }
             } catch (ParseException  e) {
-                txtEndDate.setBackgroundColor(Color.RED);
+                txtEndDate.setBackgroundResource(R.drawable.error_border);
                 mProgress.dismiss();
                 Toast.makeText(this, "Please enter a correctly formatted date", Toast.LENGTH_SHORT).show();
             }
