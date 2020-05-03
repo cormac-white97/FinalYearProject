@@ -164,7 +164,9 @@ public class CreateNewEvent extends AppCompatActivity {
 
                     Leader p = new Leader(personID, name, DOB, group, phone, email, vettingDate);
                     //Adding all leader objects to an arraylist to select leaders to assign to event
-                    leaders.add(p);
+                    if(!p.getLeaderId().equals(createdBy)){
+                        leaders.add(p);
+                    }
 
                 }
             }
@@ -245,10 +247,6 @@ public class CreateNewEvent extends AppCompatActivity {
 
         txtStartDate.setText(dateVal);
         txtLocation.setText(location);
-
-        Button btnUpdate = findViewById(R.id.btnUpdateEvent);
-        btnUpdate.setVisibility(View.GONE);
-
 
         String eventTypeList[] = new String[]{"Please Select", "Camp", "Hike"};
         final String groupTypeList[] = new String[]{"Please Select", "Beavers", "Cubs", "Scouts", "Ventures", "Rovers"};
@@ -424,7 +422,7 @@ txtEndDate.setOnClickListener(new View.OnClickListener() {
 
 
     public void addLeadersToEvent(View v) {
-        lblSelectedLeaders.setText("");
+
         eventLeaders.clear();
         mUserItems.clear();
         item = "";
@@ -450,7 +448,7 @@ txtEndDate.setOnClickListener(new View.OnClickListener() {
 
         mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-
+                lblSelectedLeaders.setText("");
                 for (int i = 0; i < mUserItems.size(); i++) {
                     if (!mUserItems.isEmpty()) {
                         item = item + " " + list[mUserItems.get(i)] + ",";

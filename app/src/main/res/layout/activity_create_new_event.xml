@@ -126,21 +126,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/btnUpdateEvent"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="117dp"
-        android:layout_marginEnd="117dp"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/btn_rounded"
-        android:onClick="updateEvent"
-        android:text="Update Event"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/createNewToolbar"
         android:layout_width="match_parent"
