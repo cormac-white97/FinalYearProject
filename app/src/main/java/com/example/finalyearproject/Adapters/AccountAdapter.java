@@ -64,6 +64,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.MyViewHo
                 // call activity to pass the item position
                 if(type.equals("Leader")){
                     Intent intent = new Intent(v.getContext(), CreateLeader.class);
+                    intent.putExtra("type", "new");
                     v.getContext().startActivity(intent);
 
                 }

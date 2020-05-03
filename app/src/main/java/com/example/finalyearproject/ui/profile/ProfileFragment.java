@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.finalyearproject.CreationClasses.CreateLeader;
 import com.example.finalyearproject.CreationClasses.CreateParent;
 import com.example.finalyearproject.ViewDetails.MemberProfile;
 
@@ -248,6 +249,17 @@ public class ProfileFragment extends Fragment {
                         txtVettingDate.setText(vettingDate);
                         txtProfileGroup.setText(group);
                         txtProfilePhoneNum.setText(phone);
+
+                        btnEdit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent updateLeader = new Intent(getContext(), CreateLeader.class);
+                                updateLeader.putExtra("leaderID", userId);
+                                updateLeader.putExtra("type", "update");
+                                startActivity(updateLeader);
+                            }
+                        });
+
                         break;
                     }
 
@@ -264,10 +276,6 @@ public class ProfileFragment extends Fragment {
 
 
         return view;
-
-    }
-
-    public void openReviews(View v) {
 
     }
 

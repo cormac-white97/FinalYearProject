@@ -95,7 +95,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ems="10"
-                android:inputType="date" />
+                android:inputType="date"
+                android:focusable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -110,7 +111,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ems="10"
-                android:inputType="date" />
+                android:inputType="date"
+                android:focusable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -128,19 +130,43 @@
                 android:inputType="phone" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/create_account"
-                android:layout_width="230dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="65dp"
-                android:layout_marginLeft="65dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="65dp"
-                android:layout_marginRight="65dp"
-                android:background="@drawable/btn_rounded"
-                android:onClick="createNewLeader"
-                android:text="Create New Account"
-                android:textColor="#FFFFFF" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/create_account"
+                    android:layout_width="230dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="65dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="116dp"
+                    android:background="@drawable/btn_rounded"
+                    android:onClick="createNewLeader"
+                    android:text="Create New Account"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/update_account"
+                    android:layout_width="230dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="65dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="116dp"
+                    android:background="@drawable/btn_rounded"
+                    android:onClick="updateLeader"
+                    android:text="Update Leader Details"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
     </ScrollView>
 

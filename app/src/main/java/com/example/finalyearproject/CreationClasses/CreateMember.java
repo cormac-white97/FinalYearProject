@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -29,6 +31,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -48,6 +51,12 @@ public class CreateMember extends AppCompatActivity {
     ArrayList<String> parentList = new ArrayList<>();
 
     Spinner parentSpinner;
+    EditText fName;
+    EditText dob;
+    EditText dom;
+    EditText notes;
+    Spinner parent;
+    Spinner memGroup;
 
     String type;
     String memberProfileId;
@@ -57,9 +66,13 @@ public class CreateMember extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_member);
         mAuth = FirebaseAuth.getInstance();
-
+        fName = findViewById(R.id.txtMemName);
+        dob = findViewById(R.id.txtDOB);
+        dom = findViewById(R.id.txtmemberDate);
+        notes = findViewById(R.id.notes);
+        parent = findViewById(R.id.parentChild);
         parentSpinner = findViewById(R.id.parentChild);
-        final Spinner memGroup = findViewById(R.id.memberGroup);
+        memGroup = findViewById(R.id.memberGroup);
 
         memGroup.setVisibility(View.GONE);
 
@@ -80,7 +93,7 @@ public class CreateMember extends AppCompatActivity {
         memberRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                parentList.add("Select the members parent");
+                parentList.add("Select Parent");
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String parentId = ds.getValue(Parent.class).getParentId();
@@ -231,26 +244,64 @@ public class CreateMember extends AppCompatActivity {
 
         }
 
+        dob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(CreateMember.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                String dateString = dateFormat.format(c.getTime());
+
+                                dob.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
+
+        dom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(CreateMember.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                String dateString = dateFormat.format(c.getTime());
+
+                                dom.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
     }
 
     public void createMember(View v) {
-        memberRef = database.getInstance().getReference();
-        mUser = mAuth.getCurrentUser();
-        final ProgressDialog mProgress = new ProgressDialog(this);
-        mProgress.setMessage("Please Wait");
-        mProgress.show();
 
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date dobDate = null;
         Date domDate = null;
 
-        EditText fName = findViewById(R.id.txtMemName);
 
-        EditText dob = findViewById(R.id.txtDOB);
-        EditText dom = findViewById(R.id.txtmemberDate);
-        EditText notes = findViewById(R.id.notes);
-        Spinner parent = findViewById(R.id.parentChild);
-        Spinner memGroup = findViewById(R.id.memberGroup);
 
 
         final String txtName = fName.getText().toString();
@@ -264,28 +315,50 @@ public class CreateMember extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        final String txtDobDate = String.valueOf(dobDate.getTime());
-        final String txtDomDate = String.valueOf(domDate.getTime());
-        final String txtNotes = notes.getText().toString();
 
 
-        String id = UUID.randomUUID().toString();
-        member = new Member(id, txtName, userGroup, txtDobDate, txtDomDate, txtNotes);
-        memberRef.child("Person").child("Member").child(id).setValue(member);
-
-
-        for(Parent p : allParents){
-            if(p.getName().equals(parentName)){
-                //When the child is assigned to a parent, the child's group is assigned to that parent
-                memberRef.child("Person").child("Parent").child(p.getParentId()).child("group").setValue(userGroup);
-                memberRef.child("Person").child("Parent").child(p.getParentId()).child("childId").setValue(id);
+        if (txtName.equals("") || txtDobDateVal.equals("") || txtDomDateVal.equals("") || parentName.equals("Select Parent")) {
+            Toast.makeText(this, "Please fill in all details", Toast.LENGTH_LONG).show();
+            if (txtName.equals("")) {
+                fName.setBackgroundResource(R.drawable.error_border);
+            }
+            if (txtDobDateVal.equals("")) {
+                dob.setBackgroundResource(R.drawable.error_border);
+            }
+            if(txtDomDateVal.equals("")){
+                dom.setBackgroundResource(R.drawable.error_border);
+            }
+            if(parentName.equals("Select Parent")){
+                parent.setBackgroundResource(R.drawable.error_border);
             }
         }
-        mProgress.dismiss();
-        activity.finish();
+        else {
+            final String txtDobDate = String.valueOf(dobDate.getTime());
+            final String txtDomDate = String.valueOf(domDate.getTime());
+            final String txtNotes = notes.getText().toString();
+            memberRef = database.getInstance().getReference();
+            mUser = mAuth.getCurrentUser();
+            final ProgressDialog mProgress = new ProgressDialog(this);
+            mProgress.setMessage("Please Wait");
+            mProgress.show();
+
+            String id = UUID.randomUUID().toString();
+            member = new Member(id, txtName, userGroup, txtDobDate, txtDomDate, txtNotes);
+            memberRef.child("Person").child("Member").child(id).setValue(member);
 
 
+            for (Parent p : allParents) {
+                if (p.getName().equals(parentName)) {
+                    //When the child is assigned to a parent, the child's group is assigned to that parent
+                    memberRef.child("Person").child("Parent").child(p.getParentId()).child("group").setValue(userGroup);
+                    memberRef.child("Person").child("Parent").child(p.getParentId()).child("childId").setValue(id);
+                }
+            }
+            mProgress.dismiss();
+            activity.finish();
 
+
+        }
     }
 
     public void updateMember(View v) {
@@ -299,12 +372,7 @@ public class CreateMember extends AppCompatActivity {
         Date dobDate = null;
         Date domDate = null;
 
-        EditText fName = findViewById(R.id.txtMemName);
-        Spinner memGroup = findViewById(R.id.memberGroup);
-        EditText dob = findViewById(R.id.txtDOB);
-        EditText dom = findViewById(R.id.txtmemberDate);
-        EditText notes = findViewById(R.id.notes);
-        Spinner parent = findViewById(R.id.parentChild);
+
 
 
         final String txtName = fName.getText().toString();

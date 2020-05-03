@@ -37,25 +37,12 @@ public class CreateParent extends AppCompatActivity {
     private DatabaseReference memberRef;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-    String id = null;
-    String name = null;
-    String email = null;
-    String pass = null;
-    String group;
-    String memDob = null;
-    String memDom = null;
-    String notes = null;
-    String fcmToken = null;
+
     String childId = null;
     String parentGroup = null;
     String parentId;
     String type;
 
-    String txtname;
-    String txtEmail;
-    String txtPass;
-    String txtConfirm;
-    String txtPhone;
 
     ArrayList<Member> allMember = new ArrayList<>();
     ArrayList<String> childList = new ArrayList<>();
@@ -74,6 +61,7 @@ public class CreateParent extends AppCompatActivity {
         Intent i = getIntent();
         parentId = i.getStringExtra("id");
         type = i.getStringExtra("type");
+
 
         if (type.equals("update")) {
             Toast.makeText(this, parentId, Toast.LENGTH_SHORT).show();
@@ -137,9 +125,7 @@ public class CreateParent extends AppCompatActivity {
 
 
     public void createNewParent(View v) {
-        final ProgressDialog mProgress = new ProgressDialog(this);
-        mProgress.setMessage("Please Wait");
-        mProgress.show();
+
         EditText name = findViewById(R.id.txtParentName);
         EditText email = findViewById(R.id.txtParentEmail);
         EditText password = findViewById(R.id.txtParentPass);
@@ -153,88 +139,127 @@ public class CreateParent extends AppCompatActivity {
         final String txtConfirm = confirm.getText().toString();
         final String txtPhone = phone.getText().toString();
 
-
-        int i = 0;
-        for (Member member : allMember) {
-
-            if (member.getName().equals(child.getSelectedItem().toString())) {
-                childId = member.getId();
-                //Assign the parent to the same group as their child
-                parentGroup = member.getGroup();
-                break;
+        if (txtname.equals("") || txtEmail.equals("") || txtPass.equals("") || txtConfirm.equals("") || txtPhone.equals("") ||  txtPhone.equals("")) {
+            Toast.makeText(this, "Please fill in all details", Toast.LENGTH_LONG).show();
+            if (txtname.equals("")) {
+                name.setBackgroundResource(R.drawable.error_border);
             }
-            i++;
+            if (txtEmail.equals("")) {
+                email.setBackgroundResource(R.drawable.error_border);
+            }
+            if(txtPass.equals("")){
+                password.setBackgroundResource(R.drawable.error_border);
+            }
+            if(txtConfirm.equals("")){
+                confirm.setBackgroundResource(R.drawable.error_border);
+            }
+            if (txtPhone.equals("")) {
+                phone.setBackgroundResource(R.drawable.error_border);
+            }
+            if (txtEmail.equals("")) {
+                email.setBackgroundResource(R.drawable.error_border);
+            }
         }
-        if (txtPass.equals(txtConfirm) && mAuth != null) {
-            parentRef = mDatabase.getInstance().getReference();
-            mAuth.createUserWithEmailAndPassword(txtEmail, txtPass)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Toast.makeText(CreateParent.this, "Worked", Toast.LENGTH_LONG).show();
-                                String id = mUser.getUid();
-                                Parent parent = new Parent(id, txtname, txtPhone, txtEmail, childId, parentGroup);
+        else {
+            final ProgressDialog mProgress = new ProgressDialog(this);
+            mProgress.setMessage("Please Wait");
+            mProgress.show();
+            int i = 0;
+            for (Member member : allMember) {
 
-                                parentRef.child("Person").child("Parent").child(id).setValue(parent);
-                                mProgress.dismiss();
-                                finish();
+                if (member.getName().equals(child.getSelectedItem().toString())) {
+                    childId = member.getId();
+                    //Assign the parent to the same group as their child
+                    parentGroup = member.getGroup();
+                    break;
+                }
+                i++;
+            }
+            if (txtPass.equals(txtConfirm) && mAuth != null) {
+                parentRef = mDatabase.getInstance().getReference();
+                mAuth.createUserWithEmailAndPassword(txtEmail, txtPass)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Toast.makeText(CreateParent.this, "Worked", Toast.LENGTH_LONG).show();
+                                    String id = mUser.getUid();
+                                    Parent parent = new Parent(id, txtname, txtPhone, txtEmail, childId, parentGroup);
 
-                            } else {
-                                mProgress.dismiss();
-                                Toast.makeText(CreateParent.this, "Didn't Work", Toast.LENGTH_LONG).show();
+                                    parentRef.child("Person").child("Parent").child(id).setValue(parent);
+                                    mProgress.dismiss();
+                                    finish();
 
+                                } else {
+                                    mProgress.dismiss();
+                                    Toast.makeText(CreateParent.this, "Didn't Work", Toast.LENGTH_LONG).show();
+
+                                }
                             }
-                        }
-                    });
-        } else {
-            Toast.makeText(CreateParent.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                        });
+            } else {
+                Toast.makeText(CreateParent.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            }
         }
 
     }
 
 
     public void updateParent(View v) {
-        final ProgressDialog mProgress = new ProgressDialog(this);
-        mProgress.setMessage("Please Wait");
-        mProgress.show();
+
         EditText name = findViewById(R.id.txtParentName);
         EditText email = findViewById(R.id.txtParentEmail);
-        EditText password = findViewById(R.id.txtParentPass);
-        EditText confirm = findViewById(R.id.txtParentConfirm);
         EditText phone = findViewById(R.id.txtParentPhone);
 
         final String txtname = name.getText().toString();
         final String txtEmail = email.getText().toString();
-        final String txtPass = password.getText().toString();
-        final String txtConfirm = confirm.getText().toString();
         final String txtPhone = phone.getText().toString();
 
+        if (txtname.equals("") || txtEmail.equals("") || txtPhone.equals("")) {
+            Toast.makeText(this, "Please fill in all details", Toast.LENGTH_LONG).show();
+            if (txtname.equals("")) {
+                name.setBackgroundResource(R.drawable.error_border);
+            }
+            if (txtEmail.equals("")) {
+                email.setBackgroundResource(R.drawable.error_border);
+            }
+            if (txtPhone.equals("")) {
+                phone.setBackgroundResource(R.drawable.error_border);
+            }
+            if (txtEmail.equals("")) {
+                email.setBackgroundResource(R.drawable.error_border);
+            }
+        }
+        else {
+            final ProgressDialog mProgress = new ProgressDialog(this);
+            mProgress.setMessage("Please Wait");
+            mProgress.show();
+            if (mAuth != null) {
 
-        if (txtPass.equals(txtConfirm) && mAuth != null) {
-            parentRef = mDatabase.getInstance().getReference();
+                parentRef = mDatabase.getInstance().getReference();
 
-            String id = mUser.getUid();
-            Parent parent = new Parent(id, txtname, txtPhone, txtEmail, childId, parentGroup);
-            parentRef.child("Person").child("Parent").child(id).setValue(parent);
+                String id = mUser.getUid();
+                Parent parent = new Parent(id, txtname, txtPhone, txtEmail, childId, parentGroup);
+                parentRef.child("Person").child("Parent").child(id).setValue(parent);
 
-            mUser.updateEmail(txtEmail)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                mUser.updateEmail(txtEmail)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
 
-                        }
-                    });
+                            }
+                        });
 
 
-            mProgress.dismiss();
-            finish();
+                mProgress.dismiss();
+                finish();
 
-        } else {
-            mProgress.dismiss();
-            Toast.makeText(CreateParent.this, "Didn't Work", Toast.LENGTH_LONG).show();
+            } else {
+                mProgress.dismiss();
+                Toast.makeText(CreateParent.this, "Didn't Work", Toast.LENGTH_LONG).show();
 
+            }
         }
 
 

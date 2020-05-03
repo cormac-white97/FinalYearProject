@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -308,7 +309,30 @@ public class CreateNewEvent extends AppCompatActivity {
 
             }
         });
+txtEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
 
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(CreateNewEvent.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                String dateString = dateFormat.format(c.getTime());
+
+                                txtEndDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
 
     }
 
@@ -493,6 +517,7 @@ public class CreateNewEvent extends AppCompatActivity {
 
                     if (epochEndDate < Long.parseLong(dateVal)) {
                         mProgress.dismiss();
+                        txtEndDate.setBackgroundResource(R.drawable.error_border);
                         Toast.makeText(this, "The end date cannot be before the start date", Toast.LENGTH_LONG).show();
                     } else {
 
