@@ -327,7 +327,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
         List<String> typeList = Arrays.asList("Leader", "Parent");
         final boolean[] foundUser = {false};
-        final int[] i = {0};
+
 
         for (String type : typeList) {
 
@@ -346,7 +346,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                             email[0] = ds.getValue(Leader.class).getEmail();
                             name = ds.getValue(Leader.class).getName();
                             group[0] = ds.getValue(Leader.class).getGroup();
-
+                            final int[] i = {0};
 
                             for (String id : eventLeaders.keySet()) {
                                 if (ID[0].equals(id)) {
@@ -354,9 +354,10 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
                                     if (approval.equals("Approved")) {
                                         leaderNames.add(name);
-                                        i[0]++;
+
                                     }
                                 }
+                                i[0]++;
                             }
 
                             String leaderNamesDisplay = leaderNames.toString();

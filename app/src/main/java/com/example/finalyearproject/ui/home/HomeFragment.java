@@ -67,6 +67,7 @@ public class HomeFragment extends Fragment {
     EditText editTextLocation;
     EditText editTextDate;
     EditText numAttending;
+    TextView homeSubMsg;
 
     String clickedId;
     String clickedDate;
@@ -97,6 +98,7 @@ public class HomeFragment extends Fragment {
             public void onChanged(@Nullable String s) {
             }
         });
+        homeSubMsg = view.findViewById(R.id.txtSubMsg);
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Event");
 
@@ -236,7 +238,7 @@ public class HomeFragment extends Fragment {
                 myRecyclerView.setLayoutManager(myLayoutManager);
 
                 ArrayList<EventObj> myDataset = new ArrayList<EventObj>();
-
+                homeSubMsg.setText("Tap on the group name to view the event's details.");
                 // Clear collection..
                 myDataset.clear();
 

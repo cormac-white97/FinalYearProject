@@ -463,7 +463,12 @@ txtEndDate.setOnClickListener(new View.OnClickListener() {
                     }
                 }
 
-                lblSelectedLeaders.setText(item);
+                if(item.equals("")){
+                    lblSelectedLeaders.setText("No Leaders Have Been Selected.");
+                }
+                else{
+                    lblSelectedLeaders.setText(item);
+                }
             }
         });
 
