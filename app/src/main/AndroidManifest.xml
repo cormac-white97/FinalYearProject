@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
         android:allowBackup="true"
@@ -24,7 +24,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".ViewDetails.ViewReportList"></activity>
+        <activity android:name=".ViewDetails.ViewPaymentList"></activity>
+        <activity android:name=".ViewDetails.ViewReportList" />
         <activity android:name=".CreationClasses.AddReview" />
         <activity android:name=".ViewDetails.ViewLeaderDetails" />
         <activity android:name=".forgotPassword" />

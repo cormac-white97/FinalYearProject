@@ -232,7 +232,7 @@ public class CreateLeader extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
-                                    Toast.makeText(CreateLeader.this, "Worked", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(CreateLeader.this, "The account was created", Toast.LENGTH_LONG).show();
 
                                     String id = mUser.getUid();
                                     leader = new Leader(id, nameValue, DOBvalue, groupValue, phoneNumValue, emailValue, vettingValue);
@@ -243,7 +243,7 @@ public class CreateLeader extends AppCompatActivity {
 
                                 } else {
                                     mProgress.dismiss();
-                                    Toast.makeText(CreateLeader.this, "Didn't Work", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(CreateLeader.this, "An Error Occured", Toast.LENGTH_LONG).show();
 
                                 }
                             }

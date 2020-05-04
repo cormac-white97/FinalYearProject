@@ -60,7 +60,6 @@ public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.MyVi
         holder.txtHeader.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Toast.makeText(v.getContext() ,type.getId(), Toast.LENGTH_SHORT ).show();
                 //addItem(position);
                 // call activity to pass the item position
                 Intent intent = new Intent(v.getContext(), MemberProfile.class);

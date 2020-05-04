@@ -60,7 +60,6 @@ public class LeaderAdapter extends RecyclerView.Adapter<LeaderAdapter.MyViewHold
         holder.txtHeader.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Toast.makeText(v.getContext() ,type.getLeaderId(), Toast.LENGTH_SHORT ).show();
                 //addItem(position);
                 // call activity to pass the item position
                 Intent intent = new Intent(v.getContext(), ViewLeaderDetails.class);

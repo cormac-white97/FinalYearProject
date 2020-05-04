@@ -86,6 +86,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     private Button btnCreateReview;
     private Button makeAvailable;
     private Button viewReviews;
+    private Button viewPayments;
     private ImageView deleteButton;
     private ImageView btnBack;
 
@@ -159,6 +160,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         txtMsg = findViewById(R.id.approvalMessage);
         btnSave = findViewById(R.id.btnSave);
         makeAvailable = findViewById(R.id.btnMakeAvailable);
+        viewPayments = findViewById(R.id.btnViewPayments);
         viewReviews = findViewById(R.id.btnViewReview);
         deleteButton = findViewById(R.id.deleteEvent);
         btnBack = findViewById(R.id.eventReturnArrow);
@@ -171,6 +173,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         makeAvailable.setVisibility(View.INVISIBLE);
         viewReviews.setVisibility(View.GONE);
         txtMsg.setVisibility(View.INVISIBLE);
+        viewPayments.setVisibility(View.INVISIBLE);
         btnSave.hide();
         deleteButton.setVisibility(View.INVISIBLE);
 
@@ -364,6 +367,8 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                             leaderNamesDisplay = leaderNamesDisplay.substring(1, leaderNamesDisplay.length() - 1);
                             txtAttending.setText(leaderNamesDisplay);
 
+
+
                         } else if (tempType.equals("Parent")) {
 
                             String phone = ds.getValue(Parent.class).getPhone();
@@ -398,6 +403,8 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                                 makeAvailable.setVisibility(View.GONE);
                                                 btnEventEdit.hide();
                                                 deleteButton.setVisibility(View.GONE);
+
+
                                             }
 
                                         } else if (approval.equals("pending")) {
@@ -408,8 +415,10 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                                 txtMsg.setText("You are going on this event.");
                                                 txtMsg.setVisibility(View.VISIBLE);
                                             }
+                                        }
 
-
+                                        if(approved.equals("approved") && Long.parseLong(event.getEndDate()) > todayLong){
+                                            viewPayments.setVisibility(View.VISIBLE);
                                         }
                                     }
                                     j++;
@@ -624,6 +633,18 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                         .setNegativeButton(android.R.string.no, null).show();
 
             }
+        });
+
+        viewPayments.setOnClickListener(new View.OnClickListener() {
+            ArrayList<String> listItemsByGroup = new ArrayList<>();
+
+            @Override
+            public void onClick(View v) {
+               Intent paymentIntent = new Intent(ViewEvent.this, ViewPaymentList.class);
+               paymentIntent.putStringArrayListExtra("paymentList", paymentList);
+               startActivity(paymentIntent);
+            }
+
         });
 
         btnBack.setOnClickListener(new View.OnClickListener() {
