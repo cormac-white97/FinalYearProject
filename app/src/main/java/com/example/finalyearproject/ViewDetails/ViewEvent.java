@@ -419,6 +419,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
                                         if(approved.equals("approved") && Long.parseLong(event.getEndDate()) > todayLong){
                                             viewPayments.setVisibility(View.VISIBLE);
+                                            txtMsg.setVisibility(View.INVISIBLE);
                                         }
                                     }
                                     j++;
