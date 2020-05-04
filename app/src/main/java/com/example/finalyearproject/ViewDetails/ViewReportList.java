@@ -98,6 +98,8 @@ public class ViewReportList extends AppCompatActivity {
                         eventReview.add(r);
                     }
 
+                    setAdapter(eventReview);
+
                 }
                 for (Review r : eventReview) {
                     if (r.getRating() == 1) {

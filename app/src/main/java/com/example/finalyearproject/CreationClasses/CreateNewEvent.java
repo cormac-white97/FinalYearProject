@@ -548,9 +548,9 @@ txtEndDate.setOnClickListener(new View.OnClickListener() {
 
 
                             if (groupType.equals("Scouts") || groupType.equals("Ventures")) {
-                                availableSpaces = 8 * eventLeaders.size();
+                                availableSpaces = 8;
                             } else if (groupType.equals("Beavers") || groupType.equals("Cubs")) {
-                                availableSpaces = 5 * eventLeaders.size();
+                                availableSpaces = 5;
                             } else if (groupType.equals("Rovers")) {
                                 //Maximum number of members in any group
                                 //As Rovers are adults there is no set ratio
@@ -602,7 +602,7 @@ txtEndDate.setOnClickListener(new View.OnClickListener() {
 
                     String[] splitStr = str.split("\\s+");
 
-                    String message = "Hi " + splitStr + ", you have been assigned to an event from " + dateVal + " to " + txtEndDate.getText().toString() + ".";
+                    String message = "Hi " + str + ", you have been assigned to an event from " + dateVal + " to " + txtEndDate.getText().toString() + ".";
                     smsManager.sendTextMessage(l.getPhone(), null, message, null, null);
                 }
             }

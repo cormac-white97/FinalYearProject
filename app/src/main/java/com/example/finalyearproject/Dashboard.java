@@ -73,23 +73,6 @@ public class Dashboard extends AppCompatActivity {
                 break;
             }
         }
-//        if(!accountType.equals("Leader")){
-            //Menu nav_Menu = navigationView.getMenu();
-            //nav_Menu.findItem(R.id.nav_tools).setVisible(false);
-        //}
-
-        FirebaseMessaging.getInstance().subscribeToTopic("Weather")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "SUCCESS SUBSCRIPTION";
-                        if (!task.isSuccessful()) {
-                            msg = "Subscription failed";
-                        }
-                        Log.d(TAG, msg);
-                        Toast.makeText(Dashboard.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
 
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(

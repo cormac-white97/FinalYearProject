@@ -166,15 +166,22 @@ public class AddReview extends AppCompatActivity {
         int ratingValue = Integer.parseInt(selectedButton.getText().toString());
         parentReviews.put(parentId, id);
 
-        Review r = new Review(id, parentId, eventId, createdBy, txtTitle, txtBody, ratingValue);
+        if(ratingValue != 0){
+            Review r = new Review(id, parentId, eventId, createdBy, txtTitle, txtBody, ratingValue);
 
 
-        mRef.child("Review").child(id).setValue(r);
-        mRef.child("Event").child(eventId).child("parentReviews").setValue(parentReviews);
+            mRef.child("Review").child(id).setValue(r);
+            mRef.child("Event").child(eventId).child("parentReviews").setValue(parentReviews);
 
-        Toast.makeText(this, "Thank you for your review", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Thank you for your review", Toast.LENGTH_LONG).show();
 
-        this.finish();
+            this.finish();
+        }
+        else{
+            Toast.makeText(this, "Please add a rating", Toast.LENGTH_LONG).show();
+
+        }
+
 
     }
 }

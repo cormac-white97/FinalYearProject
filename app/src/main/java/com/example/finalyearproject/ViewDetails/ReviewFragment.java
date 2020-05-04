@@ -79,7 +79,7 @@ public class ReviewFragment extends Fragment {
 
                 }
 
-                setAdapter();
+                setAdapter(reviewList);
             }
 
 
@@ -92,10 +92,10 @@ public class ReviewFragment extends Fragment {
         return rootView;
     }
 
-    public void setAdapter() {
+    public void setAdapter(ArrayList<Review> list) {
         LinearLayoutManager myLayoutManager = new LinearLayoutManager(getActivity());
         viewReview.setLayoutManager(myLayoutManager);
-        ReviewAdapter mAdapter = new ReviewAdapter(reviewList);
+        ReviewAdapter mAdapter = new ReviewAdapter(list);
         viewReview.addItemDecoration(new
 
                 DividerItemDecoration(getActivity(), VERTICAL));

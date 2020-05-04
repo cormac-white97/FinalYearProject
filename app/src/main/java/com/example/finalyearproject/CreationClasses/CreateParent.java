@@ -64,7 +64,6 @@ public class CreateParent extends AppCompatActivity {
 
 
         if (type.equals("update")) {
-            Toast.makeText(this, parentId, Toast.LENGTH_SHORT).show();
             parentRef = mDatabase.getInstance().getReference("Person").child("Parent");
             parentRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -183,7 +182,7 @@ public class CreateParent extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
-                                    Toast.makeText(CreateParent.this, "Worked", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(CreateParent.this, "The account has been created", Toast.LENGTH_LONG).show();
                                     String id = mUser.getUid();
                                     Parent parent = new Parent(id, txtname, txtPhone, txtEmail, childId, parentGroup);
 
@@ -193,7 +192,7 @@ public class CreateParent extends AppCompatActivity {
 
                                 } else {
                                     mProgress.dismiss();
-                                    Toast.makeText(CreateParent.this, "Didn't Work", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(CreateParent.this, "An Error Occured", Toast.LENGTH_LONG).show();
 
                                 }
                             }
@@ -257,7 +256,7 @@ public class CreateParent extends AppCompatActivity {
 
             } else {
                 mProgress.dismiss();
-                Toast.makeText(CreateParent.this, "Didn't Work", Toast.LENGTH_LONG).show();
+                Toast.makeText(CreateParent.this, "An Error Occured", Toast.LENGTH_LONG).show();
 
             }
         }

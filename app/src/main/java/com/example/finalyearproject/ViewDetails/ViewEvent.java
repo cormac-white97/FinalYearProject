@@ -438,7 +438,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                                             btnPay.setVisibility(View.GONE);
                                             txtMsg.setText("You have paid for this event");
                                             txtMsg.setVisibility(View.VISIBLE);
-                                        } else if (eventGroup.equals(group[0])/* && readyToPay*/) {
+                                        } else if (eventGroup.equals(group[0]) && txtAvailableSpaces > 0) {
                                             btnPay.setVisibility(View.VISIBLE);
                                         }
 

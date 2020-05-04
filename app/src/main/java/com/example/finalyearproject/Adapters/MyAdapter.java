@@ -119,9 +119,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.txtHeader.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //Toast.makeText(v.getContext(),name, Toast.LENGTH_SHORT ).show();
-                //addItem(position);
-                // call activity to pass the item position
+
                 Bundle b = new Bundle();
                 b.putString("Long",String.valueOf(lng));
                 b.putString("Lat", String.valueOf(lat));

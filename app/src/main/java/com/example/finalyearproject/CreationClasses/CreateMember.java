@@ -159,7 +159,6 @@ public class CreateMember extends AppCompatActivity {
         memberProfileId = updateIntent.getStringExtra("memberId");
         type = updateIntent.getStringExtra("type");
         if (type.equals("update")) {
-            Toast.makeText(this, memberProfileId, Toast.LENGTH_SHORT).show();
             memberRef = database.getInstance().getReference("Person").child("Member");
             memberRef.addValueEventListener(new ValueEventListener() {
                 @Override

@@ -114,7 +114,6 @@ public class ProfileFragment extends Fragment {
                             String phone = ds.getValue(Leader.class).getPhone();
 
                             if (id.equals(userId)) {
-                                Toast.makeText(getContext(), "leader found", Toast.LENGTH_LONG).show();
                                 txtProfileName.setText(name);
                                 txtProfileEmail.setText(email);
                                 txtDOB.setText(DOB);
